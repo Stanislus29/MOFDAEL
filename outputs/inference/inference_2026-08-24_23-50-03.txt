@@ -1,0 +1,8791 @@
+TRANSMISSION LINE FAULT DETECTION
+RBF SUPPORT VECTOR MACHINE
+
+Generated: 2026-08-24_23-50-03
+Input: /home/stanislus/Documents/Mr Fiase/data/classdetectfault_data.csv
+Model: /home/stanislus/Documents/Mr Fiase/outputs/models/svm_model_2026-08-24_23-47-06.joblib
+Selection mode: range
+Samples analysed: 689
+
+Inference latency: 149.3945 ms
+Latency per sample: 0.2168 ms
+
+==================================================
+FAULT DETECTION RESULTS
+==================================================
+
+Row 1
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 52.1%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 96.0%
+
+--------------------------------------------------
+
+Row 2
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 96.7%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 3
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.6%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 4
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.4%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 5
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 6
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.7%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 7
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.7%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 8
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 100.0%
+    Phase B: 90.7%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 9
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 100.0%
+    Phase B: 68.9%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 10
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 11
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.7%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 12
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.4%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 13
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 98.8%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 14
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 97.4%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 15
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 94.4%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 16
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 89.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 17
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 84.3%
+    Phase A: 98.9%
+
+--------------------------------------------------
+
+Row 18
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 82.3%
+    Phase A: 97.4%
+
+--------------------------------------------------
+
+Row 19
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 84.7%
+    Phase A: 98.8%
+
+--------------------------------------------------
+
+Row 20
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 89.8%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 21
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 94.4%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 22
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 97.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 23
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 98.3%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 24
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 98.8%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 25
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 26
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 27
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 98.9%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 28
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 98.7%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 29
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 98.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 30
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 98.4%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 31
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 98.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 32
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 98.7%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 33
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.1%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 34
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.3%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 35
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 36
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.6%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 37
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.6%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 38
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.4%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 39
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 98.9%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 40
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 97.4%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 41
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 93.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 42
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 85.6%
+    Phase A: 99.6%
+
+--------------------------------------------------
+
+Row 43
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 76.2%
+    Phase A: 94.1%
+
+--------------------------------------------------
+
+Row 44
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 72.6%
+    Phase A: 87.5%
+
+--------------------------------------------------
+
+Row 45
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 78.1%
+    Phase A: 96.4%
+
+--------------------------------------------------
+
+Row 46
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 88.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 47
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 95.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 48
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 98.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 49
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 50
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.3%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 51
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.4%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 52
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.3%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 53
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.2%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 54
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.2%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 55
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.2%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 56
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.4%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 57
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 58
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.7%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 59
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.7%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 60
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.7%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 61
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.6%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 62
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.4%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 63
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 98.9%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 64
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 97.7%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 65
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 95.1%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 66
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 90.8%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 67
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 86.1%
+    Phase A: 99.4%
+
+--------------------------------------------------
+
+Row 68
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 84.0%
+    Phase A: 98.4%
+
+--------------------------------------------------
+
+Row 69
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 86.1%
+    Phase A: 99.1%
+
+--------------------------------------------------
+
+Row 70
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 90.6%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 71
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 94.7%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 72
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 97.2%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 73
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 98.4%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 74
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 98.9%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 75
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 76
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 77
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 98.9%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 78
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 98.7%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 79
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 98.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 80
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 98.4%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 81
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 98.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 82
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 98.7%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 83
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.1%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 84
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.3%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 85
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 86
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.6%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 87
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.6%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 88
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.4%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 89
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 98.9%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 90
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 97.4%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 91
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 93.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 92
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 85.6%
+    Phase A: 99.6%
+
+--------------------------------------------------
+
+Row 93
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 76.2%
+    Phase A: 94.1%
+
+--------------------------------------------------
+
+Row 94
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 72.6%
+    Phase A: 87.5%
+
+--------------------------------------------------
+
+Row 95
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 78.1%
+    Phase A: 96.4%
+
+--------------------------------------------------
+
+Row 96
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 88.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 97
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 95.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 98
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 98.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 99
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 100
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.3%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 101
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.4%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 102
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.3%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 103
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.2%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 104
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.2%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 105
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.2%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 106
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.4%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 107
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 108
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.7%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 109
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.7%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 110
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.7%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 111
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.6%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 112
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.4%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 113
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 98.9%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 114
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 97.7%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 115
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 95.1%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 116
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 90.8%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 117
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 86.1%
+    Phase A: 99.4%
+
+--------------------------------------------------
+
+Row 118
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 84.0%
+    Phase A: 98.4%
+
+--------------------------------------------------
+
+Row 119
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 86.1%
+    Phase A: 99.1%
+
+--------------------------------------------------
+
+Row 120
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 90.6%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 121
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 94.7%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 122
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 97.2%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 123
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 98.4%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 124
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 98.9%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 125
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 126
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 127
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 98.9%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 128
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 98.7%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 129
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 98.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 130
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 98.4%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 131
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 98.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 132
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 98.7%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 133
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.1%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 134
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.3%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 135
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 136
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.6%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 137
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.6%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 138
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 99.4%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 139
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 98.9%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 140
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 97.4%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 141
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 93.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 142
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 85.6%
+    Phase A: 99.6%
+
+--------------------------------------------------
+
+Row 143
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 144
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 84.3%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 145
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 94.8%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 146
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 98.2%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 147
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 99.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 148
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 99.3%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 149
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 99.5%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 150
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 99.6%
+    Phase B: 99.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 151
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 99.7%
+    Phase B: 98.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 152
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 100.0%
+    Phase B: 99.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 153
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 100.0%
+    Phase B: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 154
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 155
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 156
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 157
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 99.7%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 158
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 99.5%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 159
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 99.0%
+    Phase B: 100.0%
+    Phase A: 99.3%
+
+--------------------------------------------------
+
+Row 160
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 97.9%
+    Phase B: 100.0%
+    Phase A: 98.7%
+
+--------------------------------------------------
+
+Row 161
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 95.8%
+    Phase B: 100.0%
+    Phase A: 99.5%
+
+--------------------------------------------------
+
+Row 162
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 92.6%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 163
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 89.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 164
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 86.2%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 165
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 84.7%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 166
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 84.3%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 167
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 84.4%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 168
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 84.4%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 169
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 84.2%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 170
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 84.2%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 171
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 84.9%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 172
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 86.9%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 173
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 90.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 174
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 93.3%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 175
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 95.9%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 176
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 97.5%
+    Phase B: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 177
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 98.3%
+    Phase B: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 178
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 98.5%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 179
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 98.3%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 180
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 97.6%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 181
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 95.9%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 182
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 93.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 183
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 89.2%
+    Phase B: 100.0%
+    Phase A: 99.4%
+
+--------------------------------------------------
+
+Row 184
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 86.0%
+    Phase B: 100.0%
+    Phase A: 98.7%
+
+--------------------------------------------------
+
+Row 185
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 84.5%
+    Phase B: 100.0%
+    Phase A: 99.5%
+
+--------------------------------------------------
+
+Row 186
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 84.4%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 187
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 85.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 188
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 85.4%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 189
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 85.3%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 190
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 84.9%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 191
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 84.4%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 192
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 84.4%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 193
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 85.4%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 194
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 87.3%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 195
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 89.9%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 196
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 92.6%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 197
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 95.1%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 198
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 96.9%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 199
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 98.2%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 200
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 99.0%
+    Phase B: 99.7%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 201
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 99.4%
+    Phase B: 99.3%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 202
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 99.7%
+    Phase B: 99.1%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 203
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 100.0%
+    Phase B: 99.3%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 204
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 100.0%
+    Phase B: 99.7%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 205
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 206
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 207
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 208
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 99.6%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 209
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 99.3%
+    Phase B: 100.0%
+    Phase A: 99.7%
+
+--------------------------------------------------
+
+Row 210
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 98.4%
+    Phase B: 100.0%
+    Phase A: 99.1%
+
+--------------------------------------------------
+
+Row 211
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 96.6%
+    Phase B: 100.0%
+    Phase A: 99.5%
+
+--------------------------------------------------
+
+Row 212
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 93.6%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 213
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 90.1%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 214
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 87.1%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 215
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 85.3%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 216
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 84.7%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 217
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 84.7%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 218
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 84.6%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 219
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 84.4%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 220
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 84.4%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 221
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 85.1%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 222
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 87.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 223
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 90.1%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 224
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 93.4%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 225
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 96.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 226
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 97.5%
+    Phase B: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 227
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 98.3%
+    Phase B: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 228
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 98.5%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 229
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 98.3%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 230
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 97.6%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 231
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 95.9%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 232
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 93.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 233
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 89.2%
+    Phase B: 100.0%
+    Phase A: 99.4%
+
+--------------------------------------------------
+
+Row 234
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 86.0%
+    Phase B: 100.0%
+    Phase A: 98.7%
+
+--------------------------------------------------
+
+Row 235
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 84.5%
+    Phase B: 100.0%
+    Phase A: 99.5%
+
+--------------------------------------------------
+
+Row 236
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 84.5%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 237
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 85.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 238
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 85.4%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 239
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 85.3%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 240
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 84.9%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 241
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 84.4%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 242
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 84.4%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 243
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 85.4%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 244
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 87.3%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 245
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 89.9%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 246
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 92.6%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 247
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 95.1%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 248
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 96.9%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 249
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 98.2%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 250
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 99.0%
+    Phase B: 99.7%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 251
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 99.4%
+    Phase B: 99.3%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 252
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 99.7%
+    Phase B: 99.1%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 253
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 100.0%
+    Phase B: 99.3%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 254
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 100.0%
+    Phase B: 99.7%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 255
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 256
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 257
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 258
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 99.6%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 259
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 99.3%
+    Phase B: 100.0%
+    Phase A: 99.7%
+
+--------------------------------------------------
+
+Row 260
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 98.4%
+    Phase B: 100.0%
+    Phase A: 99.1%
+
+--------------------------------------------------
+
+Row 261
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 96.6%
+    Phase B: 100.0%
+    Phase A: 99.5%
+
+--------------------------------------------------
+
+Row 262
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 93.6%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 263
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 90.1%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 264
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 87.1%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 265
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 85.3%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 266
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 84.7%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 267
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 84.7%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 268
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 84.6%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 269
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 84.4%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 270
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 84.4%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 271
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 85.1%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 272
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 87.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 273
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 90.1%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 274
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 93.4%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 275
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 96.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 276
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 97.5%
+    Phase B: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 277
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 98.5%
+    Phase B: 99.4%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 278
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 99.0%
+    Phase B: 99.7%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 279
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 99.2%
+    Phase B: 99.6%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 280
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 99.1%
+    Phase B: 95.6%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 281
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 98.7%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 282
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 97.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 283
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 94.6%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 284
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 88.3%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 285
+Location: 15
+
+Status: NO FAULT
+
+Confidence:
+    Ground: 95.0% normal
+    Phase C: 96.6% normal
+    Phase B: 97.0% normal
+    Phase A: 99.9% normal
+
+--------------------------------------------------
+
+Row 286
+Location: 15
+
+Status: NO FAULT
+
+Confidence:
+    Ground: 93.9% normal
+    Phase C: 35.2% normal
+    Phase B: 76.1% normal
+    Phase A: 100.0% normal
+
+--------------------------------------------------
+
+Row 287
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 95.2%
+
+--------------------------------------------------
+
+Row 288
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 289
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 290
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 291
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 292
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 293
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 294
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 295
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 296
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 28.8%
+
+--------------------------------------------------
+
+Row 297
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 59.1%
+
+--------------------------------------------------
+
+Row 298
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 299
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 300
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 301
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 302
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 303
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 304
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 305
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 306
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 307
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 308
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 309
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 310
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 311
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.6%
+
+--------------------------------------------------
+
+Row 312
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.4%
+
+--------------------------------------------------
+
+Row 313
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.5%
+
+--------------------------------------------------
+
+Row 314
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 315
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 316
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 317
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 318
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 319
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 320
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 321
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 322
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 323
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 324
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 325
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 326
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 327
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 328
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 329
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 330
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 331
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 332
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 333
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 334
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 335
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.4%
+
+--------------------------------------------------
+
+Row 336
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 99.2%
+    Phase B: 96.1%
+
+--------------------------------------------------
+
+Row 337
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 98.8%
+
+--------------------------------------------------
+
+Row 338
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 339
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 340
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 341
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 342
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 343
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 344
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 345
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 346
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 347
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 348
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 349
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 350
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 351
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 352
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 353
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 354
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 355
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 356
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 357
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 358
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 359
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 360
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 361
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.6%
+
+--------------------------------------------------
+
+Row 362
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.3%
+
+--------------------------------------------------
+
+Row 363
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.5%
+
+--------------------------------------------------
+
+Row 364
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 365
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 366
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 367
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 368
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 369
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 370
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 371
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 372
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 373
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 374
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 375
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 376
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 377
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 378
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 379
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 380
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 381
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 382
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 383
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 384
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 385
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.4%
+
+--------------------------------------------------
+
+Row 386
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 99.2%
+    Phase B: 96.1%
+
+--------------------------------------------------
+
+Row 387
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 98.8%
+
+--------------------------------------------------
+
+Row 388
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 389
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 390
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 391
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 392
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 393
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 394
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 395
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 396
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 397
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 398
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 399
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 400
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 401
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 402
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 403
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 404
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 405
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 406
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 407
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 408
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 409
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 410
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 411
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 412
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 68.3%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 413
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 81.4%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 414
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 83.8%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 415
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 78.0%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 416
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 65.5%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 417
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 418
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 419
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 420
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.7%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 421
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 422
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 423
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 424
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.7%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 425
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 426
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 427
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 428
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 99.7%
+
+--------------------------------------------------
+
+Row 429
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 99.6%
+
+--------------------------------------------------
+
+Row 430
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 431
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 432
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 433
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 56.7%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 434
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 73.6%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 435
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 82.4%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 436
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 84.3%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 437
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 80.2%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 438
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 69.0%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 439
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 51.6%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 440
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 441
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 442
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.7%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 443
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 444
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 445
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.7%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 446
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 447
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 99.7%
+
+--------------------------------------------------
+
+Row 448
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 99.2%
+
+--------------------------------------------------
+
+Row 449
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 98.8%
+
+--------------------------------------------------
+
+Row 450
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 98.7%
+
+--------------------------------------------------
+
+Row 451
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 98.7%
+
+--------------------------------------------------
+
+Row 452
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 98.8%
+
+--------------------------------------------------
+
+Row 453
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 98.7%
+
+--------------------------------------------------
+
+Row 454
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 98.6%
+
+--------------------------------------------------
+
+Row 455
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 98.9%
+
+--------------------------------------------------
+
+Row 456
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 99.5%
+
+--------------------------------------------------
+
+Row 457
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 458
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 459
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 460
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 461
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 462
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 58.9%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 463
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 73.3%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 464
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 81.8%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 465
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 84.4%
+    Phase C: 100.0%
+    Phase B: 99.6%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 466
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 81.8%
+    Phase C: 100.0%
+    Phase B: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 467
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 72.9%
+    Phase C: 100.0%
+    Phase B: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 468
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 57.1%
+    Phase C: 100.0%
+    Phase B: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 469
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 470
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 471
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.6%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 472
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.6%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 473
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.7%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 474
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 475
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 476
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 99.7%
+
+--------------------------------------------------
+
+Row 477
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 99.0%
+
+--------------------------------------------------
+
+Row 478
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 97.8%
+
+--------------------------------------------------
+
+Row 479
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 97.7%
+
+--------------------------------------------------
+
+Row 480
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 99.0%
+
+--------------------------------------------------
+
+Row 481
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 482
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 483
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 57.8%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 484
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 74.3%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 485
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 82.8%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 486
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 84.5%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 487
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 80.3%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 488
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 69.1%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 489
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 51.7%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 490
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 491
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 492
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.7%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 493
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 494
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 495
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.7%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 496
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 497
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 99.7%
+
+--------------------------------------------------
+
+Row 498
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 99.2%
+
+--------------------------------------------------
+
+Row 499
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 98.8%
+
+--------------------------------------------------
+
+Row 500
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 98.7%
+
+--------------------------------------------------
+
+Row 501
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 98.8%
+
+--------------------------------------------------
+
+Row 502
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 98.8%
+
+--------------------------------------------------
+
+Row 503
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 98.7%
+
+--------------------------------------------------
+
+Row 504
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 98.6%
+
+--------------------------------------------------
+
+Row 505
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 98.9%
+
+--------------------------------------------------
+
+Row 506
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 99.5%
+
+--------------------------------------------------
+
+Row 507
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 508
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 509
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 510
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 511
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 512
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 58.9%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 513
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 73.3%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 514
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 81.8%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 515
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 84.4%
+    Phase C: 100.0%
+    Phase B: 99.6%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 516
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 81.8%
+    Phase C: 100.0%
+    Phase B: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 517
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 72.9%
+    Phase C: 100.0%
+    Phase B: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 518
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 57.1%
+    Phase C: 100.0%
+    Phase B: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 519
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 520
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 521
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.6%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 522
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.6%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 523
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.7%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 524
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 525
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 526
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 99.7%
+
+--------------------------------------------------
+
+Row 527
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 99.0%
+
+--------------------------------------------------
+
+Row 528
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 97.8%
+
+--------------------------------------------------
+
+Row 529
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 97.7%
+
+--------------------------------------------------
+
+Row 530
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 99.0%
+
+--------------------------------------------------
+
+Row 531
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 532
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 533
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 57.8%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 534
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 74.3%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 535
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 82.8%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 536
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 84.5%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 537
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 83.7%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 538
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 80.9%
+    Phase C: 98.2%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 539
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 60.3%
+    Phase C: 90.7%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 540
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 99.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 541
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 542
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 543
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 544
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 545
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 546
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 547
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 548
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+
+--------------------------------------------------
+
+Row 549
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 67.9%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 550
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 81.5%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 551
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 84.0%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 552
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 78.4%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 553
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 66.0%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 554
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 555
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 556
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 557
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.6%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 558
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 559
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.4%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 560
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 561
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.7%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 562
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 563
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 564
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 565
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 99.7%
+
+--------------------------------------------------
+
+Row 566
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 99.6%
+
+--------------------------------------------------
+
+Row 567
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 568
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 569
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 570
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 56.9%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 571
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 73.7%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 572
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 82.4%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 573
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 84.3%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 574
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 80.1%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 575
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 68.9%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 576
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 51.5%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 577
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 578
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 579
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.7%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 580
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 581
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 582
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.7%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 583
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 584
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 99.7%
+
+--------------------------------------------------
+
+Row 585
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 99.2%
+
+--------------------------------------------------
+
+Row 586
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 98.8%
+
+--------------------------------------------------
+
+Row 587
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 98.7%
+
+--------------------------------------------------
+
+Row 588
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 98.7%
+
+--------------------------------------------------
+
+Row 589
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 98.7%
+
+--------------------------------------------------
+
+Row 590
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 98.6%
+
+--------------------------------------------------
+
+Row 591
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 98.6%
+
+--------------------------------------------------
+
+Row 592
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 98.9%
+
+--------------------------------------------------
+
+Row 593
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 99.5%
+
+--------------------------------------------------
+
+Row 594
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 595
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 596
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 597
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 598
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 599
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 58.6%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 600
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 73.1%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 601
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 81.7%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 602
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 84.3%
+    Phase C: 100.0%
+    Phase B: 99.6%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 603
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 81.8%
+    Phase C: 100.0%
+    Phase B: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 604
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 73.0%
+    Phase C: 100.0%
+    Phase B: 99.4%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 605
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 57.2%
+    Phase C: 100.0%
+    Phase B: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 606
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 607
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 608
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 609
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.6%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 610
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.7%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 611
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 612
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 613
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 99.7%
+
+--------------------------------------------------
+
+Row 614
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 99.0%
+
+--------------------------------------------------
+
+Row 615
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 97.8%
+
+--------------------------------------------------
+
+Row 616
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 97.8%
+
+--------------------------------------------------
+
+Row 617
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 99.1%
+
+--------------------------------------------------
+
+Row 618
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 619
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 620
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 58.0%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 621
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 74.3%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 622
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 82.8%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 623
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 84.5%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 624
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 80.3%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 625
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 69.0%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 626
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 51.6%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 627
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 628
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 629
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.7%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 630
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 631
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 632
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.7%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 633
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 634
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 99.7%
+
+--------------------------------------------------
+
+Row 635
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 99.2%
+
+--------------------------------------------------
+
+Row 636
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 98.8%
+
+--------------------------------------------------
+
+Row 637
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 98.7%
+
+--------------------------------------------------
+
+Row 638
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 98.8%
+
+--------------------------------------------------
+
+Row 639
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 98.8%
+
+--------------------------------------------------
+
+Row 640
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 98.7%
+
+--------------------------------------------------
+
+Row 641
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 98.6%
+
+--------------------------------------------------
+
+Row 642
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 98.9%
+
+--------------------------------------------------
+
+Row 643
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 99.5%
+
+--------------------------------------------------
+
+Row 644
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 645
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 646
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 647
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 648
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 649
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 58.6%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 650
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 73.1%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 651
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 81.7%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 652
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 84.3%
+    Phase C: 100.0%
+    Phase B: 99.6%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 653
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 81.8%
+    Phase C: 100.0%
+    Phase B: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 654
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 73.0%
+    Phase C: 100.0%
+    Phase B: 99.4%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 655
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 57.2%
+    Phase C: 100.0%
+    Phase B: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 656
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 657
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 658
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.5%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 659
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.6%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 660
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 99.7%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 661
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 662
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 663
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 99.7%
+
+--------------------------------------------------
+
+Row 664
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 99.0%
+
+--------------------------------------------------
+
+Row 665
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 97.8%
+
+--------------------------------------------------
+
+Row 666
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 97.8%
+
+--------------------------------------------------
+
+Row 667
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 99.1%
+
+--------------------------------------------------
+
+Row 668
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 669
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Phase C - Phase B - Phase A
+
+Confidence:
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 670
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 58.0%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 671
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 74.3%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 672
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 82.8%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 673
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 84.5%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 674
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 83.0%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 675
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 84.2%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 676
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 84.8%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 677
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 85.7%
+    Phase C: 98.6%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 678
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 88.5%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 679
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 92.2%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 680
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 95.3%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 681
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 97.2%
+    Phase B: 99.7%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 682
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase B - Phase A
+
+Confidence:
+    Ground: 98.1%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 683
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 98.7%
+    Phase C: 96.8%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 684
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 98.7%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 685
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 98.3%
+    Phase C: 100.0%
+    Phase B: 100.0%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 686
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 96.9%
+    Phase C: 100.0%
+    Phase B: 99.4%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 687
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 93.5%
+    Phase C: 99.5%
+    Phase B: 93.6%
+    Phase A: 100.0%
+
+--------------------------------------------------
+
+Row 688
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase C - Phase B - Phase A
+
+Confidence:
+    Ground: 85.2%
+    Phase C: 95.4%
+    Phase B: 72.6%
+    Phase A: 99.6%
+
+--------------------------------------------------
+
+Row 689
+Location: 15
+
+Status: FAULT DETECTED
+Fault type: Ground - Phase A
+
+Confidence:
+    Ground: 69.9%
+    Phase A: 74.0%
+
+--------------------------------------------------
