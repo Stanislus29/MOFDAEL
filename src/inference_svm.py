@@ -50,11 +50,23 @@ INPUT_FILE = DATA_DIR / "classdetectfault_data.csv"
 # ------------------------------------------------------------
 # Model
 # ------------------------------------------------------------
+# Picks the most recently trained model in MODEL_DIR so this
+# never silently runs against a stale file. Set MODEL_FILE
+# directly if you need a specific past run instead.
 
-MODEL_FILE = (
-    MODEL_DIR
-    / "svm_model_2026-08-24_23-47-06.joblib"
-)
+def find_latest_model():
+
+    candidates = sorted(MODEL_DIR.glob("svm_model_*.joblib"))
+
+    if not candidates:
+
+        print(f"ERROR: No trained models found in:\n{MODEL_DIR}")
+        sys.exit(1)
+
+    return candidates[-1]
+
+
+MODEL_FILE = find_latest_model()
 
 
 # ============================================================
@@ -77,7 +89,7 @@ MODEL_FILE = (
 #
 # ============================================================
 
-SELECTION_MODE = "range"
+SELECTION_MODE = "full"
 
 
 # ------------------------------------------------------------

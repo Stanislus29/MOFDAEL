@@ -1,0 +1,244 @@
+======================================================================
+TRANSMISSION LINE FAULT DETECTION
+NONLINEAR RBF SUPPORT VECTOR MACHINE
+======================================================================
+Timestamp: 2026-08-25_00-45-13
+Dataset: /home/stanislus/Documents/Mr Fiase/data/classdetectfault_data.csv
+
+Dataset shape: (7861, 11)
+Rows removed: 0
+
+FEATURES:
+  Ia
+  Ib
+  Ic
+  Va
+  Vb
+  Vc
+
+IGNORED METADATA:
+  Loc
+
+TARGETS:
+  G
+  C
+  B
+  A
+
+======================================================================
+CLASS DISTRIBUTION
+======================================================================
+
+G:
+  0: 4465 (56.80%)
+  1: 3396 (43.20%)
+
+C:
+  0: 4628 (58.87%)
+  1: 3233 (41.13%)
+
+B:
+  0: 3494 (44.45%)
+  1: 4367 (55.55%)
+
+A:
+  0: 3369 (42.86%)
+  1: 4492 (57.14%)
+
+Training samples: 6586
+Testing samples: 1275
+Unique scenarios: 41
+
+======================================================================
+TRAINING RBF SVM: G
+======================================================================
+Kernel : rbf
+C      : 5.0
+Gamma  : scale
+
+Training time: 2.590183 s
+Training hinge loss: 0.32503628
+Support vectors: 2052
+Support vectors per class: [1377  675]
+
+--- G RESULTS ---
+Accuracy : 1.000000
+Precision: 1.000000
+Recall   : 1.000000
+F1 Score : 1.000000
+
+Confusion Matrix:
+[[1275]]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           1       1.00      1.00      1.00      1275
+
+    accuracy                           1.00      1275
+   macro avg       1.00      1.00      1.00      1275
+weighted avg       1.00      1.00      1.00      1275
+
+Total inference latency: 72.595891 ms
+Latency/sample: 0.056938 ms
+
+Robustness sweep:
+  noise 1.0%: accuracy 1.0000 (+/- 0.0000), f1 1.0000 (+/- 0.0000)
+  noise 5.0%: accuracy 0.9929 (+/- 0.0020), f1 0.9964 (+/- 0.0010)
+  noise 10.0%: accuracy 0.9763 (+/- 0.0025), f1 0.9880 (+/- 0.0013)
+  noise 20.0%: accuracy 0.9374 (+/- 0.0071), f1 0.9677 (+/- 0.0038)
+
+======================================================================
+TRAINING RBF SVM: C
+======================================================================
+Kernel : rbf
+C      : 5.0
+Gamma  : scale
+
+Training time: 0.772607 s
+Training hinge loss: 0.03272058
+Support vectors: 581
+Support vectors per class: [320 261]
+
+--- C RESULTS ---
+Accuracy : 0.947451
+Precision: 0.835404
+Recall   : 0.950530
+F1 Score : 0.889256
+
+Confusion Matrix:
+[[939  53]
+ [ 14 269]]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.99      0.95      0.97       992
+           1       0.84      0.95      0.89       283
+
+    accuracy                           0.95      1275
+   macro avg       0.91      0.95      0.93      1275
+weighted avg       0.95      0.95      0.95      1275
+
+Total inference latency: 22.429483 ms
+Latency/sample: 0.017592 ms
+
+Robustness sweep:
+  noise 1.0%: accuracy 0.9504 (+/- 0.0028), f1 0.8949 (+/- 0.0052)
+  noise 5.0%: accuracy 0.9365 (+/- 0.0053), f1 0.8698 (+/- 0.0096)
+  noise 10.0%: accuracy 0.8976 (+/- 0.0077), f1 0.8032 (+/- 0.0127)
+  noise 20.0%: accuracy 0.8283 (+/- 0.0079), f1 0.6917 (+/- 0.0098)
+
+======================================================================
+TRAINING RBF SVM: B
+======================================================================
+Kernel : rbf
+C      : 5.0
+Gamma  : scale
+
+Training time: 0.700873 s
+Training hinge loss: 0.02432418
+Support vectors: 445
+Support vectors per class: [219 226]
+
+--- B RESULTS ---
+Accuracy : 0.969412
+Precision: 0.998953
+Recall   : 0.961694
+F1 Score : 0.979969
+
+Confusion Matrix:
+[[282   1]
+ [ 38 954]]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.88      1.00      0.94       283
+           1       1.00      0.96      0.98       992
+
+    accuracy                           0.97      1275
+   macro avg       0.94      0.98      0.96      1275
+weighted avg       0.97      0.97      0.97      1275
+
+Total inference latency: 16.993291 ms
+Latency/sample: 0.013328 ms
+
+Robustness sweep:
+  noise 1.0%: accuracy 0.9696 (+/- 0.0014), f1 0.9801 (+/- 0.0009)
+  noise 5.0%: accuracy 0.9548 (+/- 0.0036), f1 0.9703 (+/- 0.0024)
+  noise 10.0%: accuracy 0.9191 (+/- 0.0050), f1 0.9468 (+/- 0.0034)
+  noise 20.0%: accuracy 0.8561 (+/- 0.0067), f1 0.9039 (+/- 0.0046)
+
+======================================================================
+TRAINING RBF SVM: A
+======================================================================
+Kernel : rbf
+C      : 5.0
+Gamma  : scale
+
+Training time: 0.805287 s
+Training hinge loss: 0.02836364
+Support vectors: 532
+Support vectors per class: [271 261]
+
+--- A RESULTS ---
+Accuracy : 1.000000
+Precision: 1.000000
+Recall   : 1.000000
+F1 Score : 1.000000
+
+Confusion Matrix:
+[[1275]]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           1       1.00      1.00      1.00      1275
+
+    accuracy                           1.00      1275
+   macro avg       1.00      1.00      1.00      1275
+weighted avg       1.00      1.00      1.00      1275
+
+Total inference latency: 22.730528 ms
+Latency/sample: 0.017828 ms
+
+Robustness sweep:
+  noise 1.0%: accuracy 0.9998 (+/- 0.0004), f1 0.9999 (+/- 0.0002)
+  noise 5.0%: accuracy 0.9969 (+/- 0.0015), f1 0.9984 (+/- 0.0007)
+  noise 10.0%: accuracy 0.9856 (+/- 0.0020), f1 0.9928 (+/- 0.0010)
+  noise 20.0%: accuracy 0.9606 (+/- 0.0051), f1 0.9799 (+/- 0.0027)
+
+Overall fault-occurred accuracy: 1.000000
+
+Models saved to:
+  /home/stanislus/Documents/Mr Fiase/outputs/models/svm_model_2026-08-25_00-45-13.joblib
+
+======================================================================
+OVERALL RESULTS
+======================================================================
+Mean Accuracy : 0.979216
+Mean Precision: 0.958589
+Mean F1       : 0.967306
+Mean Latency  : 0.026421 ms
+Mean Robustness: 0.979922
+
+======================================================================
+OUTPUT FILES
+======================================================================
+Report:
+  /home/stanislus/Documents/Mr Fiase/outputs/training reports/report_2026-08-25_00-45-13.txt
+
+Metrics:
+  /home/stanislus/Documents/Mr Fiase/outputs/training reports/metrics.csv
+
+Loss:
+  /home/stanislus/Documents/Mr Fiase/outputs/training reports/loss_history.csv
+
+Scenario predictions:
+  /home/stanislus/Documents/Mr Fiase/outputs/training reports/predictions_svm.csv
+
+Robustness sweep:
+  /home/stanislus/Documents/Mr Fiase/outputs/training reports/robustness_svm.csv
+
+TRAINING COMPLETE

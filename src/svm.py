@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from asyncio.log import logger
 import sys
 import time
 from pathlib import Path
@@ -76,6 +75,16 @@ LOSS_FILE = (
     / "loss_history.csv"
 )
 
+PREDICTIONS_FILE = (
+    OUTPUT_DIR
+    / "predictions_svm.csv"
+)
+
+ROBUSTNESS_FILE = (
+    OUTPUT_DIR
+    / "robustness_svm.csv"
+)
+
 MODEL_FILE = MODEL_DIR / f"svm_model_{timestamp}.joblib"
 
 # ============================================================
@@ -110,13 +119,15 @@ TEST_SIZE = 0.20
 
 RANDOM_STATE = 42
 
-SVM_C = 10.0
+SVM_C = 8.0
 
 SVM_GAMMA = "scale"
 
 SVM_KERNEL = "rbf"
 
-ROBUSTNESS_NOISE = 0.05
+ROBUSTNESS_NOISE_LEVELS = [0.01, 0.05, 0.1, 0.2]
+
+ROBUSTNESS_TRIALS = 10
 
 
 # ============================================================
@@ -171,10 +182,11 @@ def create_svm():
                 # Required for confidence/probability output
                 probability=True,
 
+                class_weight="balanced",
+
                 random_state=RANDOM_STATE,
 
-                # Allows LIBSVM training information
-                verbose=True,
+                verbose=False,
             )
         )
     ])
@@ -315,24 +327,28 @@ def evaluate_model(
     precision = precision_score(
         y_test,
         predictions,
+        labels=[0, 1],
         zero_division=0
     )
 
     recall = recall_score(
         y_test,
         predictions,
+        labels=[0, 1],
         zero_division=0
     )
 
     f1 = f1_score(
         y_test,
         predictions,
+        labels=[0, 1],
         zero_division=0
     )
 
     cm = confusion_matrix(
         y_test,
-        predictions
+        predictions,
+        labels=[0, 1]
     )
 
     logger.print("")
@@ -372,6 +388,7 @@ def evaluate_model(
         classification_report(
             y_test,
             predictions,
+            labels=[0, 1],
             zero_division=0
         )
     )
@@ -417,52 +434,47 @@ def measure_latency(model,X_test):
 # ROBUSTNESS
 # ============================================================
 
-def test_robustness(model,X_test,y_test,noise_level=0.05):
+def test_robustness(model, X_test, y_test, noise_levels, trials):
 
-    rng = np.random.default_rng(
-        RANDOM_STATE
-    )
+    X_values = X_test.to_numpy(dtype=float)
+    feature_std = np.std(X_values, axis=0)
 
-    X_values = X_test.to_numpy(
-        dtype=float
-    )
+    records = []
 
-    feature_std = np.std(
-        X_values,
-        axis=0
-    )
+    for noise_level in noise_levels:
 
-    noise = rng.normal(
-        0,
-        noise_level * feature_std,
-        size=X_values.shape
-    )
+        accuracies = []
+        f1s = []
 
-    X_noisy = (
-        X_values + noise
-    )
+        for trial in range(trials):
 
-    X_noisy = pd.DataFrame(
-        X_noisy,
-        columns=X_test.columns
-    )
+            rng = np.random.default_rng(RANDOM_STATE + trial)
 
-    predictions = model.predict(
-        X_noisy
-    )
+            noise = rng.normal(
+                0,
+                noise_level * feature_std,
+                size=X_values.shape
+            )
 
-    accuracy = accuracy_score(
-        y_test,
-        predictions
-    )
+            X_noisy = pd.DataFrame(
+                X_values + noise,
+                columns=X_test.columns
+            )
 
-    f1 = f1_score(
-        y_test,
-        predictions,
-        zero_division=0
-    )
+            predictions = model.predict(X_noisy)
 
-    return accuracy, f1
+            accuracies.append(accuracy_score(y_test, predictions))
+            f1s.append(f1_score(y_test, predictions, labels=[0, 1], zero_division=0))
+
+        records.append({
+            "noise_level": noise_level,
+            "accuracy_mean": np.mean(accuracies),
+            "accuracy_std": np.std(accuracies),
+            "f1_mean": np.mean(f1s),
+            "f1_std": np.std(f1s),
+        })
+
+    return records
 
 
 # ============================================================
@@ -708,6 +720,8 @@ def main():
             shuffle=True
         )
 
+        test_row_id = pd.Series(X_test.index, name="row_id").reset_index(drop=True)
+
         logger.print("")
         logger.print(
             f"Training samples: "
@@ -728,6 +742,12 @@ def main():
         metrics = []
 
         loss_records = []
+
+        robustness_records = []
+
+        predictions_wide = pd.DataFrame({
+            "row_id": test_row_id
+        })
 
         for target in TARGET_COLUMNS:
 
@@ -760,6 +780,9 @@ def main():
                 logger
             )
 
+            predictions_wide[f"{target}_true"] = y_test[target].reset_index(drop=True)
+            predictions_wide[f"{target}_pred"] = results["predictions"]
+
             # ------------------------------------------------
             # LATENCY
             # ------------------------------------------------
@@ -786,39 +809,40 @@ def main():
             # ROBUSTNESS
             # ------------------------------------------------
 
-            robust_accuracy, \
-            robust_f1 = test_robustness(
+            robustness_sweep = test_robustness(
                 model,
                 X_test,
                 y_test[target],
-                ROBUSTNESS_NOISE
+                ROBUSTNESS_NOISE_LEVELS,
+                ROBUSTNESS_TRIALS
             )
+
+            logger.print("\nRobustness sweep:")
+
+            for record in robustness_sweep:
+
+                logger.print(
+                    f"  noise {record['noise_level'] * 100:.1f}%: "
+                    f"accuracy {record['accuracy_mean']:.4f} "
+                    f"(+/- {record['accuracy_std']:.4f}), "
+                    f"f1 {record['f1_mean']:.4f} "
+                    f"(+/- {record['f1_std']:.4f})"
+                )
+
+                robustness_records.append({
+                    "timestamp": timestamp,
+                    "target": target,
+                    **record,
+                })
+
+            # Summary retention uses the lowest noise level as the
+            # reference point for the per-model metrics table.
+            reference = robustness_sweep[0]
 
             retention = (
-                robust_accuracy
-                / results["accuracy"]
+                reference["accuracy_mean"] / results["accuracy"]
                 if results["accuracy"] > 0
                 else 0
-            )
-
-            logger.print(
-                f"\nRobustness "
-                f"({ROBUSTNESS_NOISE * 100:.1f}% noise):"
-            )
-
-            logger.print(
-                f"  Accuracy: "
-                f"{robust_accuracy:.6f}"
-            )
-
-            logger.print(
-                f"  F1: "
-                f"{robust_f1:.6f}"
-            )
-
-            logger.print(
-                f"  Accuracy retention: "
-                f"{retention * 100:.2f}%"
             )
 
             metrics.append({
@@ -862,14 +886,59 @@ def main():
                     per_sample_latency * 1000,
 
                 "robustness_accuracy":
-                    robust_accuracy,
+                    reference["accuracy_mean"],
 
                 "robustness_f1":
-                    robust_f1,
+                    reference["f1_mean"],
 
                 "robustness_retention":
                     retention,
             })
+
+        # ----------------------------------------------------
+        # OVERALL FAULT OCCURRED (any line flagged)
+        # ----------------------------------------------------
+        # The hypothesis is about detecting that a fault occurred
+        # on a given line, not identifying a combined fault type,
+        # so this collapses the four per-line flags into one
+        # occurred/did-not-occur call for a summary check.
+
+        true_cols = [f"{t}_true" for t in TARGET_COLUMNS]
+        pred_cols = [f"{t}_pred" for t in TARGET_COLUMNS]
+
+        predictions_wide["overall_true"] = (
+            predictions_wide[true_cols].astype(int).max(axis=1)
+        )
+        predictions_wide["overall_pred"] = (
+            predictions_wide[pred_cols].astype(int).max(axis=1)
+        )
+
+        overall_accuracy = accuracy_score(
+            predictions_wide["overall_true"],
+            predictions_wide["overall_pred"]
+        )
+
+        logger.print("")
+        logger.print(
+            f"Overall fault-occurred accuracy: {overall_accuracy:.6f}"
+        )
+
+        # ----------------------------------------------------
+        # SAVE SCENARIO-LEVEL PREDICTIONS AND ROBUSTNESS SWEEP
+        # ----------------------------------------------------
+        # Scenario-level predictions are what McNemar, Cochran's Q,
+        # and Wilcoxon (Section 3.8.3) run on once every model
+        # writes its own predictions_<model>.csv in this format.
+
+        predictions_wide.to_csv(
+            PREDICTIONS_FILE,
+            index=False
+        )
+
+        pd.DataFrame(robustness_records).to_csv(
+            ROBUSTNESS_FILE,
+            index=False
+        )
 
         # ============================================================
         # SAVE TRAINED MODELS
@@ -1007,6 +1076,22 @@ def main():
 
         logger.print(
             f"  {LOSS_FILE}"
+        )
+
+        logger.print(
+            f"\nScenario predictions:"
+        )
+
+        logger.print(
+            f"  {PREDICTIONS_FILE}"
+        )
+
+        logger.print(
+            f"\nRobustness sweep:"
+        )
+
+        logger.print(
+            f"  {ROBUSTNESS_FILE}"
         )
 
         logger.print("")
