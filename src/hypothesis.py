@@ -1,0 +1,650 @@
+from __future__ import annotations
+
+import itertools
+from pathlib import Path
+from datetime import datetime
+
+import numpy as np
+import pandas as pd
+from scipy import stats
+
+
+# ============================================================
+# PATH CONFIGURATION
+# ============================================================
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+
+OUTPUTS_DIR = PROJECT_ROOT / "outputs"
+
+RESULTS_DIR = OUTPUTS_DIR / "hypothesis_tests"
+
+RESULTS_DIR.mkdir(parents=True, exist_ok=True)
+
+timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+
+REPORT_FILE = RESULTS_DIR / f"report_{timestamp}.txt"
+
+
+# ============================================================
+# CONFIGURATION
+# ============================================================
+
+TARGET_COLUMNS = ["G", "C", "B", "A"]
+
+ALPHA = 0.05
+
+# Split by architecture family for the H2 cross-family McNemar
+# comparisons. Add "hybrid" to DEEP_LEARNING_MODELS once that
+# script exists.
+CLASSICAL_MODELS = ["svm", "dtr", "knn"]
+DEEP_LEARNING_MODELS = ["cnn", "lstm"]
+
+# Equivalence margin for H4's TOST, in accuracy points. This is
+# a substantive research decision, not a statistical default,
+# justify it in the thesis text rather than trusting this value.
+TOST_MARGIN = 0.05
+
+# Must match ROBUSTNESS_TRIALS in the training scripts. The
+# robustness CSVs only store mean/std, not raw trials, so this
+# is an assumption, not something read from the data.
+ROBUSTNESS_TRIALS = 10
+
+BOOTSTRAP_ITERATIONS = 2000
+
+RANDOM_STATE = 42
+
+HL_PAIR_SAMPLE_LIMIT = 2000
+HL_MONTE_CARLO_PAIRS = 200_000
+
+
+# ============================================================
+# REPORT LOGGER
+# ============================================================
+
+class ReportLogger:
+
+    def __init__(self, path: Path):
+        self.file = path.open("w", encoding="utf-8")
+
+    def print(self, message=""):
+        print(message)
+        self.file.write(str(message) + "\n")
+        self.file.flush()
+
+    def close(self):
+        self.file.close()
+
+
+# ============================================================
+# LOAD PREDICTIONS
+# ============================================================
+
+def load_predictions(logger):
+
+    files = sorted(OUTPUTS_DIR.glob("*/predictions_*.csv"))
+
+    predictions = {}
+
+    for path in files:
+
+        model_name = path.stem.replace("predictions_", "")
+
+        df = pd.read_csv(path).set_index("row_id")
+
+        predictions[model_name] = df
+
+    logger.print("Prediction files found:")
+
+    for model_name, df in predictions.items():
+
+        logger.print(f"  {model_name}: {len(df)} rows")
+
+    if not predictions:
+
+        logger.print("  none")
+
+        return predictions, pd.Index([])
+
+    common_rows = None
+
+    for df in predictions.values():
+
+        common_rows = (
+            df.index if common_rows is None
+            else common_rows.intersection(df.index)
+        )
+
+    logger.print(
+        f"\nCommon rows across all models: {len(common_rows)}"
+    )
+
+    for model_name, df in predictions.items():
+
+        dropped = len(df) - len(common_rows)
+
+        if dropped > 0:
+
+            logger.print(
+                f"  {model_name}: dropping {dropped} rows not "
+                f"in the common set"
+            )
+
+    for model_name in predictions:
+
+        predictions[model_name] = (
+            predictions[model_name].loc[common_rows].sort_index()
+        )
+
+    return predictions, common_rows
+
+
+# ============================================================
+# McNEMAR'S TEST
+# ============================================================
+
+def mcnemar_test(correct_a, correct_b):
+
+    correct_a = np.asarray(correct_a, dtype=bool)
+    correct_b = np.asarray(correct_b, dtype=bool)
+
+    n = len(correct_a)
+
+    n10 = int(np.sum(correct_a & ~correct_b))
+    n01 = int(np.sum(~correct_a & correct_b))
+
+    discordant = n10 + n01
+
+    if discordant == 0:
+
+        return {
+            "n10": n10, "n01": n01, "discordant": 0,
+            "statistic": 0.0, "p_value": 1.0, "method": "exact",
+            "odds_ratio": float("nan"),
+            "accuracy_diff_pct": 0.0,
+            "accuracy_diff_ci_low": 0.0,
+            "accuracy_diff_ci_high": 0.0,
+        }
+
+    if discordant < 25:
+
+        result = stats.binomtest(
+            min(n10, n01), discordant, 0.5, alternative="two-sided"
+        )
+
+        p_value = result.pvalue
+        statistic = min(n10, n01)
+        method = "exact_binomial"
+
+    else:
+
+        statistic = (abs(n10 - n01) - 1) ** 2 / discordant
+        p_value = stats.chi2.sf(statistic, df=1)
+        method = "chi2_continuity_corrected"
+
+    odds_ratio = n10 / n01 if n01 > 0 else float("inf")
+
+    diff = (n10 - n01) / n
+
+    variance = (n10 + n01) / n ** 2 - (n10 - n01) ** 2 / n ** 3
+    se = np.sqrt(max(variance, 0))
+
+    return {
+        "n10": n10, "n01": n01, "discordant": discordant,
+        "statistic": statistic, "p_value": p_value, "method": method,
+        "odds_ratio": odds_ratio,
+        "accuracy_diff_pct": diff * 100,
+        "accuracy_diff_ci_low": (diff - 1.96 * se) * 100,
+        "accuracy_diff_ci_high": (diff + 1.96 * se) * 100,
+    }
+
+
+# ============================================================
+# COCHRAN'S Q
+# ============================================================
+
+def cochrans_q(correctness_matrix):
+
+    X = np.asarray(correctness_matrix, dtype=float)
+
+    n, k = X.shape
+
+    col_sums = X.sum(axis=0)
+    row_sums = X.sum(axis=1)
+
+    numerator = k * (k - 1) * np.sum((col_sums - col_sums.mean()) ** 2)
+    denominator = k * row_sums.sum() - np.sum(row_sums ** 2)
+
+    if denominator == 0:
+
+        return {"Q": 0.0, "df": k - 1, "p_value": 1.0}
+
+    Q = numerator / denominator
+
+    p_value = stats.chi2.sf(Q, df=k - 1)
+
+    return {"Q": Q, "df": k - 1, "p_value": p_value}
+
+
+# ============================================================
+# WILCOXON SIGNED-RANK, WITH EFFECT SIZE AND HODGES-LEHMANN
+# ============================================================
+
+def hodges_lehmann(d, rng):
+
+    n = len(d)
+
+    if n <= HL_PAIR_SAMPLE_LIMIT:
+
+        walsh = (d[:, None] + d[None, :]) / 2
+        estimate = np.median(walsh[np.triu_indices(n)])
+
+    else:
+
+        i = rng.integers(0, n, HL_MONTE_CARLO_PAIRS)
+        j = rng.integers(0, n, HL_MONTE_CARLO_PAIRS)
+
+        estimate = np.median((d[i] + d[j]) / 2)
+
+    boot_estimates = np.empty(BOOTSTRAP_ITERATIONS)
+
+    for b in range(BOOTSTRAP_ITERATIONS):
+
+        sample = rng.choice(d, size=n, replace=True)
+
+        if n <= HL_PAIR_SAMPLE_LIMIT:
+
+            walsh = (sample[:, None] + sample[None, :]) / 2
+            boot_estimates[b] = np.median(walsh[np.triu_indices(n)])
+
+        else:
+
+            i = rng.integers(0, n, min(n, 5000))
+            j = rng.integers(0, n, min(n, 5000))
+
+            boot_estimates[b] = np.median((sample[i] + sample[j]) / 2)
+
+    ci_low, ci_high = np.percentile(boot_estimates, [2.5, 97.5])
+
+    return estimate, ci_low, ci_high
+
+
+def wilcoxon_paired(x, y, rng):
+
+    x = np.asarray(x, dtype=float)
+    y = np.asarray(y, dtype=float)
+
+    d = x - y
+
+    nonzero = d[d != 0]
+
+    if len(nonzero) == 0:
+
+        return {
+            "statistic": 0.0, "p_value": 1.0,
+            "rank_biserial_r": 0.0,
+            "hodges_lehmann": 0.0,
+            "hl_ci_low": 0.0, "hl_ci_high": 0.0,
+        }
+
+    statistic, p_value = stats.wilcoxon(x, y, alternative="two-sided")
+
+    ranks = stats.rankdata(np.abs(nonzero))
+
+    r_plus = ranks[nonzero > 0].sum()
+    r_minus = ranks[nonzero < 0].sum()
+
+    rank_biserial_r = (r_plus - r_minus) / (r_plus + r_minus)
+
+    hl_estimate, hl_low, hl_high = hodges_lehmann(d, rng)
+
+    return {
+        "statistic": statistic, "p_value": p_value,
+        "rank_biserial_r": rank_biserial_r,
+        "hodges_lehmann": hl_estimate,
+        "hl_ci_low": hl_low, "hl_ci_high": hl_high,
+    }
+
+
+# ============================================================
+# TOST (SUMMARY-STATISTICS APPROXIMATION)
+# ============================================================
+# NOTE: this treats the two noise levels as independent samples
+# because only mean/std/n survive in robustness_<model>.csv, not
+# the raw per-trial values. The noise draws are actually seeded
+# consistently across levels, so a paired TOST would be more
+# appropriate; that requires patching the training scripts to
+# save raw trial-level accuracies.
+
+def tost_summary(mean1, std1, n1, mean2, std2, n2, margin):
+
+    se = np.sqrt(std1 ** 2 / n1 + std2 ** 2 / n2)
+
+    df = n1 + n2 - 2
+
+    diff = mean1 - mean2
+
+    t_lower = (diff - (-margin)) / se
+    t_upper = (diff - margin) / se
+
+    p_lower = stats.t.sf(t_lower, df)
+    p_upper = stats.t.cdf(t_upper, df)
+
+    p_tost = max(p_lower, p_upper)
+
+    equivalent = p_tost < ALPHA
+
+    return {
+        "diff": diff, "se": se, "df": df,
+        "p_lower": p_lower, "p_upper": p_upper,
+        "p_tost": p_tost, "equivalent": equivalent,
+    }
+
+
+# ============================================================
+# H1: FAULT DETECTION ACCURACY
+# ============================================================
+
+def run_h1(predictions, logger):
+
+    logger.print("\n" + "=" * 70)
+    logger.print("H1: FAULT DETECTION ACCURACY (overall fault occurred)")
+    logger.print("=" * 70)
+
+    model_names = list(predictions.keys())
+
+    if len(model_names) < 2:
+
+        logger.print("Need at least two models to compare. Skipping.")
+        return []
+
+    correctness = {
+        name: (
+            predictions[name]["overall_true"]
+            == predictions[name]["overall_pred"]
+        ).astype(int).to_numpy()
+        for name in model_names
+    }
+
+    matrix = np.column_stack([correctness[name] for name in model_names])
+
+    omnibus = cochrans_q(matrix)
+
+    logger.print(
+        f"\nCochran's Q omnibus across {len(model_names)} methods:"
+    )
+    logger.print(
+        f"  Q = {omnibus['Q']:.4f}, df = {omnibus['df']}, "
+        f"p = {omnibus['p_value']:.6f}"
+    )
+
+    records = [{
+        "test": "cochrans_q_omnibus", "hypothesis": "H1",
+        "target": "overall", **omnibus,
+    }]
+
+    if "relay" not in predictions:
+
+        logger.print(
+            "\nNo predictions_relay.csv found. Skipping McNemar "
+            "vs the relay baseline, H1 needs that comparison to "
+            "be complete."
+        )
+
+        return records
+
+    for name in model_names:
+
+        if name == "relay":
+            continue
+
+        result = mcnemar_test(correctness[name], correctness["relay"])
+
+        logger.print(
+            f"\n{name} vs relay: "
+            f"p = {result['p_value']:.6f} ({result['method']}), "
+            f"accuracy diff = {result['accuracy_diff_pct']:.2f}pp "
+            f"[{result['accuracy_diff_ci_low']:.2f}, "
+            f"{result['accuracy_diff_ci_high']:.2f}], "
+            f"OR = {result['odds_ratio']:.4f}"
+        )
+
+        records.append({
+            "test": "mcnemar_vs_relay", "hypothesis": "H1",
+            "target": "overall", "model": name, **result,
+        })
+
+    return records
+
+
+# ============================================================
+# H2: FAULT CLASSIFICATION PERFORMANCE (per line)
+# ============================================================
+
+def run_h2(predictions, logger):
+
+    logger.print("\n" + "=" * 70)
+    logger.print("H2: PER-LINE CLASSIFICATION PERFORMANCE")
+    logger.print("=" * 70)
+
+    model_names = [
+        name for name in predictions
+        if name in CLASSICAL_MODELS + DEEP_LEARNING_MODELS
+    ]
+
+    records = []
+
+    for target in TARGET_COLUMNS:
+
+        logger.print(f"\n--- {target} ---")
+
+        correctness = {
+            name: (
+                predictions[name][f"{target}_true"]
+                == predictions[name][f"{target}_pred"]
+            ).astype(int).to_numpy()
+            for name in model_names
+        }
+
+        matrix = np.column_stack(
+            [correctness[name] for name in model_names]
+        )
+
+        omnibus = cochrans_q(matrix)
+
+        logger.print(
+            f"Cochran's Q: Q = {omnibus['Q']:.4f}, "
+            f"df = {omnibus['df']}, p = {omnibus['p_value']:.6f}"
+        )
+
+        records.append({
+            "test": "cochrans_q_omnibus", "hypothesis": "H2",
+            "target": target, **omnibus,
+        })
+
+        for classical, deep in itertools.product(
+            CLASSICAL_MODELS, DEEP_LEARNING_MODELS
+        ):
+
+            if classical not in correctness or deep not in correctness:
+                continue
+
+            result = mcnemar_test(
+                correctness[deep], correctness[classical]
+            )
+
+            logger.print(
+                f"  {deep} vs {classical}: "
+                f"p = {result['p_value']:.6f} ({result['method']}), "
+                f"diff = {result['accuracy_diff_pct']:.2f}pp"
+            )
+
+            records.append({
+                "test": "mcnemar_cross_family", "hypothesis": "H2",
+                "target": target,
+                "deep_model": deep, "classical_model": classical,
+                **result,
+            })
+
+    return records
+
+
+# ============================================================
+# H3: FAULT REPORTING LATENCY
+# ============================================================
+
+def run_h3(logger):
+
+    logger.print("\n" + "=" * 70)
+    logger.print("H3: FAULT REPORTING LATENCY")
+    logger.print("=" * 70)
+
+    files = sorted(OUTPUTS_DIR.glob("*/latency_per_row_*.csv"))
+
+    if not files:
+
+        logger.print(
+            "\nNo latency_per_row_<model>.csv files found. The "
+            "training scripts currently only time one batch "
+            "predict() call per model, an aggregate, not paired "
+            "per-scenario values. Wilcoxon needs paired per-scenario "
+            "latency. Add per-row timing to each training script "
+            "before this can run."
+        )
+
+        return []
+
+    logger.print(f"\nFound {len(files)} latency files, not yet wired up.")
+
+    return []
+
+
+# ============================================================
+# H4: ROBUSTNESS UNDER VARYING CONDITIONS (TOST)
+# ============================================================
+
+def run_h4(logger):
+
+    logger.print("\n" + "=" * 70)
+    logger.print("H4: ROBUSTNESS (TOST equivalence)")
+    logger.print("=" * 70)
+
+    logger.print(
+        f"\nEquivalence margin: {TOST_MARGIN * 100:.1f} accuracy points "
+        f"(justify this value in the thesis text)"
+    )
+
+    logger.print(
+        "NOTE: approximated from summary statistics (mean/std/n), "
+        "treating noise levels as independent samples. A paired "
+        "TOST needs raw per-trial accuracies, which the current "
+        "robustness_<model>.csv files do not retain."
+    )
+
+    files = sorted(OUTPUTS_DIR.glob("*/robustness_*.csv"))
+
+    records = []
+
+    for path in files:
+
+        model_name = path.stem.replace("robustness_", "")
+
+        df = pd.read_csv(path)
+
+        for target in df["target"].unique():
+
+            target_df = df[df["target"] == target].sort_values(
+                "noise_level"
+            )
+
+            if len(target_df) < 2:
+                continue
+
+            reference = target_df.iloc[0]
+
+            logger.print(f"\n{model_name} / {target}:")
+
+            for _, row in target_df.iloc[1:].iterrows():
+
+                result = tost_summary(
+                    reference["accuracy_mean"], reference["accuracy_std"],
+                    ROBUSTNESS_TRIALS,
+                    row["accuracy_mean"], row["accuracy_std"],
+                    ROBUSTNESS_TRIALS,
+                    TOST_MARGIN,
+                )
+
+                verdict = "equivalent" if result["equivalent"] else "not equivalent"
+
+                logger.print(
+                    f"  {reference['noise_level'] * 100:.0f}% vs "
+                    f"{row['noise_level'] * 100:.0f}% noise: "
+                    f"diff = {result['diff']:.4f}, "
+                    f"p_TOST = {result['p_tost']:.6f} ({verdict})"
+                )
+
+                records.append({
+                    "test": "tost", "hypothesis": "H4",
+                    "model": model_name, "target": target,
+                    "reference_noise": reference["noise_level"],
+                    "compared_noise": row["noise_level"],
+                    **result,
+                })
+
+    return records
+
+
+# ============================================================
+# MAIN
+# ============================================================
+
+def main():
+
+    logger = ReportLogger(REPORT_FILE)
+
+    rng = np.random.default_rng(RANDOM_STATE)
+
+    try:
+
+        logger.print("=" * 70)
+        logger.print("HYPOTHESIS TESTING: H1-H4")
+        logger.print("=" * 70)
+        logger.print(f"Timestamp: {timestamp}")
+
+        predictions, common_rows = load_predictions(logger)
+
+        all_records = []
+
+        if len(common_rows) > 0:
+
+            all_records += run_h1(predictions, logger)
+            all_records += run_h2(predictions, logger)
+
+        else:
+
+            logger.print(
+                "\nNo common rows across models. Skipping H1/H2."
+            )
+
+        all_records += run_h3(logger)
+        all_records += run_h4(logger)
+
+        results_df = pd.DataFrame(all_records)
+
+        results_file = RESULTS_DIR / f"results_{timestamp}.csv"
+
+        results_df.to_csv(results_file, index=False)
+
+        logger.print("\n" + "=" * 70)
+        logger.print("OUTPUT FILES")
+        logger.print("=" * 70)
+        logger.print(f"Report:  {REPORT_FILE}")
+        logger.print(f"Results: {results_file}")
+
+    finally:
+
+        logger.close()
+
+
+if __name__ == "__main__":
+    main()

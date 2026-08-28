@@ -1,0 +1,155 @@
+======================================================================
+HYPOTHESIS TESTING: H1-H4
+======================================================================
+Timestamp: 2026-08-28_09-37-59
+Prediction files found:
+  cnn: 1573 rows
+  dtr: 1573 rows
+  knn: 1573 rows
+  lstm: 1675 rows
+
+Common rows across all models: 339
+  cnn: dropping 1234 rows not in the common set
+  dtr: dropping 1234 rows not in the common set
+  knn: dropping 1234 rows not in the common set
+  lstm: dropping 1336 rows not in the common set
+
+======================================================================
+H1: FAULT DETECTION ACCURACY (overall fault occurred)
+======================================================================
+
+Cochran's Q omnibus across 4 methods:
+  Q = 2.0000, df = 3, p = 0.572407
+
+No predictions_relay.csv found. Skipping McNemar vs the relay baseline, H1 needs that comparison to be complete.
+
+======================================================================
+H2: PER-LINE CLASSIFICATION PERFORMANCE
+======================================================================
+
+--- G ---
+Cochran's Q: Q = 9.1364, df = 3, p = 0.027532
+  cnn vs dtr: p = 0.383310 (exact_binomial), diff = 1.47pp
+  lstm vs dtr: p = 0.814529 (exact_binomial), diff = -0.59pp
+  cnn vs knn: p = 0.256145 (chi2_continuity_corrected), diff = -2.36pp
+  lstm vs knn: p = 0.036888 (chi2_continuity_corrected), diff = -4.42pp
+
+--- C ---
+Cochran's Q: Q = 2.2800, df = 3, p = 0.516363
+  cnn vs dtr: p = 1.000000 (exact_binomial), diff = 0.29pp
+  lstm vs dtr: p = 0.687500 (exact_binomial), diff = -0.59pp
+  cnn vs knn: p = 1.000000 (exact_binomial), diff = 0.29pp
+  lstm vs knn: p = 0.625000 (exact_binomial), diff = -0.59pp
+
+--- B ---
+Cochran's Q: Q = 4.7143, df = 3, p = 0.193955
+  cnn vs dtr: p = 0.500000 (exact_binomial), diff = 0.59pp
+  lstm vs dtr: p = 0.500000 (exact_binomial), diff = 0.59pp
+  cnn vs knn: p = 1.000000 (exact_binomial), diff = 0.29pp
+  lstm vs knn: p = 1.000000 (exact_binomial), diff = 0.29pp
+
+--- A ---
+Cochran's Q: Q = 3.0000, df = 3, p = 0.391625
+  cnn vs dtr: p = 1.000000 (exact), diff = 0.00pp
+  lstm vs dtr: p = 1.000000 (exact_binomial), diff = -0.29pp
+  cnn vs knn: p = 1.000000 (exact), diff = 0.00pp
+  lstm vs knn: p = 1.000000 (exact_binomial), diff = -0.29pp
+
+======================================================================
+H3: FAULT REPORTING LATENCY
+======================================================================
+
+No latency_per_row_<model>.csv files found. The training scripts currently only time one batch predict() call per model, an aggregate, not paired per-scenario values. Wilcoxon needs paired per-scenario latency. Add per-row timing to each training script before this can run.
+
+======================================================================
+H4: ROBUSTNESS (TOST equivalence)
+======================================================================
+
+Equivalence margin: 5.0 accuracy points (justify this value in the thesis text)
+NOTE: approximated from summary statistics (mean/std/n), treating noise levels as independent samples. A paired TOST needs raw per-trial accuracies, which the current robustness_<model>.csv files do not retain.
+
+cnn / G:
+  1% vs 5% noise: diff = 0.0065, p_TOST = 0.000000 (equivalent)
+  1% vs 10% noise: diff = 0.0299, p_TOST = 0.000000 (equivalent)
+  1% vs 20% noise: diff = 0.0811, p_TOST = 1.000000 (not equivalent)
+
+cnn / C:
+  1% vs 5% noise: diff = 0.0265, p_TOST = 0.000000 (equivalent)
+  1% vs 10% noise: diff = 0.0672, p_TOST = 1.000000 (not equivalent)
+  1% vs 20% noise: diff = 0.1304, p_TOST = 1.000000 (not equivalent)
+
+cnn / B:
+  1% vs 5% noise: diff = 0.0213, p_TOST = 0.000000 (equivalent)
+  1% vs 10% noise: diff = 0.0618, p_TOST = 1.000000 (not equivalent)
+  1% vs 20% noise: diff = 0.1476, p_TOST = 1.000000 (not equivalent)
+
+cnn / A:
+  1% vs 5% noise: diff = 0.0097, p_TOST = 0.000000 (equivalent)
+  1% vs 10% noise: diff = 0.0289, p_TOST = 0.000000 (equivalent)
+  1% vs 20% noise: diff = 0.0665, p_TOST = 1.000000 (not equivalent)
+
+dtr / G:
+  1% vs 5% noise: diff = 0.0757, p_TOST = 1.000000 (not equivalent)
+  1% vs 10% noise: diff = 0.1397, p_TOST = 1.000000 (not equivalent)
+  1% vs 20% noise: diff = 0.2294, p_TOST = 1.000000 (not equivalent)
+
+dtr / C:
+  1% vs 5% noise: diff = 0.0910, p_TOST = 1.000000 (not equivalent)
+  1% vs 10% noise: diff = 0.2003, p_TOST = 1.000000 (not equivalent)
+  1% vs 20% noise: diff = 0.3338, p_TOST = 1.000000 (not equivalent)
+
+dtr / B:
+  1% vs 5% noise: diff = 0.0788, p_TOST = 1.000000 (not equivalent)
+  1% vs 10% noise: diff = 0.1654, p_TOST = 1.000000 (not equivalent)
+  1% vs 20% noise: diff = 0.2787, p_TOST = 1.000000 (not equivalent)
+
+dtr / A:
+  1% vs 5% noise: diff = 0.0743, p_TOST = 1.000000 (not equivalent)
+  1% vs 10% noise: diff = 0.1324, p_TOST = 1.000000 (not equivalent)
+  1% vs 20% noise: diff = 0.2240, p_TOST = 1.000000 (not equivalent)
+
+knn / G:
+  1% vs 5% noise: diff = -0.0304, p_TOST = 0.000000 (equivalent)
+  1% vs 10% noise: diff = -0.0350, p_TOST = 0.000000 (equivalent)
+  1% vs 20% noise: diff = -0.0220, p_TOST = 0.000000 (equivalent)
+
+knn / C:
+  1% vs 5% noise: diff = 0.0078, p_TOST = 0.000000 (equivalent)
+  1% vs 10% noise: diff = 0.0214, p_TOST = 0.000000 (equivalent)
+  1% vs 20% noise: diff = 0.0523, p_TOST = 0.925786 (not equivalent)
+
+knn / B:
+  1% vs 5% noise: diff = 0.0038, p_TOST = 0.000000 (equivalent)
+  1% vs 10% noise: diff = 0.0140, p_TOST = 0.000000 (equivalent)
+  1% vs 20% noise: diff = 0.0401, p_TOST = 0.000000 (equivalent)
+
+knn / A:
+  1% vs 5% noise: diff = 0.0028, p_TOST = 0.000000 (equivalent)
+  1% vs 10% noise: diff = 0.0105, p_TOST = 0.000000 (equivalent)
+  1% vs 20% noise: diff = 0.0327, p_TOST = 0.000000 (equivalent)
+
+lstm / G:
+  1% vs 5% noise: diff = 0.0050, p_TOST = 0.000000 (equivalent)
+  1% vs 10% noise: diff = 0.0093, p_TOST = 0.000000 (equivalent)
+  1% vs 20% noise: diff = 0.0158, p_TOST = 0.000000 (equivalent)
+
+lstm / C:
+  1% vs 5% noise: diff = -0.0078, p_TOST = 0.000000 (equivalent)
+  1% vs 10% noise: diff = -0.0144, p_TOST = 0.000000 (equivalent)
+  1% vs 20% noise: diff = -0.0097, p_TOST = 0.000000 (equivalent)
+
+lstm / B:
+  1% vs 5% noise: diff = -0.0022, p_TOST = 0.000000 (equivalent)
+  1% vs 10% noise: diff = -0.0029, p_TOST = 0.000000 (equivalent)
+  1% vs 20% noise: diff = -0.0028, p_TOST = 0.000000 (equivalent)
+
+lstm / A:
+  1% vs 5% noise: diff = 0.0000, p_TOST = 0.000000 (equivalent)
+  1% vs 10% noise: diff = 0.0017, p_TOST = 0.000000 (equivalent)
+  1% vs 20% noise: diff = 0.0099, p_TOST = 0.000000 (equivalent)
+
+======================================================================
+OUTPUT FILES
+======================================================================
+Report:  /home/stanislus/Documents/Mr Fiase/outputs/hypothesis_tests/report_2026-08-28_09-37-59.txt
+Results: /home/stanislus/Documents/Mr Fiase/outputs/hypothesis_tests/results_2026-08-28_09-37-59.csv

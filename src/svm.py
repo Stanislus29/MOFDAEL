@@ -35,6 +35,7 @@ DATA_DIR = PROJECT_ROOT / "data"
 OUTPUT_DIR = (
     PROJECT_ROOT
     / "outputs"
+    /"svm"
     / "training reports"
 )
 
@@ -45,7 +46,7 @@ OUTPUT_DIR.mkdir(
     exist_ok=True
 )
 
-MODEL_DIR = PROJECT_ROOT / "outputs" / "models"
+MODEL_DIR = PROJECT_ROOT / "outputs" / "svm" / "models"
 
 MODEL_DIR.mkdir(
     parents=True,

@@ -1,0 +1,251 @@
+======================================================================
+TRANSMISSION LINE FAULT DETECTION
+DECISION TREE CLASSIFIER
+======================================================================
+Timestamp: 2026-08-25_01-15-32
+Dataset: /home/stanislus/Documents/Mr Fiase/data/classdetectfault_data.csv
+
+Dataset shape: (7861, 11)
+Rows removed: 0
+
+FEATURES:
+  Ia
+  Ib
+  Ic
+  Va
+  Vb
+  Vc
+
+IGNORED METADATA:
+  Loc
+
+TARGETS:
+  G
+  C
+  B
+  A
+
+======================================================================
+CLASS DISTRIBUTION
+======================================================================
+
+G:
+  0: 4465 (56.80%)
+  1: 3396 (43.20%)
+
+C:
+  0: 4628 (58.87%)
+  1: 3233 (41.13%)
+
+B:
+  0: 3494 (44.45%)
+  1: 4367 (55.55%)
+
+A:
+  0: 3369 (42.86%)
+  1: 4492 (57.14%)
+
+Training samples: 6288
+Testing samples: 1573
+
+======================================================================
+TRAINING DECISION TREE: G
+======================================================================
+Criterion       : gini
+Max depth       : 10
+Min samples split: 2
+Min samples leaf : 1
+
+Training time: 0.040792 s
+Training log loss: 0.16372059
+Tree depth: 10
+Leaf count: 94
+
+--- G RESULTS ---
+Accuracy : 0.877305
+Precision: 0.796429
+Recall   : 0.968162
+F1 Score : 0.873939
+
+Confusion Matrix:
+[[711 171]
+ [ 22 669]]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.97      0.81      0.88       882
+           1       0.80      0.97      0.87       691
+
+    accuracy                           0.88      1573
+   macro avg       0.88      0.89      0.88      1573
+weighted avg       0.89      0.88      0.88      1573
+
+Total inference latency: 0.878509 ms
+Latency/sample: 0.000558 ms
+
+Robustness sweep:
+  noise 1.0%: accuracy 0.8467 (+/- 0.0028), f1 0.8430 (+/- 0.0029)
+  noise 5.0%: accuracy 0.7709 (+/- 0.0081), f1 0.7712 (+/- 0.0076)
+  noise 10.0%: accuracy 0.7070 (+/- 0.0120), f1 0.7124 (+/- 0.0099)
+  noise 20.0%: accuracy 0.6172 (+/- 0.0126), f1 0.6262 (+/- 0.0091)
+
+======================================================================
+TRAINING DECISION TREE: C
+======================================================================
+Criterion       : gini
+Max depth       : 10
+Min samples split: 2
+Min samples leaf : 1
+
+Training time: 0.018508 s
+Training log loss: 0.00390277
+Tree depth: 10
+Leaf count: 43
+
+--- C RESULTS ---
+Accuracy : 0.994914
+Precision: 0.996705
+Recall   : 0.990180
+F1 Score : 0.993432
+
+Confusion Matrix:
+[[960   2]
+ [  6 605]]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.99      1.00      1.00       962
+           1       1.00      0.99      0.99       611
+
+    accuracy                           0.99      1573
+   macro avg       1.00      0.99      0.99      1573
+weighted avg       0.99      0.99      0.99      1573
+
+Total inference latency: 0.705465 ms
+Latency/sample: 0.000448 ms
+
+Robustness sweep:
+  noise 1.0%: accuracy 0.9837 (+/- 0.0020), f1 0.9791 (+/- 0.0026)
+  noise 5.0%: accuracy 0.8926 (+/- 0.0050), f1 0.8742 (+/- 0.0051)
+  noise 10.0%: accuracy 0.7833 (+/- 0.0075), f1 0.7682 (+/- 0.0060)
+  noise 20.0%: accuracy 0.6499 (+/- 0.0086), f1 0.6594 (+/- 0.0067)
+
+======================================================================
+TRAINING DECISION TREE: B
+======================================================================
+Criterion       : gini
+Max depth       : 10
+Min samples split: 2
+Min samples leaf : 1
+
+Training time: 0.018233 s
+Training log loss: 0.01638123
+Tree depth: 10
+Leaf count: 32
+
+--- B RESULTS ---
+Accuracy : 0.989828
+Precision: 0.997611
+Recall   : 0.983510
+F1 Score : 0.990510
+
+Confusion Matrix:
+[[722   2]
+ [ 14 835]]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.98      1.00      0.99       724
+           1       1.00      0.98      0.99       849
+
+    accuracy                           0.99      1573
+   macro avg       0.99      0.99      0.99      1573
+weighted avg       0.99      0.99      0.99      1573
+
+Total inference latency: 0.823264 ms
+Latency/sample: 0.000523 ms
+
+Robustness sweep:
+  noise 1.0%: accuracy 0.9707 (+/- 0.0024), f1 0.9731 (+/- 0.0022)
+  noise 5.0%: accuracy 0.8919 (+/- 0.0085), f1 0.9074 (+/- 0.0067)
+  noise 10.0%: accuracy 0.8053 (+/- 0.0059), f1 0.8449 (+/- 0.0041)
+  noise 20.0%: accuracy 0.6920 (+/- 0.0088), f1 0.7751 (+/- 0.0049)
+
+======================================================================
+TRAINING DECISION TREE: A
+======================================================================
+Criterion       : gini
+Max depth       : 10
+Min samples split: 2
+Min samples leaf : 1
+
+Training time: 0.018828 s
+Training log loss: 0.00718878
+Tree depth: 10
+Leaf count: 18
+
+--- A RESULTS ---
+Accuracy : 0.996186
+Precision: 1.000000
+Recall   : 0.993258
+F1 Score : 0.996618
+
+Confusion Matrix:
+[[683   0]
+ [  6 884]]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.99      1.00      1.00       683
+           1       1.00      0.99      1.00       890
+
+    accuracy                           1.00      1573
+   macro avg       1.00      1.00      1.00      1573
+weighted avg       1.00      1.00      1.00      1573
+
+Total inference latency: 1.132774 ms
+Latency/sample: 0.000720 ms
+
+Robustness sweep:
+  noise 1.0%: accuracy 0.9640 (+/- 0.0030), f1 0.9689 (+/- 0.0025)
+  noise 5.0%: accuracy 0.8897 (+/- 0.0066), f1 0.9097 (+/- 0.0050)
+  noise 10.0%: accuracy 0.8316 (+/- 0.0086), f1 0.8682 (+/- 0.0060)
+  noise 20.0%: accuracy 0.7401 (+/- 0.0102), f1 0.8099 (+/- 0.0060)
+
+Overall fault-occurred accuracy: 0.998093
+
+Models saved to:
+  /home/stanislus/Documents/Mr Fiase/outputs/dtr/models/dtr_model_2026-08-25_01-15-32.joblib
+
+======================================================================
+OVERALL RESULTS
+======================================================================
+Mean Accuracy : 0.964558
+Mean Precision: 0.947686
+Mean F1       : 0.963625
+Mean Latency  : 0.000563 ms
+Mean Robustness: 0.941259
+
+======================================================================
+OUTPUT FILES
+======================================================================
+Report:
+  /home/stanislus/Documents/Mr Fiase/outputs/dtr/report_2026-08-25_01-15-32.txt
+
+Metrics:
+  /home/stanislus/Documents/Mr Fiase/outputs/dtr/metrics.csv
+
+Loss:
+  /home/stanislus/Documents/Mr Fiase/outputs/dtr/loss_history.csv
+
+Predictions:
+  /home/stanislus/Documents/Mr Fiase/outputs/dtr/predictions_dtr.csv
+
+Robustness sweep:
+  /home/stanislus/Documents/Mr Fiase/outputs/dtr/robustness_dtr.csv
+
+TRAINING COMPLETE
