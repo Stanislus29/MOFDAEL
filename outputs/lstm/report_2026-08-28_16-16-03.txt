@@ -1,0 +1,252 @@
+======================================================================
+TRANSMISSION LINE FAULT DETECTION
+LSTM OVER LOCATION SEQUENCES
+======================================================================
+Timestamp: 2026-08-28_16-16-03
+Dataset: /home/stanislus/Documents/Mr Fiase/data/classdetectfault_data.csv
+
+Dataset shape: (7861, 11)
+Rows removed: 0
+
+Events detected: 3054
+Locations per event: min 1, mean 2.6, max 8
+
+======================================================================
+CLASS DISTRIBUTION
+======================================================================
+
+G:
+  0: 4465 (56.80%)
+  1: 3396 (43.20%)
+
+C:
+  0: 4628 (58.87%)
+  1: 3233 (41.13%)
+
+B:
+  0: 3494 (44.45%)
+  1: 4367 (55.55%)
+
+A:
+  0: 3369 (42.86%)
+  1: 4492 (57.14%)
+
+Training events: 2443
+Testing events : 611
+
+======================================================================
+TRAINING LSTM: G
+======================================================================
+Units          : [64, 32] (bidirectional)
+Learning rate  : 0.001
+Max epochs     : 100
+Batch size     : 16 events
+
+Training time: 85.133256 s
+Events trained on: 2443
+Epochs run   : 35
+Best epoch   : 25
+Best train loss: 0.176134
+Best val loss  : 0.171522
+
+--- G RESULTS ---
+Accuracy : 0.830448
+Precision: 0.726505
+Recall   : 0.964937
+F1 Score : 0.828916
+Test log loss: 0.24600078
+
+Confusion Matrix:
+[[703 259]
+ [ 25 688]]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.97      0.73      0.83       962
+           1       0.73      0.96      0.83       713
+
+    accuracy                           0.83      1675
+   macro avg       0.85      0.85      0.83      1675
+weighted avg       0.86      0.83      0.83      1675
+
+Total streaming latency: 145014.323047 ms
+Latency/sample (streaming): 86.575715 ms
+
+Robustness sweep:
+  noise 1.0%: accuracy 0.7663 (+/- 0.0012), f1 0.7787 (+/- 0.0011)
+  noise 5.0%: accuracy 0.7670 (+/- 0.0025), f1 0.7792 (+/- 0.0022)
+  noise 10.0%: accuracy 0.7671 (+/- 0.0041), f1 0.7791 (+/- 0.0040)
+  noise 20.0%: accuracy 0.7658 (+/- 0.0071), f1 0.7771 (+/- 0.0077)
+
+======================================================================
+TRAINING LSTM: C
+======================================================================
+Units          : [64, 32] (bidirectional)
+Learning rate  : 0.001
+Max epochs     : 100
+Batch size     : 16 events
+
+Training time: 51.255174 s
+Events trained on: 2443
+Epochs run   : 23
+Best epoch   : 13
+Best train loss: 0.031312
+Best val loss  : 0.026668
+
+--- C RESULTS ---
+Accuracy : 0.978507
+Precision: 1.000000
+Recall   : 0.950549
+F1 Score : 0.974648
+Test log loss: 0.06266812
+
+Confusion Matrix:
+[[947   0]
+ [ 36 692]]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.96      1.00      0.98       947
+           1       1.00      0.95      0.97       728
+
+    accuracy                           0.98      1675
+   macro avg       0.98      0.98      0.98      1675
+weighted avg       0.98      0.98      0.98      1675
+
+Total streaming latency: 142435.099212 ms
+Latency/sample (streaming): 85.035880 ms
+
+Robustness sweep:
+  noise 1.0%: accuracy 0.9788 (+/- 0.0003), f1 0.9750 (+/- 0.0004)
+  noise 5.0%: accuracy 0.9773 (+/- 0.0010), f1 0.9733 (+/- 0.0013)
+  noise 10.0%: accuracy 0.9650 (+/- 0.0025), f1 0.9595 (+/- 0.0029)
+  noise 20.0%: accuracy 0.9430 (+/- 0.0036), f1 0.9357 (+/- 0.0039)
+
+======================================================================
+TRAINING LSTM: B
+======================================================================
+Units          : [64, 32] (bidirectional)
+Learning rate  : 0.001
+Max epochs     : 100
+Batch size     : 16 events
+
+Training time: 45.791589 s
+Events trained on: 2443
+Epochs run   : 19
+Best epoch   : 9
+Best train loss: 0.041098
+Best val loss  : 0.025028
+
+--- B RESULTS ---
+Accuracy : 0.995224
+Precision: 1.000000
+Recall   : 0.991935
+F1 Score : 0.995951
+Test log loss: 0.02630487
+
+Confusion Matrix:
+[[683   0]
+ [  8 984]]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.99      1.00      0.99       683
+           1       1.00      0.99      1.00       992
+
+    accuracy                           1.00      1675
+   macro avg       0.99      1.00      1.00      1675
+weighted avg       1.00      1.00      1.00      1675
+
+Total streaming latency: 158416.212178 ms
+Latency/sample (streaming): 94.576843 ms
+
+Robustness sweep:
+  noise 1.0%: accuracy 0.9698 (+/- 0.0009), f1 0.9749 (+/- 0.0007)
+  noise 5.0%: accuracy 0.9717 (+/- 0.0025), f1 0.9764 (+/- 0.0021)
+  noise 10.0%: accuracy 0.9703 (+/- 0.0033), f1 0.9752 (+/- 0.0027)
+  noise 20.0%: accuracy 0.9563 (+/- 0.0054), f1 0.9640 (+/- 0.0044)
+
+======================================================================
+TRAINING LSTM: A
+======================================================================
+Units          : [64, 32] (bidirectional)
+Learning rate  : 0.001
+Max epochs     : 100
+Batch size     : 16 events
+
+Training time: 223.874179 s
+Events trained on: 2443
+Epochs run   : 100
+Best epoch   : 100
+Best train loss: 0.000001
+Best val loss  : 0.000017
+
+--- A RESULTS ---
+Accuracy : 0.992239
+Precision: 1.000000
+Recall   : 0.986908
+F1 Score : 0.993411
+Test log loss: 0.04930553
+
+Confusion Matrix:
+[[682   0]
+ [ 13 980]]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.98      1.00      0.99       682
+           1       1.00      0.99      0.99       993
+
+    accuracy                           0.99      1675
+   macro avg       0.99      0.99      0.99      1675
+weighted avg       0.99      0.99      0.99      1675
+
+Total streaming latency: 158677.603042 ms
+Latency/sample (streaming): 94.732897 ms
+
+Robustness sweep:
+  noise 1.0%: accuracy 0.9474 (+/- 0.0015), f1 0.9569 (+/- 0.0012)
+  noise 5.0%: accuracy 0.9417 (+/- 0.0015), f1 0.9525 (+/- 0.0011)
+  noise 10.0%: accuracy 0.9392 (+/- 0.0019), f1 0.9506 (+/- 0.0015)
+  noise 20.0%: accuracy 0.9324 (+/- 0.0046), f1 0.9453 (+/- 0.0038)
+
+Overall fault-occurred accuracy: 0.999403
+
+Manifest saved to:
+  /home/stanislus/Documents/Mr Fiase/outputs/lstm/models/lstm_manifest_2026-08-28_16-16-03.joblib
+
+======================================================================
+OVERALL RESULTS
+======================================================================
+Mean Accuracy : 0.949104
+Mean Precision: 0.931626
+Mean F1       : 0.948232
+Mean Latency  : 90.230334 ms
+Mean Robustness: 0.915582
+
+======================================================================
+OUTPUT FILES
+======================================================================
+Report:
+  /home/stanislus/Documents/Mr Fiase/outputs/lstm/report_2026-08-28_16-16-03.txt
+
+Metrics:
+  /home/stanislus/Documents/Mr Fiase/outputs/lstm/metrics.csv
+
+Loss history (per epoch):
+  /home/stanislus/Documents/Mr Fiase/outputs/lstm/loss_history.csv
+
+Predictions:
+  /home/stanislus/Documents/Mr Fiase/outputs/lstm/predictions_lstm.csv
+
+Latency per row:
+  /home/stanislus/Documents/Mr Fiase/outputs/lstm/latency_per_row_lstm.csv
+
+Robustness sweep:
+  /home/stanislus/Documents/Mr Fiase/outputs/lstm/robustness_lstm.csv
+
+TRAINING COMPLETE

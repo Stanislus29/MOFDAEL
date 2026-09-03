@@ -81,6 +81,11 @@ PREDICTIONS_FILE = (
     / "predictions_svm.csv"
 )
 
+LATENCY_FILE = (
+    OUTPUT_DIR
+    / "latency_per_row_svm.csv"
+)
+
 ROBUSTNESS_FILE = (
     OUTPUT_DIR
     / "robustness_svm.csv"
@@ -407,29 +412,43 @@ def evaluate_model(
 # LATENCY
 # ============================================================
 
-def measure_latency(model,X_test):
+# ============================================================
+# LATENCY
+# ============================================================
+
+def measure_latency(model, X_test):
 
     # Warm-up
     model.predict(
         X_test.iloc[:1]
     )
 
-    start = time.perf_counter()
+    latencies = []
 
-    model.predict(
-        X_test
-    )
+    for i in range(len(X_test)):
+        
+        # Keep 2D DataFrame shape for predict()
+        row = X_test.iloc[[i]]
+        
+        start = time.perf_counter()
+        
+        model.predict(row)
+        
+        end = time.perf_counter()
+        
+        latencies.append(end - start)
 
-    end = time.perf_counter()
-
-    total = end - start
+    total = sum(latencies)
 
     per_sample = (
-        total / len(X_test)
+        total / len(latencies)
     )
 
-    return total, per_sample
+    return total, per_sample, latencies
 
+# ============================================================
+# ROBUSTNESS
+# ============================================================
 
 # ============================================================
 # ROBUSTNESS
@@ -446,6 +465,9 @@ def test_robustness(model, X_test, y_test, noise_levels, trials):
 
         accuracies = []
         f1s = []
+        
+        # Initialize record with noise level
+        record = {"noise_level": noise_level}
 
         for trial in range(trials):
 
@@ -463,20 +485,26 @@ def test_robustness(model, X_test, y_test, noise_levels, trials):
             )
 
             predictions = model.predict(X_noisy)
+            
+            acc = accuracy_score(y_test, predictions)
+            f1 = f1_score(y_test, predictions, labels=[0, 1], zero_division=0)
 
-            accuracies.append(accuracy_score(y_test, predictions))
-            f1s.append(f1_score(y_test, predictions, labels=[0, 1], zero_division=0))
+            accuracies.append(acc)
+            f1s.append(f1)
+            
+            # Save raw metrics for the hypothesis test
+            record[f"accuracy_trial_{trial}"] = acc
+            record[f"f1_trial_{trial}"] = f1
 
-        records.append({
-            "noise_level": noise_level,
-            "accuracy_mean": np.mean(accuracies),
-            "accuracy_std": np.std(accuracies),
-            "f1_mean": np.mean(f1s),
-            "f1_std": np.std(f1s),
-        })
+        # Keep summary statistics for the standard logger
+        record["accuracy_mean"] = np.mean(accuracies)
+        record["accuracy_std"] = np.std(accuracies)
+        record["f1_mean"] = np.mean(f1s)
+        record["f1_std"] = np.std(f1s)
+        
+        records.append(record)
 
     return records
-
 
 # ============================================================
 # SAVE METRICS
@@ -750,6 +778,11 @@ def main():
             "row_id": test_row_id
         })
 
+        latency_wide = pd.DataFrame({
+            "row_id": test_row_id
+        })
+
+
         for target in TARGET_COLUMNS:
 
             model, training_time, loss = (
@@ -788,22 +821,24 @@ def main():
             # LATENCY
             # ------------------------------------------------
 
+            # ------------------------------------------------
+            # LATENCY
+            # ------------------------------------------------
+
             total_latency, \
-            per_sample_latency = (
+            per_sample_latency, \
+            row_latencies = (
                 measure_latency(
                     model,
                     X_test
                 )
             )
+            
+            latency_wide[f"{target}_latency"] = row_latencies
 
             logger.print(
                 f"Total inference latency: "
                 f"{total_latency * 1000:.6f} ms"
-            )
-
-            logger.print(
-                f"Latency/sample: "
-                f"{per_sample_latency * 1000:.6f} ms"
             )
 
             # ------------------------------------------------
@@ -933,6 +968,11 @@ def main():
 
         predictions_wide.to_csv(
             PREDICTIONS_FILE,
+            index=False
+        )
+
+        latency_wide.to_csv(
+            LATENCY_FILE,
             index=False
         )
 
@@ -1085,6 +1125,14 @@ def main():
 
         logger.print(
             f"  {PREDICTIONS_FILE}"
+        )
+
+        logger.print(
+            f"\nPer-row latency:"
+        )
+
+        logger.print(
+            f"  {LATENCY_FILE}"
         )
 
         logger.print(

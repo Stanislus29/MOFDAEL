@@ -53,7 +53,7 @@ MODEL_DIR.mkdir(
 )
 
 # ============================================================
-# TIMESTAMP
+# TIMESTAMP & OUTPUT FILES
 # ============================================================
 
 timestamp = datetime.now().strftime(
@@ -80,6 +80,11 @@ PREDICTIONS_FILE = (
     / "predictions_lstm.csv"
 )
 
+LATENCY_FILE = (
+    OUTPUT_DIR
+    / "latency_per_row_lstm.csv"
+)
+
 ROBUSTNESS_FILE = (
     OUTPUT_DIR
     / "robustness_lstm.csv"
@@ -90,11 +95,6 @@ MANIFEST_FILE = MODEL_DIR / f"lstm_manifest_{timestamp}.joblib"
 # ============================================================
 # DATA CONFIGURATION
 # ============================================================
-
-# IMPORTANT:
-# Loc is intentionally NOT a feature. It is only used to order
-# rows within an event and to detect where one event ends and
-# the next begins.
 
 FEATURE_COLUMNS = [
     "Ia",
@@ -174,9 +174,6 @@ class ReportLogger:
 # ============================================================
 # GROUP ROWS INTO EVENTS
 # ============================================================
-# A new event starts wherever Loc does not keep increasing
-# relative to the row before it. Each event's rows are already
-# ordered by Loc, so sorting is a safety net, not a requirement.
 
 def build_events(df):
 
@@ -550,40 +547,55 @@ def evaluate_model(
 
 
 # ============================================================
-# LATENCY
+# SIMULATED STREAMING LATENCY
 # ============================================================
 
-def measure_latency(model, events, indices, scaler):
+def measure_streaming_latency(model, events, indices, scaler):
 
-    X_list = [
-        scaler.transform(events[i][FEATURE_COLUMNS].to_numpy())
-        for i in indices
-    ]
+    row_ids = []
+    row_latencies = []
 
-    lengths = [len(events[i]) for i in indices]
+    for i in indices:
 
-    X_padded = pad_sequences(
-        X_list,
-        maxlen=max(lengths),
-        dtype="float32",
-        padding="post",
-        value=0.0,
+        event_df = events[i]
+
+        event_ids = event_df.index.to_numpy()
+
+        scaled_features = scaler.transform(
+            event_df[FEATURE_COLUMNS].to_numpy()
+        )
+
+        # Warmup for this event shape
+        _ = model(
+            scaled_features[:1][np.newaxis, ...],
+            training=False
+        )
+
+        # Sequentially pass prefix sub-sequences (1..k) to simulate streaming arrival
+        for k in range(1, len(event_df) + 1):
+
+            prefix_input = scaled_features[:k][np.newaxis, ...]
+
+            start = time.perf_counter()
+
+            _ = model(prefix_input, training=False)
+
+            end = time.perf_counter()
+
+            row_ids.append(event_ids[k - 1])
+
+            row_latencies.append((end - start) * 1000)  # ms
+
+    total_latency_sec = sum(row_latencies) / 1000.0
+
+    per_sample_ms = np.mean(row_latencies)
+
+    return (
+        np.array(row_ids),
+        np.array(row_latencies),
+        total_latency_sec,
+        per_sample_ms,
     )
-
-    # Warm-up
-    model.predict(X_padded[:1], verbose=0)
-
-    start = time.perf_counter()
-
-    model.predict(X_padded, verbose=0)
-
-    end = time.perf_counter()
-
-    total = end - start
-
-    per_sample = total / sum(lengths)
-
-    return total, per_sample
 
 
 # ============================================================
@@ -650,15 +662,25 @@ def test_robustness(model, events, indices, scaler, target, noise_levels, trials
                 )
 
             accuracies.append(accuracy_score(y_true, flat_preds))
-            f1s.append(f1_score(y_true, flat_preds, labels=[0, 1], zero_division=0))
 
-        records.append({
+            f1s.append(
+                f1_score(y_true, flat_preds, labels=[0, 1], zero_division=0)
+            )
+
+        record = {
             "noise_level": noise_level,
             "accuracy_mean": np.mean(accuracies),
             "accuracy_std": np.std(accuracies),
             "f1_mean": np.mean(f1s),
             "f1_std": np.std(f1s),
-        })
+        }
+
+        for trial in range(trials):
+            record[f"accuracy_trial_{trial}"] = accuracies[trial]
+
+            record[f"f1_trial_{trial}"] = f1s[trial]
+
+        records.append(record)
 
     return records
 
@@ -812,6 +834,7 @@ def main():
         lengths = [len(event) for event in events]
 
         logger.print("")
+
         logger.print(
             f"Events detected: {len(events)}"
         )
@@ -824,10 +847,11 @@ def main():
         )
 
         # ----------------------------------------------------
-        # CLASS DISTRIBUTION (per row, across all events)
+        # CLASS DISTRIBUTION
         # ----------------------------------------------------
 
         logger.print("")
+
         logger.print(
             "=" * 70
         )
@@ -867,9 +891,6 @@ def main():
         # ----------------------------------------------------
         # EVENT-LEVEL TRAIN / TEST SPLIT
         # ----------------------------------------------------
-        # Rows within an event are not independent, so the
-        # split has to happen at the event level, not the row
-        # level. A row-level split would cut sequences apart.
 
         train_idx, test_idx = train_test_split(
             range(len(events)),
@@ -879,6 +900,7 @@ def main():
         )
 
         logger.print("")
+
         logger.print(
             f"Training events: {len(train_idx)}"
         )
@@ -890,8 +912,6 @@ def main():
         # ----------------------------------------------------
         # SCALE FEATURES
         # ----------------------------------------------------
-        # Fit on every row from training events only, shared
-        # across all four targets.
 
         train_rows = np.vstack([
             events[i][FEATURE_COLUMNS].to_numpy() for i in train_idx
@@ -900,7 +920,7 @@ def main():
         scaler = StandardScaler().fit(train_rows)
 
         # ----------------------------------------------------
-        # TRAIN MODELS
+        # TRAIN MODELS & EVALUATE
         # ----------------------------------------------------
 
         models_dict = {}
@@ -914,6 +934,8 @@ def main():
         robustness_records = []
 
         predictions_wide = None
+
+        latency_wide = None
 
         for target in TARGET_COLUMNS:
 
@@ -942,7 +964,7 @@ def main():
                 })
 
             # ------------------------------------------------
-            # EVALUATE
+            # EVALUATE PREDICTIONS
             # ------------------------------------------------
 
             row_ids, probabilities, predictions = predict_events(
@@ -976,22 +998,39 @@ def main():
                 )
 
             # ------------------------------------------------
-            # LATENCY
+            # STREAMING LATENCY PER ROW
             # ------------------------------------------------
 
-            total_latency, per_sample_latency = measure_latency(
-                model, events, test_idx, scaler
+            lat_ids, row_latencies, total_latency, per_sample_latency = (
+                measure_streaming_latency(
+                    model, events, test_idx, scaler
+                )
             )
 
             logger.print(
-                f"Total inference latency: "
+                f"Total streaming latency: "
                 f"{total_latency * 1000:.6f} ms"
             )
 
             logger.print(
-                f"Latency/sample: "
-                f"{per_sample_latency * 1000:.6f} ms"
+                f"Latency/sample (streaming): "
+                f"{per_sample_latency:.6f} ms"
             )
+
+            target_lat_df = pd.DataFrame({
+                "row_id": lat_ids,
+                f"{target}_latency_ms": row_latencies,
+            })
+
+            if latency_wide is None:
+
+                latency_wide = target_lat_df
+
+            else:
+
+                latency_wide = latency_wide.merge(
+                    target_lat_df, on="row_id"
+                )
 
             # ------------------------------------------------
             # ROBUSTNESS
@@ -1078,7 +1117,7 @@ def main():
 
                 "latency_ms_total": total_latency * 1000,
 
-                "latency_ms_per_sample": per_sample_latency * 1000,
+                "latency_ms_per_sample": per_sample_latency,
 
                 "robustness_accuracy": reference["accuracy_mean"],
 
@@ -1092,11 +1131,13 @@ def main():
         # ----------------------------------------------------
 
         true_cols = [f"{t}_true" for t in TARGET_COLUMNS]
+
         pred_cols = [f"{t}_pred" for t in TARGET_COLUMNS]
 
         predictions_wide["overall_true"] = (
             predictions_wide[true_cols].astype(int).max(axis=1)
         )
+
         predictions_wide["overall_pred"] = (
             predictions_wide[pred_cols].astype(int).max(axis=1)
         )
@@ -1107,16 +1148,27 @@ def main():
         )
 
         logger.print("")
+
         logger.print(
             f"Overall fault-occurred accuracy: {overall_accuracy:.6f}"
         )
 
+        # Aggregate total latency across targets per row
+        lat_cols = [f"{t}_latency_ms" for t in TARGET_COLUMNS]
+
+        latency_wide["total_latency_ms"] = latency_wide[lat_cols].sum(axis=1)
+
         # ----------------------------------------------------
-        # SAVE ROW-LEVEL PREDICTIONS AND ROBUSTNESS SWEEP
+        # EXPORT OUTPUT CSVs
         # ----------------------------------------------------
 
         predictions_wide.to_csv(
             PREDICTIONS_FILE,
+            index=False
+        )
+
+        latency_wide.to_csv(
+            LATENCY_FILE,
             index=False
         )
 
@@ -1138,6 +1190,7 @@ def main():
         )
 
         logger.print("")
+
         logger.print(
             f"Manifest saved to:"
         )
@@ -1180,7 +1233,7 @@ def main():
         )
 
         # ----------------------------------------------------
-        # OVERALL
+        # OVERALL SUMMARY
         # ----------------------------------------------------
 
         metrics_df = pd.DataFrame(
@@ -1188,6 +1241,7 @@ def main():
         )
 
         logger.print("")
+
         logger.print(
             "=" * 70
         )
@@ -1230,6 +1284,7 @@ def main():
         # ----------------------------------------------------
 
         logger.print("")
+
         logger.print(
             "=" * 70
         )
@@ -1275,6 +1330,14 @@ def main():
         )
 
         logger.print(
+            f"\nLatency per row:"
+        )
+
+        logger.print(
+            f"  {LATENCY_FILE}"
+        )
+
+        logger.print(
             f"\nRobustness sweep:"
         )
 
@@ -1283,6 +1346,7 @@ def main():
         )
 
         logger.print("")
+
         logger.print(
             "TRAINING COMPLETE"
         )

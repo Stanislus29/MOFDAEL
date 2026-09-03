@@ -1,0 +1,83 @@
+======================================================================
+TRANSMISSION LINE FAULT DETECTION
+DECISION TREE CLASSIFIER
+======================================================================
+Timestamp: 2026-08-28_10-09-16
+Dataset: /home/stanislus/Documents/Mr Fiase/data/classdetectfault_data.csv
+
+Dataset shape: (7861, 11)
+Rows removed: 0
+
+FEATURES:
+  Ia
+  Ib
+  Ic
+  Va
+  Vb
+  Vc
+
+IGNORED METADATA:
+  Loc
+
+TARGETS:
+  G
+  C
+  B
+  A
+
+======================================================================
+CLASS DISTRIBUTION
+======================================================================
+
+G:
+  0: 4465 (56.80%)
+  1: 3396 (43.20%)
+
+C:
+  0: 4628 (58.87%)
+  1: 3233 (41.13%)
+
+B:
+  0: 3494 (44.45%)
+  1: 4367 (55.55%)
+
+A:
+  0: 3369 (42.86%)
+  1: 4492 (57.14%)
+
+Training samples: 6288
+Testing samples: 1573
+
+======================================================================
+TRAINING DECISION TREE: G
+======================================================================
+Criterion       : gini
+Max depth       : 10
+Min samples split: 2
+Min samples leaf : 1
+
+Training time: 0.070748 s
+Training log loss: 0.16372059
+Tree depth: 10
+Leaf count: 94
+
+--- G RESULTS ---
+Accuracy : 0.877305
+Precision: 0.796429
+Recall   : 0.968162
+F1 Score : 0.873939
+
+Confusion Matrix:
+[[711 171]
+ [ 22 669]]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.97      0.81      0.88       882
+           1       0.80      0.97      0.87       691
+
+    accuracy                           0.88      1573
+   macro avg       0.88      0.89      0.88      1573
+weighted avg       0.89      0.88      0.88      1573
+

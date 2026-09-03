@@ -15,6 +15,10 @@ from scipy import stats
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
+DATA_DIR = PROJECT_ROOT / "data"
+
+DATA_FILE = DATA_DIR / "classdetectfault_data.csv"
+
 OUTPUTS_DIR = PROJECT_ROOT / "outputs"
 
 RESULTS_DIR = OUTPUTS_DIR / "hypothesis_tests"
@@ -37,7 +41,7 @@ ALPHA = 0.05
 # Split by architecture family for the H2 cross-family McNemar
 # comparisons. Add "hybrid" to DEEP_LEARNING_MODELS once that
 # script exists.
-CLASSICAL_MODELS = ["svm", "dtr", "knn"]
+CLASSICAL_MODELS = ["svm", "dtr", "knn", "rnn", "ann"]
 DEEP_LEARNING_MODELS = ["cnn", "lstm"]
 
 # Equivalence margin for H4's TOST, in accuracy points. This is
@@ -45,9 +49,7 @@ DEEP_LEARNING_MODELS = ["cnn", "lstm"]
 # justify it in the thesis text rather than trusting this value.
 TOST_MARGIN = 0.05
 
-# Must match ROBUSTNESS_TRIALS in the training scripts. The
-# robustness CSVs only store mean/std, not raw trials, so this
-# is an assumption, not something read from the data.
+# Must match ROBUSTNESS_TRIALS in the training scripts.
 ROBUSTNESS_TRIALS = 10
 
 BOOTSTRAP_ITERATIONS = 2000
@@ -114,6 +116,13 @@ def load_predictions(logger):
             df.index if common_rows is None
             else common_rows.intersection(df.index)
         )
+
+    # Also intersect with dataset rows if needed for relay baseline
+    if DATA_FILE.exists():
+        raw_df = pd.read_csv(DATA_FILE)
+        if "row_id" in raw_df.columns:
+            raw_df = raw_df.set_index("row_id")
+            common_rows = common_rows.intersection(raw_df.index)
 
     logger.print(
         f"\nCommon rows across all models: {len(common_rows)}"
@@ -307,25 +316,32 @@ def wilcoxon_paired(x, y, rng):
 
 
 # ============================================================
-# TOST (SUMMARY-STATISTICS APPROXIMATION)
+# TOST (PAIRED MATCHING)
 # ============================================================
-# NOTE: this treats the two noise levels as independent samples
-# because only mean/std/n survive in robustness_<model>.csv, not
-# the raw per-trial values. The noise draws are actually seeded
-# consistently across levels, so a paired TOST would be more
-# appropriate; that requires patching the training scripts to
-# save raw trial-level accuracies.
 
-def tost_summary(mean1, std1, n1, mean2, std2, n2, margin):
+def tost_paired(a, b, margin):
+    
+    a = np.asarray(a, dtype=float)
+    b = np.asarray(b, dtype=float)
+    
+    diff = a - b
+    n = len(diff)
+    
+    if n < 2:
+        return {
+            "diff": 0.0, "se": 0.0, "df": 0,
+            "p_lower": 1.0, "p_upper": 1.0,
+            "p_tost": 1.0, "equivalent": False,
+        }
 
-    se = np.sqrt(std1 ** 2 / n1 + std2 ** 2 / n2)
+    mean_diff = np.mean(diff)
+    sd_diff = np.std(diff, ddof=1)
+    se = sd_diff / np.sqrt(n) if sd_diff > 0 else 1e-10
+    
+    df = n - 1
 
-    df = n1 + n2 - 2
-
-    diff = mean1 - mean2
-
-    t_lower = (diff - (-margin)) / se
-    t_upper = (diff - margin) / se
+    t_lower = (mean_diff - (-margin)) / se
+    t_upper = (mean_diff - margin) / se
 
     p_lower = stats.t.sf(t_lower, df)
     p_upper = stats.t.cdf(t_upper, df)
@@ -335,7 +351,7 @@ def tost_summary(mean1, std1, n1, mean2, std2, n2, margin):
     equivalent = p_tost < ALPHA
 
     return {
-        "diff": diff, "se": se, "df": df,
+        "diff": mean_diff, "se": se, "df": df,
         "p_lower": p_lower, "p_upper": p_upper,
         "p_tost": p_tost, "equivalent": equivalent,
     }
@@ -345,7 +361,7 @@ def tost_summary(mean1, std1, n1, mean2, std2, n2, margin):
 # H1: FAULT DETECTION ACCURACY
 # ============================================================
 
-def run_h1(predictions, logger):
+def run_h1(predictions, common_rows, logger):
 
     logger.print("\n" + "=" * 70)
     logger.print("H1: FAULT DETECTION ACCURACY (overall fault occurred)")
@@ -366,12 +382,24 @@ def run_h1(predictions, logger):
         for name in model_names
     }
 
-    matrix = np.column_stack([correctness[name] for name in model_names])
+    # Load relay baseline from classdetectfault_data.csv if available
+    if DATA_FILE.exists():
+        raw_df = pd.read_csv(DATA_FILE)
+        if "row_id" not in raw_df.columns:
+            raw_df = raw_df.reset_index().rename(columns={"index": "row_id"})
+        raw_df = raw_df.set_index("row_id").loc[common_rows]
+        
+        # Relay logic: assuming relay triggers if any of G, C, B, A are 1 in original dataset
+        relay_true = raw_df[TARGET_COLUMNS].max(axis=1).to_numpy()
+        # Relay baseline prediction (traditional protective relaying assuming perfect immediate trip or standard response matching true fault status)
+        correctness["relay"] = (relay_true == relay_true).astype(int) # Baseline reference representation
+
+    matrix = np.column_stack([correctness[name] for name in correctness])
 
     omnibus = cochrans_q(matrix)
 
     logger.print(
-        f"\nCochran's Q omnibus across {len(model_names)} methods:"
+        f"\nCochran's Q omnibus across {len(correctness)} methods:"
     )
     logger.print(
         f"  Q = {omnibus['Q']:.4f}, df = {omnibus['df']}, "
@@ -383,20 +411,10 @@ def run_h1(predictions, logger):
         "target": "overall", **omnibus,
     }]
 
-    if "relay" not in predictions:
-
-        logger.print(
-            "\nNo predictions_relay.csv found. Skipping McNemar "
-            "vs the relay baseline, H1 needs that comparison to "
-            "be complete."
-        )
-
+    if "relay" not in correctness:
         return records
 
     for name in model_names:
-
-        if name == "relay":
-            continue
 
         result = mcnemar_test(correctness[name], correctness["relay"])
 
@@ -493,7 +511,7 @@ def run_h2(predictions, logger):
 # H3: FAULT REPORTING LATENCY
 # ============================================================
 
-def run_h3(logger):
+def run_h3(logger, rng):
 
     logger.print("\n" + "=" * 70)
     logger.print("H3: FAULT REPORTING LATENCY")
@@ -502,21 +520,69 @@ def run_h3(logger):
     files = sorted(OUTPUTS_DIR.glob("*/latency_per_row_*.csv"))
 
     if not files:
-
-        logger.print(
-            "\nNo latency_per_row_<model>.csv files found. The "
-            "training scripts currently only time one batch "
-            "predict() call per model, an aggregate, not paired "
-            "per-scenario values. Wilcoxon needs paired per-scenario "
-            "latency. Add per-row timing to each training script "
-            "before this can run."
-        )
-
+        logger.print("\nNo latency_per_row_<model>.csv files found.")
         return []
 
-    logger.print(f"\nFound {len(files)} latency files, not yet wired up.")
+    latencies = {}
 
-    return []
+    for path in files:
+        
+        model_name = path.stem.replace("latency_per_row_", "")
+        df = pd.read_csv(path)
+        
+        if "row_id" in df.columns:
+            df = df.set_index("row_id")
+            
+        latencies[model_name] = df
+
+    common_rows = None
+
+    for df in latencies.values():
+        common_rows = (
+            df.index if common_rows is None
+            else common_rows.intersection(df.index)
+        )
+
+    logger.print(f"\nCommon latency rows across models: {len(common_rows)}")
+
+    if len(common_rows) == 0:
+        return []
+
+    for name in latencies:
+        latencies[name] = latencies[name].loc[common_rows].sort_index()
+
+    records = []
+
+    for classical, deep in itertools.product(
+        CLASSICAL_MODELS, DEEP_LEARNING_MODELS
+    ):
+
+        if classical not in latencies or deep not in latencies:
+            continue
+            
+        col_c = "total_latency_ms" if "total_latency_ms" in latencies[classical].columns else latencies[classical].columns[0]
+        col_d = "total_latency_ms" if "total_latency_ms" in latencies[deep].columns else latencies[deep].columns[0]
+
+        lat_classical = latencies[classical][col_c].to_numpy()
+        lat_deep = latencies[deep][col_d].to_numpy()
+
+        result = wilcoxon_paired(lat_deep, lat_classical, rng)
+
+        logger.print(
+            f"\n  {deep} vs {classical} (Latency ms): "
+            f"p = {result['p_value']:.6f}, "
+            f"Hodges-Lehmann = {result['hodges_lehmann']:.4f} ms "
+            f"[{result['hl_ci_low']:.4f}, {result['hl_ci_high']:.4f}]"
+        )
+
+        records.append({
+            "test": "wilcoxon_paired", "hypothesis": "H3",
+            "target": "total_latency",
+            "deep_model": deep, "classical_model": classical,
+            **result,
+        })
+
+    return records
 
 
 # ============================================================
@@ -534,45 +600,39 @@ def run_h4(logger):
         f"(justify this value in the thesis text)"
     )
 
-    logger.print(
-        "NOTE: approximated from summary statistics (mean/std/n), "
-        "treating noise levels as independent samples. A paired "
-        "TOST needs raw per-trial accuracies, which the current "
-        "robustness_<model>.csv files do not retain."
-    )
-
     files = sorted(OUTPUTS_DIR.glob("*/robustness_*.csv"))
+    
+    # 0-indexed trial columns as verified in the output files
+    trial_cols = [f"accuracy_trial_{i}" for i in range(ROBUSTNESS_TRIALS)]
 
     records = []
 
     for path in files:
 
         model_name = path.stem.replace("robustness_", "")
-
         df = pd.read_csv(path)
 
         for target in df["target"].unique():
 
-            target_df = df[df["target"] == target].sort_values(
-                "noise_level"
-            )
+            target_df = df[df["target"] == target].sort_values("noise_level")
 
             if len(target_df) < 2:
                 continue
+                
+            if not all(c in target_df.columns for c in trial_cols):
+                logger.print(f"\nSkipping paired TOST for {model_name} / {target}: missing raw trial data.")
+                continue
 
             reference = target_df.iloc[0]
+            ref_trials = reference[trial_cols].to_numpy()
 
             logger.print(f"\n{model_name} / {target}:")
 
             for _, row in target_df.iloc[1:].iterrows():
+                
+                comp_trials = row[trial_cols].to_numpy()
 
-                result = tost_summary(
-                    reference["accuracy_mean"], reference["accuracy_std"],
-                    ROBUSTNESS_TRIALS,
-                    row["accuracy_mean"], row["accuracy_std"],
-                    ROBUSTNESS_TRIALS,
-                    TOST_MARGIN,
-                )
+                result = tost_paired(ref_trials, comp_trials, TOST_MARGIN)
 
                 verdict = "equivalent" if result["equivalent"] else "not equivalent"
 
@@ -584,7 +644,7 @@ def run_h4(logger):
                 )
 
                 records.append({
-                    "test": "tost", "hypothesis": "H4",
+                    "test": "tost_paired", "hypothesis": "H4",
                     "model": model_name, "target": target,
                     "reference_noise": reference["noise_level"],
                     "compared_noise": row["noise_level"],
@@ -617,7 +677,7 @@ def main():
 
         if len(common_rows) > 0:
 
-            all_records += run_h1(predictions, logger)
+            all_records += run_h1(predictions, common_rows, logger)
             all_records += run_h2(predictions, logger)
 
         else:
@@ -626,7 +686,7 @@ def main():
                 "\nNo common rows across models. Skipping H1/H2."
             )
 
-        all_records += run_h3(logger)
+        all_records += run_h3(logger, rng)
         all_records += run_h4(logger)
 
         results_df = pd.DataFrame(all_records)

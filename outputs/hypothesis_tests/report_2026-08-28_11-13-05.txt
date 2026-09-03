@@ -1,0 +1,127 @@
+======================================================================
+HYPOTHESIS TESTING: H1-H4
+======================================================================
+Timestamp: 2026-08-28_11-13-05
+Prediction files found:
+  cnn: 1573 rows
+  dtr: 1573 rows
+  knn: 1573 rows
+  lstm: 1675 rows
+
+Common rows across all models: 339
+  cnn: dropping 1234 rows not in the common set
+  dtr: dropping 1234 rows not in the common set
+  knn: dropping 1234 rows not in the common set
+  lstm: dropping 1336 rows not in the common set
+
+======================================================================
+H1: FAULT DETECTION ACCURACY (overall fault occurred)
+======================================================================
+
+Cochran's Q omnibus across 4 methods:
+  Q = 2.0000, df = 3, p = 0.572407
+
+No predictions_relay.csv found. Skipping McNemar vs the relay baseline, H1 needs that comparison to be complete.
+
+======================================================================
+H2: PER-LINE CLASSIFICATION PERFORMANCE
+======================================================================
+
+--- G ---
+Cochran's Q: Q = 8.1333, df = 3, p = 0.043335
+  cnn vs dtr: p = 0.454498 (exact_binomial), diff = 1.18pp
+  lstm vs dtr: p = 1.000000 (exact_binomial), diff = -0.29pp
+  cnn vs knn: p = 0.222469 (chi2_continuity_corrected), diff = -2.65pp
+  lstm vs knn: p = 0.055270 (chi2_continuity_corrected), diff = -4.13pp
+
+--- C ---
+Cochran's Q: Q = 2.2800, df = 3, p = 0.516363
+  cnn vs dtr: p = 1.000000 (exact_binomial), diff = 0.29pp
+  lstm vs dtr: p = 0.687500 (exact_binomial), diff = -0.59pp
+  cnn vs knn: p = 1.000000 (exact_binomial), diff = 0.29pp
+  lstm vs knn: p = 0.625000 (exact_binomial), diff = -0.59pp
+
+--- B ---
+Cochran's Q: Q = 4.7143, df = 3, p = 0.193955
+  cnn vs dtr: p = 0.500000 (exact_binomial), diff = 0.59pp
+  lstm vs dtr: p = 0.500000 (exact_binomial), diff = 0.59pp
+  cnn vs knn: p = 1.000000 (exact_binomial), diff = 0.29pp
+  lstm vs knn: p = 1.000000 (exact_binomial), diff = 0.29pp
+
+--- A ---
+Cochran's Q: Q = 9.0000, df = 3, p = 0.029291
+  cnn vs dtr: p = 1.000000 (exact), diff = 0.00pp
+  lstm vs dtr: p = 0.250000 (exact_binomial), diff = -0.88pp
+  cnn vs knn: p = 1.000000 (exact), diff = 0.00pp
+  lstm vs knn: p = 0.250000 (exact_binomial), diff = -0.88pp
+
+======================================================================
+H3: FAULT REPORTING LATENCY
+======================================================================
+
+Common latency rows across models: 339
+
+  cnn vs dtr (Latency ms): p = 0.000000, Hodges-Lehmann = 0.0849 ms [0.0826, 0.0872]
+
+  lstm vs dtr (Latency ms): p = 0.000000, Hodges-Lehmann = 343.9481 ms [329.0144, 365.2630]
+
+  cnn vs knn (Latency ms): p = 0.000000, Hodges-Lehmann = 0.0653 ms [0.0629, 0.0677]
+
+  lstm vs knn (Latency ms): p = 0.000000, Hodges-Lehmann = 343.9270 ms [328.5322, 364.9509]
+
+======================================================================
+H4: ROBUSTNESS (TOST equivalence)
+======================================================================
+
+Equivalence margin: 5.0 accuracy points (justify this value in the thesis text)
+NOTE: Calculating paired TOST equivalence directly from raw trial data.
+
+Skipping paired TOST for cnn / G: missing raw trial data.
+
+Skipping paired TOST for cnn / C: missing raw trial data.
+
+Skipping paired TOST for cnn / B: missing raw trial data.
+
+Skipping paired TOST for cnn / A: missing raw trial data.
+
+Skipping paired TOST for dtr / G: missing raw trial data.
+
+Skipping paired TOST for dtr / C: missing raw trial data.
+
+Skipping paired TOST for dtr / B: missing raw trial data.
+
+Skipping paired TOST for dtr / A: missing raw trial data.
+
+Skipping paired TOST for knn / G: missing raw trial data.
+
+Skipping paired TOST for knn / C: missing raw trial data.
+
+Skipping paired TOST for knn / B: missing raw trial data.
+
+Skipping paired TOST for knn / A: missing raw trial data.
+
+lstm / G:
+  1% vs 5% noise: diff = 0.0004, p_TOST = 0.000000 (equivalent)
+  1% vs 10% noise: diff = -0.0010, p_TOST = 0.000000 (equivalent)
+  1% vs 20% noise: diff = 0.0014, p_TOST = 0.000000 (equivalent)
+
+lstm / C:
+  1% vs 5% noise: diff = 0.0039, p_TOST = 0.000000 (equivalent)
+  1% vs 10% noise: diff = 0.0176, p_TOST = 0.000000 (equivalent)
+  1% vs 20% noise: diff = 0.0406, p_TOST = 0.002769 (equivalent)
+
+lstm / B:
+  1% vs 5% noise: diff = 0.0032, p_TOST = 0.000000 (equivalent)
+  1% vs 10% noise: diff = 0.0120, p_TOST = 0.000000 (equivalent)
+  1% vs 20% noise: diff = 0.0320, p_TOST = 0.000006 (equivalent)
+
+lstm / A:
+  1% vs 5% noise: diff = -0.0004, p_TOST = 0.000000 (equivalent)
+  1% vs 10% noise: diff = -0.0004, p_TOST = 0.000000 (equivalent)
+  1% vs 20% noise: diff = 0.0055, p_TOST = 0.000000 (equivalent)
+
+======================================================================
+OUTPUT FILES
+======================================================================
+Report:  /home/stanislus/Documents/Mr Fiase/outputs/hypothesis_tests/report_2026-08-28_11-13-05.txt
+Results: /home/stanislus/Documents/Mr Fiase/outputs/hypothesis_tests/results_2026-08-28_11-13-05.csv

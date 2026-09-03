@@ -1,0 +1,246 @@
+======================================================================
+TRANSMISSION LINE FAULT DETECTION
+K-NEAREST NEIGHBORS
+======================================================================
+Timestamp: 2026-08-28_10-15-10
+Dataset: /home/stanislus/Documents/Mr Fiase/data/classdetectfault_data.csv
+
+Dataset shape: (7861, 11)
+Rows removed: 0
+
+FEATURES:
+  Ia
+  Ib
+  Ic
+  Va
+  Vb
+  Vc
+
+IGNORED METADATA:
+  Loc
+
+TARGETS:
+  G
+  C
+  B
+  A
+
+======================================================================
+CLASS DISTRIBUTION
+======================================================================
+
+G:
+  0: 4465 (56.80%)
+  1: 3396 (43.20%)
+
+C:
+  0: 4628 (58.87%)
+  1: 3233 (41.13%)
+
+B:
+  0: 3494 (44.45%)
+  1: 4367 (55.55%)
+
+A:
+  0: 3369 (42.86%)
+  1: 4492 (57.14%)
+
+Training samples: 6288
+Testing samples: 1573
+
+======================================================================
+TRAINING K-NN: G
+======================================================================
+K       : 5
+Weights : distance
+Metric  : minkowski (p=2)
+
+Training time: 0.029483 s
+Training log loss: 0.00000000
+Reference points stored: 6288
+
+--- G RESULTS ---
+Accuracy : 0.897012
+Precision: 0.893016
+Recall   : 0.869754
+F1 Score : 0.881232
+
+Confusion Matrix:
+[[810  72]
+ [ 90 601]]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.90      0.92      0.91       882
+           1       0.89      0.87      0.88       691
+
+    accuracy                           0.90      1573
+   macro avg       0.90      0.89      0.90      1573
+weighted avg       0.90      0.90      0.90      1573
+
+Total inference latency: 32822.463919 ms
+Latency/sample: 20.866156 ms
+
+Robustness sweep:
+  noise 1.0%: accuracy 0.8226 (+/- 0.0040), f1 0.7962 (+/- 0.0048)
+  noise 5.0%: accuracy 0.8530 (+/- 0.0047), f1 0.8312 (+/- 0.0055)
+  noise 10.0%: accuracy 0.8576 (+/- 0.0041), f1 0.8368 (+/- 0.0048)
+  noise 20.0%: accuracy 0.8446 (+/- 0.0049), f1 0.8213 (+/- 0.0056)
+
+======================================================================
+TRAINING K-NN: C
+======================================================================
+K       : 5
+Weights : distance
+Metric  : minkowski (p=2)
+
+Training time: 0.020521 s
+Training log loss: 0.00000000
+Reference points stored: 6288
+
+--- C RESULTS ---
+Accuracy : 0.997457
+Precision: 0.996727
+Recall   : 0.996727
+F1 Score : 0.996727
+
+Confusion Matrix:
+[[960   2]
+ [  2 609]]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00       962
+           1       1.00      1.00      1.00       611
+
+    accuracy                           1.00      1573
+   macro avg       1.00      1.00      1.00      1573
+weighted avg       1.00      1.00      1.00      1573
+
+Total inference latency: 33011.326758 ms
+Latency/sample: 20.986222 ms
+
+Robustness sweep:
+  noise 1.0%: accuracy 0.9972 (+/- 0.0006), f1 0.9964 (+/- 0.0008)
+  noise 5.0%: accuracy 0.9894 (+/- 0.0019), f1 0.9864 (+/- 0.0024)
+  noise 10.0%: accuracy 0.9758 (+/- 0.0027), f1 0.9694 (+/- 0.0034)
+  noise 20.0%: accuracy 0.9449 (+/- 0.0047), f1 0.9313 (+/- 0.0056)
+
+======================================================================
+TRAINING K-NN: B
+======================================================================
+K       : 5
+Weights : distance
+Metric  : minkowski (p=2)
+
+Training time: 0.022945 s
+Training log loss: 0.00000000
+Reference points stored: 6288
+
+--- B RESULTS ---
+Accuracy : 0.996186
+Precision: 0.998817
+Recall   : 0.994111
+F1 Score : 0.996458
+
+Confusion Matrix:
+[[723   1]
+ [  5 844]]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.99      1.00      1.00       724
+           1       1.00      0.99      1.00       849
+
+    accuracy                           1.00      1573
+   macro avg       1.00      1.00      1.00      1573
+weighted avg       1.00      1.00      1.00      1573
+
+Total inference latency: 33093.418535 ms
+Latency/sample: 21.038410 ms
+
+Robustness sweep:
+  noise 1.0%: accuracy 0.9962 (+/- 0.0002), f1 0.9965 (+/- 0.0002)
+  noise 5.0%: accuracy 0.9925 (+/- 0.0011), f1 0.9930 (+/- 0.0010)
+  noise 10.0%: accuracy 0.9823 (+/- 0.0019), f1 0.9836 (+/- 0.0018)
+  noise 20.0%: accuracy 0.9561 (+/- 0.0028), f1 0.9599 (+/- 0.0025)
+
+======================================================================
+TRAINING K-NN: A
+======================================================================
+K       : 5
+Weights : distance
+Metric  : minkowski (p=2)
+
+Training time: 0.015853 s
+Training log loss: 0.00000000
+Reference points stored: 6288
+
+--- A RESULTS ---
+Accuracy : 1.000000
+Precision: 1.000000
+Recall   : 1.000000
+F1 Score : 1.000000
+
+Confusion Matrix:
+[[683   0]
+ [  0 890]]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00       683
+           1       1.00      1.00      1.00       890
+
+    accuracy                           1.00      1573
+   macro avg       1.00      1.00      1.00      1573
+weighted avg       1.00      1.00      1.00      1573
+
+Total inference latency: 29655.770596 ms
+Latency/sample: 18.853001 ms
+
+Robustness sweep:
+  noise 1.0%: accuracy 0.9998 (+/- 0.0003), f1 0.9998 (+/- 0.0003)
+  noise 5.0%: accuracy 0.9970 (+/- 0.0008), f1 0.9974 (+/- 0.0007)
+  noise 10.0%: accuracy 0.9893 (+/- 0.0025), f1 0.9905 (+/- 0.0022)
+  noise 20.0%: accuracy 0.9671 (+/- 0.0039), f1 0.9708 (+/- 0.0035)
+
+Overall fault-occurred accuracy: 1.000000
+
+Models saved to:
+  /home/stanislus/Documents/Mr Fiase/outputs/knn/models/knn_model_2026-08-28_10-15-10.joblib
+
+======================================================================
+OVERALL RESULTS
+======================================================================
+Mean Accuracy : 0.972664
+Mean Precision: 0.972140
+Mean F1       : 0.968604
+Mean Latency  : 20.435947 ms
+Mean Robustness: 0.953973
+
+======================================================================
+OUTPUT FILES
+======================================================================
+Report:
+  /home/stanislus/Documents/Mr Fiase/outputs/knn/report_2026-08-28_10-15-10.txt
+
+Metrics:
+  /home/stanislus/Documents/Mr Fiase/outputs/knn/metrics.csv
+
+Loss:
+  /home/stanislus/Documents/Mr Fiase/outputs/knn/loss_history.csv
+
+Predictions:
+  /home/stanislus/Documents/Mr Fiase/outputs/knn/predictions_knn.csv
+
+Per-row latency:
+  /home/stanislus/Documents/Mr Fiase/outputs/knn/latency_per_row_knn.csv
+
+Robustness sweep:
+  /home/stanislus/Documents/Mr Fiase/outputs/knn/robustness_knn.csv
+
+TRAINING COMPLETE
