@@ -1,0 +1,21 @@
+Somewhat like a mission statement, dunno, just wrote the first thing that popped in my head this morning 
+
+‎In March 2025, I asked myself: What does it mean to be an engineer? 
+‎
+‎Growing up, I had one of the best role models from whom I could understand and figure out the answer to that question. In his lifetime, my dad has worked on real things, useful things that the everyday man uses. Structures that will live after him and beyond me: roads, bridges, houses, power plants, etc. 
+‎
+‎I remember bringing him his coffee at his study, seeing him hunched over the numbers, calculating, ensuring that every decision held up under real-world conditions. For me, that's always going to be the definition of an engineer: someone who builds quality things which are useful to our species, and which last the test of time. 
+‎
+‎When you look at my dad's portfolio, what you find is range. He wasn't a civil engineer who built only buildings, just as he didn't build only roads. He built structures. 
+‎
+‎Meditating on what my old man did made me realise something. You see, for the year running from 2025-2026, I did numerous projects across differing fields in Computer Engineering, building useful tools. I thought that by doing this, I would narrow down my niche - I was so wrong. 
+‎
+‎A project is like a child. You're often told to kill all other projects and focus on one thing, have one identity. This is impossible, because just like a parent, you see the potential in every project. Does this mean every project is worth undertaking? No. But therein lies an important feature of an engineer: discipline, the ability to set constraints and not let yourself live in your own world of optimisations. 
+‎
+‎These lessons have informed my vision for Stase as a company. We're not here to solve some grand vision with one revolutionary product; we're here to solve the problems we can with the products we build. That is our mantra:
+‎
+‎1. Together: A group of engineers, managed by engineers, building in sync. 
+‎2. Further: Accelerating the frontier in whichever product we build
+‎3. Towards Infinity: Building products that last the test of time
+‎
+‎I didn't start Stase because I wanted to make a killing, and I hope greatly that my vision for this company stands the test of time.

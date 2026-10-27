@@ -42,7 +42,7 @@ ALPHA = 0.05
 # comparisons. Add "hybrid" to DEEP_LEARNING_MODELS once that
 # script exists.
 CLASSICAL_MODELS = ["svm", "dtr", "knn", "rnn", "ann"]
-DEEP_LEARNING_MODELS = ["cnn", "lstm"]
+DEEP_LEARNING_MODELS = ["cnn", "lstm", "pinn"]
 
 # Equivalence margin for H4's TOST, in accuracy points. This is
 # a substantive research decision, not a statistical default,
@@ -358,6 +358,30 @@ def tost_paired(a, b, margin):
 
 
 # ============================================================
+# FRIEDMAN TEST, WITH KENDALL'S W
+# ============================================================
+
+def friedman_test(matrix):
+
+    X = np.asarray(matrix, dtype=float)
+
+    n, k = X.shape
+
+    statistic, p_value = stats.friedmanchisquare(
+        *[X[:, i] for i in range(k)]
+    )
+
+    # Kendall's W = Friedman chi-square / (n * (k - 1))
+    kendalls_w = statistic / (n * (k - 1)) if n * (k - 1) > 0 else 0.0
+
+    return {
+        "statistic": statistic, "df": k - 1,
+        "p_value": p_value, "kendalls_w": kendalls_w,
+        "n": n, "k": k,
+    }
+
+
+# ============================================================
 # H1: FAULT DETECTION ACCURACY
 # ============================================================
 
@@ -655,6 +679,174 @@ def run_h4(logger):
 
 
 # ============================================================
+# H5: FAULT LOCATION ACCURACY
+# ============================================================
+# "Location error" here is per-row classification error (0 = correct,
+# 1 = incorrect) on G/C/B/A, grouped by the true fault location (Loc)
+# and blocked across models. Friedman is the omnibus test across all
+# models at each location, Wilcoxon signed-rank is the post-hoc
+# pairwise comparison, both non-parametric since the error is bounded
+# at zero and right-skewed.
+
+def run_h5(predictions, common_rows, logger, rng):
+
+    logger.print("\n" + "=" * 70)
+    logger.print("H5: FAULT LOCATION ACCURACY")
+    logger.print("=" * 70)
+
+    model_names = [
+        name for name in predictions
+        if name in CLASSICAL_MODELS + DEEP_LEARNING_MODELS
+    ]
+
+    if len(model_names) < 2:
+
+        logger.print("Need at least two models to compare. Skipping.")
+        return []
+
+    if not DATA_FILE.exists():
+
+        logger.print(f"\nDataset not found: {DATA_FILE}. Skipping.")
+        return []
+
+    raw_df = pd.read_csv(DATA_FILE)
+
+    if "row_id" not in raw_df.columns:
+        raw_df = raw_df.reset_index().rename(columns={"index": "row_id"})
+
+    raw_df = raw_df.set_index("row_id").loc[common_rows]
+
+    locations = sorted(raw_df["Loc"].unique())
+
+    logger.print(f"\nLocations found: {locations}")
+
+    records = []
+
+    for loc in locations:
+
+        loc_rows = raw_df.index[raw_df["Loc"] == loc]
+
+        if len(loc_rows) < 2:
+            continue
+
+        logger.print(f"\n--- Loc = {loc} ---")
+
+        # Per-line error at this location, blocked by model
+        for target in TARGET_COLUMNS:
+
+            error = {
+                name: (
+                    predictions[name].loc[loc_rows, f"{target}_true"]
+                    != predictions[name].loc[loc_rows, f"{target}_pred"]
+                ).astype(int).to_numpy()
+                for name in model_names
+            }
+
+            matrix = np.column_stack(
+                [error[name] for name in model_names]
+            )
+
+            omnibus = friedman_test(matrix)
+
+            logger.print(
+                f"  {target}: Friedman chi2 = {omnibus['statistic']:.4f}, "
+                f"df = {omnibus['df']}, p = {omnibus['p_value']:.6f}, "
+                f"Kendall's W = {omnibus['kendalls_w']:.4f}"
+            )
+
+            records.append({
+                "test": "friedman_omnibus", "hypothesis": "H5",
+                "location": loc, "target": target, **omnibus,
+            })
+
+            pairs = list(itertools.combinations(model_names, 2))
+            bonferroni_alpha = ALPHA / len(pairs) if pairs else ALPHA
+
+            for model_a, model_b in pairs:
+
+                result = wilcoxon_paired(
+                    error[model_a], error[model_b], rng
+                )
+
+                significant = result["p_value"] < bonferroni_alpha
+
+                logger.print(
+                    f"    {model_a} vs {model_b}: "
+                    f"p = {result['p_value']:.6f} "
+                    f"({'sig' if significant else 'ns'} @ "
+                    f"Bonferroni alpha={bonferroni_alpha:.5f}), "
+                    f"Hodges-Lehmann = {result['hodges_lehmann']:.4f} "
+                    f"[{result['hl_ci_low']:.4f}, {result['hl_ci_high']:.4f}]"
+                )
+
+                records.append({
+                    "test": "wilcoxon_posthoc", "hypothesis": "H5",
+                    "location": loc, "target": target,
+                    "model_a": model_a, "model_b": model_b,
+                    "bonferroni_alpha": bonferroni_alpha,
+                    "significant": significant,
+                    **result,
+                })
+
+        # Cumulative accuracy across all lines, at this location
+        overall_error = {
+            name: (
+                predictions[name].loc[loc_rows, "overall_true"]
+                != predictions[name].loc[loc_rows, "overall_pred"]
+            ).astype(int).to_numpy()
+            for name in model_names
+        }
+
+        matrix = np.column_stack(
+            [overall_error[name] for name in model_names]
+        )
+
+        omnibus = friedman_test(matrix)
+
+        logger.print(
+            f"  overall: Friedman chi2 = {omnibus['statistic']:.4f}, "
+            f"df = {omnibus['df']}, p = {omnibus['p_value']:.6f}, "
+            f"Kendall's W = {omnibus['kendalls_w']:.4f}"
+        )
+
+        records.append({
+            "test": "friedman_omnibus", "hypothesis": "H5",
+            "location": loc, "target": "overall", **omnibus,
+        })
+
+        pairs = list(itertools.combinations(model_names, 2))
+        bonferroni_alpha = ALPHA / len(pairs) if pairs else ALPHA
+
+        for model_a, model_b in pairs:
+
+            result = wilcoxon_paired(
+                overall_error[model_a], overall_error[model_b], rng
+            )
+
+            significant = result["p_value"] < bonferroni_alpha
+
+            logger.print(
+                f"    {model_a} vs {model_b}: "
+                f"p = {result['p_value']:.6f} "
+                f"({'sig' if significant else 'ns'} @ "
+                f"Bonferroni alpha={bonferroni_alpha:.5f}), "
+                f"Hodges-Lehmann = {result['hodges_lehmann']:.4f} "
+                f"[{result['hl_ci_low']:.4f}, {result['hl_ci_high']:.4f}]"
+            )
+
+            records.append({
+                "test": "wilcoxon_posthoc", "hypothesis": "H5",
+                "location": loc, "target": "overall",
+                "model_a": model_a, "model_b": model_b,
+                "bonferroni_alpha": bonferroni_alpha,
+                "significant": significant,
+                **result,
+            })
+
+    return records
+
+
+# ============================================================
 # MAIN
 # ============================================================
 
@@ -667,7 +859,7 @@ def main():
     try:
 
         logger.print("=" * 70)
-        logger.print("HYPOTHESIS TESTING: H1-H4")
+        logger.print("HYPOTHESIS TESTING: H1-H5")
         logger.print("=" * 70)
         logger.print(f"Timestamp: {timestamp}")
 
@@ -683,11 +875,14 @@ def main():
         else:
 
             logger.print(
-                "\nNo common rows across models. Skipping H1/H2."
+                "\nNo common rows across models. Skipping H1/H2/H5."
             )
 
         all_records += run_h3(logger, rng)
         all_records += run_h4(logger)
+
+        if len(common_rows) > 0:
+            all_records += run_h5(predictions, common_rows, logger, rng)
 
         results_df = pd.DataFrame(all_records)
 

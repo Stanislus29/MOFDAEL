@@ -1,0 +1,61 @@
+======================================================================
+TRANSMISSION LINE FAULT DETECTION
+PHYSICS-INFORMED NEURAL NETWORK
+======================================================================
+Timestamp: 2026-09-09_23-23-58
+Dataset: /home/stanislus/Documents/Mr Fiase/data/classdetectfault_data.csv
+
+Dataset shape: (7861, 11)
+Rows removed: 0
+
+FEATURES:
+  Ia
+  Ib
+  Ic
+  Va
+  Vb
+  Vc
+
+IGNORED METADATA:
+  Loc
+
+TARGETS:
+  G
+  C
+  B
+  A
+
+PHYSICS CONSTRAINT:
+  Kirchhoff current law: Ia + Ib + Ic -> 0
+
+======================================================================
+CLASS DISTRIBUTION
+======================================================================
+
+G:
+  0: 4465 (56.80%)
+  1: 3396 (43.20%)
+
+C:
+  0: 4628 (58.87%)
+  1: 3233 (41.13%)
+
+B:
+  0: 3494 (44.45%)
+  1: 4367 (55.55%)
+
+A:
+  0: 3369 (42.86%)
+  1: 4492 (57.14%)
+
+Training samples: 6288
+Testing samples: 1573
+
+======================================================================
+TRAINING PINN: G
+======================================================================
+Hidden units   : [64, 64, 32]
+Physics weight : 0.1
+Learning rate  : 0.001
+Max epochs     : 100
+Batch size     : 32
