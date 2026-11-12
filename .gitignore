@@ -1,1 +1,12 @@
 AGENTS.md
+
+# --- Private working documents (not for the public repo) ---
+*.docx
+.~lock.*
+mission-statement.txt
+TODO.md
+algorithm.md
+corrections/
+docs/
+evaluation/
+analytics/
