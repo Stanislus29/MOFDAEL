@@ -21,6 +21,7 @@ DATA_DIR = PROJECT_ROOT / "data"
 MODEL_DIR = (
     PROJECT_ROOT
     / "outputs"
+    / "svm"
     / "models"
 )
 
