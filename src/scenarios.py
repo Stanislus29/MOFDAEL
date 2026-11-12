@@ -2,22 +2,22 @@
 Scenario identification and group-aware partitioning (R9).
 
 Unit of analysis (Section 3.8.2): the simulation run. In
-classdetectfault_data.csv each fault run is recorded as one
+classdetectfault_sim.csv each fault run is recorded as one
 consecutive sweep over the eight line locations
 (Loc = 15, 30, ..., 120 km); a new run starts at every Loc == 15
-marker. Verified structure (2026-10-28):
+marker. Verified structure (2026-11-12, regenerated data):
 
   - 5 fault-signature blocks (C+B, B+A, G+A, C+B+A, G+C+B+A),
-    5,496 fault rows in total, arranged as 685 complete 8-row
-    sweeps plus 4 truncated sweeps at block boundaries (689
-    fault scenarios);
+    3,000 fault rows in total, arranged as 375 complete 8-row
+    sweeps (no truncated sweeps — the full factorial sweeps are
+    laid out contiguously);
   - the 2,365 no-fault rows form ONE continuous steady-state
-    recording (adjacent-row lag-1 autocorrelation = 1.0 on every
-    feature, no phase discontinuities, ~6.5 fundamental periods),
-    which is segmented into 296 non-overlapping observation
-    windows of 8 rows (the last window has 5 rows) — the same
-    window size as one fault sweep — so that both classes share
-    the same unit of analysis.
+    recording (adjacent-row lag-1 autocorrelation = 0.951 on the
+    voltages, matching the 1 kHz / 50 Hz sampling grid), which is
+    segmented into 296 non-overlapping observation windows of 8
+    rows (the last window has 5 rows) — the same window size as
+    one fault sweep — so that both classes share the same unit of
+    analysis.
 
 Partitioning (deterministic and shared by every training script,
 so all models are evaluated on the same held-out rows):
@@ -35,7 +35,7 @@ so all models are evaluated on the same held-out rows):
     continuous recording is acknowledged as a limitation.
 
 Scenario ids are stable: they depend only on the row order of
-classdetectfault_data.csv, not on any model or split.
+classdetectfault_sim.csv, not on any model or split.
 """
 
 from __future__ import annotations

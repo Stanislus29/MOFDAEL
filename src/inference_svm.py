@@ -44,7 +44,7 @@ OUTPUT_DIR.mkdir(
 # Input CSV
 # ------------------------------------------------------------
 
-INPUT_FILE = DATA_DIR / "classdetectfault_data.csv"
+INPUT_FILE = DATA_DIR / "classdetectfault_sim.csv"
 
 
 # ------------------------------------------------------------

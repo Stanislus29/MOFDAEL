@@ -1,0 +1,57 @@
+======================================================================
+R9 LEAKAGE AUDIT — SCENARIO-LEVEL SPLIT
+======================================================================
+Timestamp: 2026-11-12_17-25-01
+Dataset: /home/stanislus/Documents/Mr Fiase/data/classdetectfault_sim.csv
+
+----------------------------------------------------------------------
+SCENARIO STRUCTURE (Section 3.8.2)
+----------------------------------------------------------------------
+  n_rows: 5365
+  n_scenarios: 671
+  n_fault_scenarios: 375
+  n_nofault_windows: 296
+  n_fault_rows: 3000
+  n_nofault_rows: 2365
+  scenario_sizes_min: 5
+  scenario_sizes_max: 8
+
+  Fault runs are the 8-row location sweeps (Loc = 15..120 km); the no-fault rows form one continuous steady-state recording, segmented into 8-row observation windows.
+
+======================================================================
+HISTORICAL ROW-LEVEL SPLITS — SCENARIO SPANNING
+======================================================================
+     ann: test rows  1069, scenarios touched  134 / 671, spanning    0 (0.0% of touched scenarios leak rows into training)
+     cnn: test rows  1069, scenarios touched  134 / 671, spanning    0 (0.0% of touched scenarios leak rows into training)
+     dtr: test rows  1069, scenarios touched  134 / 671, spanning    0 (0.0% of touched scenarios leak rows into training)
+     knn: test rows  1069, scenarios touched  134 / 671, spanning    0 (0.0% of touched scenarios leak rows into training)
+    lstm: test rows  1069, scenarios touched  134 / 671, spanning    0 (0.0% of touched scenarios leak rows into training)
+    pinn: test rows  1069, scenarios touched  134 / 671, spanning    0 (0.0% of touched scenarios leak rows into training)
+   relay: test rows  5365, scenarios touched  671 / 671, spanning    0 (0.0% of touched scenarios leak rows into training)
+     rnn: test rows  1069, scenarios touched  134 / 671, spanning    0 (0.0% of touched scenarios leak rows into training)
+     svm: test rows  1069, scenarios touched  134 / 671, spanning    0 (0.0% of touched scenarios leak rows into training)
+
+  A spanning scenario has rows in BOTH partitions: the model trains on 7 locations of a run and is tested on the 8th (and, for the continuous no-fault recording, on adjacent time samples of the same signal). This is the leakage mechanism challenged in R9.
+
+======================================================================
+NEW SHARED SCENARIO-LEVEL SPLIT
+======================================================================
+  n_scenarios: 671
+  n_fault_scenarios: 375
+  n_nofault_windows: 296
+  train_scenarios: 537
+  test_scenarios: 134
+  train_rows: 4296
+  test_rows: 1069
+  train_fault_rows: 2400
+  test_fault_rows: 600
+  train_nofault_rows: 1896
+  test_nofault_rows: 469
+  train_signature_counts: {'0000': 1896, '0110': 480, '0111': 480, '1001': 480, '1011': 480, '1111': 480}
+  test_signature_counts: {'0000': 469, '0110': 120, '0111': 120, '1001': 120, '1011': 120, '1111': 120}
+  spanning_scenarios: 0
+  nofault_test_windows: 59
+  nofault_blocking: contiguous tail of the recording
+
+  Every training script uses this same deterministic split, so all models are evaluated on the same 1069 held-out rows and no scenario spans the boundary.
+

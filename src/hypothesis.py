@@ -17,7 +17,7 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 DATA_DIR = PROJECT_ROOT / "data"
 
-DATA_FILE = DATA_DIR / "classdetectfault_data.csv"
+DATA_FILE = DATA_DIR / "classdetectfault_sim.csv"
 
 OUTPUTS_DIR = PROJECT_ROOT / "outputs"
 
@@ -528,7 +528,8 @@ def run_h1(predictions, common_rows, logger):
             })
 
             logger.print(
-                f"  Holm-adjusted p = {p_adj_map[result['p_value']]:.6f}"
+                f"  {name}: Holm-adjusted p = "
+                f"{p_adj_map[result['p_value']]:.6f}"
             )
 
     return records
@@ -548,6 +549,13 @@ def run_h2(predictions, logger):
         name for name in predictions
         if name in CLASSICAL_MODELS + DEEP_LEARNING_MODELS
     ]
+
+    # ------------------------------------------------------------
+    # Multiplicity control (Section 3.8.3): within each target, the
+    # 16 cross-family pairwise comparisons form one McNemar family.
+    # Holm step-down adjustment is applied across each family; the
+    # omnibus Cochran's Q tests are not part of the family.
+    # ------------------------------------------------------------
 
     records = []
 
@@ -579,6 +587,9 @@ def run_h2(predictions, logger):
             "target": target, **omnibus,
         })
 
+        # Collect raw p-values for the target's pairwise family
+        raw_results = []
+
         for classical, deep in itertools.product(
             CLASSICAL_MODELS, DEEP_LEARNING_MODELS
         ):
@@ -590,16 +601,40 @@ def run_h2(predictions, logger):
                 correctness[deep], correctness[classical]
             )
 
+            raw_results.append((deep, classical, result))
+
+        # Holm step-down across the target's pairwise family
+        m = len(raw_results)
+
+        def holm_adjusted(p_sorted):
+            """Holm step-down adjusted p-values for sorted raw p-values."""
+            adjusted = []
+            running_max = 0.0
+            for i, p in enumerate(p_sorted):
+                # Holm: p_adj(i) = min(1, max_{j<=i} (m - j) * p_(j))
+                val = (m - i) * p
+                running_max = max(running_max, val)
+                adjusted.append(min(1.0, running_max))
+            return adjusted
+
+        p_sorted = sorted(r[2]["p_value"] for r in raw_results)
+        p_adj = holm_adjusted(p_sorted)
+        p_adj_map = dict(zip(p_sorted, p_adj))
+
+        for deep, classical, result in raw_results:
+
             logger.print(
                 f"  {deep} vs {classical}: "
                 f"p = {result['p_value']:.6f} ({result['method']}), "
-                f"diff = {result['accuracy_diff_pct']:.2f}pp"
+                f"diff = {result['accuracy_diff_pct']:.2f}pp, "
+                f"Holm-adj p = {p_adj_map[result['p_value']]:.6f}"
             )
 
             records.append({
                 "test": "mcnemar_cross_family", "hypothesis": "H2",
                 "target": target,
                 "deep_model": deep, "classical_model": classical,
+                "p_value_holm": p_adj_map[result["p_value"]],
                 **result,
             })
 

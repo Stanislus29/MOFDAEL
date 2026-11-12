@@ -39,7 +39,7 @@ DATA_DIR = PROJECT_ROOT / "data"
 OUTPUTS_DIR = PROJECT_ROOT / "outputs"
 OUTPUT_DIR = OUTPUTS_DIR / "leakage_audit"
 
-DATA_FILE = DATA_DIR / "classdetectfault_data.csv"
+DATA_FILE = DATA_DIR / "classdetectfault_sim.csv"
 
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 

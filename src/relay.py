@@ -9,15 +9,37 @@ currents, applies zero-sequence compensation for ground faults, and
 trips when the compensated impedance falls within the Zone 1 reach
 setting.
 
+MEASUREMENT CHAIN: the relay decides on the six standard distance-
+relay loop impedances (three residual-compensated ground loops and
+three phase-phase loops) exported by src/simulate.py in
+outputs/simulate/relay_measurements_sim.csv, aligned row-by-row with
+the dataset. These are steady-state phasor quantities of the fault
+state in effect at each exported sample — the measurement a numerical
+relay forms once its full-cycle data window lies inside the post-
+fault steady state. Raw instantaneous samples are deliberately NOT
+used: |V(t)|/|I(t)| dips below the Zone 1 setting near every voltage
+zero-crossing, which would make the decision an artifact of the
+sampling phase (see docs/simulation_caveats.md item 4).
+
+Ground loop (residual compensation, current-side):
+
+    Z_g,p = |V_p| / |I_p + k0 * 3I0|,
+    k0    = (Z0L - Z1L) / (3 * Z1L)          (complex, per km)
+
+which recovers Z1 * d exactly for a bolted single-line-to-ground
+fault fed from one end. (The earlier voltage-side compensation
+|V + k0*3I0| / |I| over-measures by z_s/z1 ~ 1.8x with
+z_s = (Z0 + 2 Z1)/3 — corrected 2026-11-12.)
+
 All parameters are taken from corrected Table 3.2 (Chapter Three
 §3.3.1):
 
-    X1 = 0.390 Ω/km   positive-sequence reactance
-    X0 = 1.352 Ω/km   zero-sequence reactance
+    Z1 = 0.080 + j0.390 Ω/km   positive-sequence impedance
+    Z0 = 0.228 + j1.352 Ω/km   zero-sequence impedance
     Line length = 120 km
-    Zone 1 reach = 80% of line impedance
+    Zone 1 reach = 80% of |Z1| * line length = 38.22 Ω
 
-Nominal system: 400 kV line-line (phase voltage = 400/sqrt(3) kV).
+Nominal system: 161 kV line-line (phase voltage = 161/sqrt(3) kV).
 
 Outputs (written to outputs/relay/ following the train-script standard):
 
@@ -45,7 +67,14 @@ DATA_DIR = PROJECT_ROOT / "data"
 
 OUTPUT_DIR = PROJECT_ROOT / "outputs" / "relay"
 
-DATA_FILE = DATA_DIR / "classdetectfault_data.csv"
+DATA_FILE = DATA_DIR / "classdetectfault_sim.csv"
+
+# Per-row loop-impedance measurements exported by src/simulate.py
+MEASUREMENTS_FILE = (
+    PROJECT_ROOT / "outputs" / "simulate" / "relay_measurements_sim.csv"
+)
+
+LOOP_COLUMNS = ["z_ga", "z_gb", "z_gc", "z_ab", "z_bc", "z_ca"]
 
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -63,13 +92,19 @@ PREDICTIONS_FILE = OUTPUT_DIR / "predictions_relay.csv"
 # LINE PARAMETERS (corrected Table 3.2)
 # ============================================================
 
-X1_PER_KM = 0.390  # positive-sequence reactance, Ω/km
-X0_PER_KM = 1.352  # zero-sequence reactance, Ω/km
+R1_PER_KM = 0.080   # positive-sequence resistance, Ω/km
+X1_PER_KM = 0.390   # positive-sequence reactance, Ω/km
+R0_PER_KM = 0.228   # zero-sequence resistance, Ω/km
+X0_PER_KM = 1.352   # zero-sequence reactance, Ω/km
+
+Z1_PER_KM = complex(R1_PER_KM, X1_PER_KM)
+Z0_PER_KM = complex(R0_PER_KM, X0_PER_KM)
+
 LINE_LENGTH_KM = 120.0
 ZONE1_REACH_PCT = 0.80  # Zone 1 reach as % of line impedance
 
-# Nominal phase voltage (V): 400 kV line-line / sqrt(3)
-V_NOM_PHASE_V = 400_000.0 / np.sqrt(3.0)
+# Nominal phase voltage (V): 161 kV line-line / sqrt(3)
+V_NOM_PHASE_V = 161_000.0 / np.sqrt(3.0)
 
 TARGET_COLUMNS = ["G", "C", "B", "A"]
 
@@ -99,42 +134,29 @@ class ReportLogger:
 
 
 def zone1_reach_ohms() -> float:
-    """Zone 1 reach in ohms (80% of positive-sequence line impedance)."""
-    z1_line = X1_PER_KM * LINE_LENGTH_KM
+    """Zone 1 reach in ohms (80% of |Z1| positive-sequence line impedance)."""
+    z1_line = abs(Z1_PER_KM) * LINE_LENGTH_KM
     return ZONE1_REACH_PCT * z1_line
 
 
-def compensation_factor() -> float:
+def compensation_factor() -> complex:
     """Zero-sequence compensation factor k0 = (Z0 - Z1) / (3 * Z1)."""
-    return (X0_PER_KM - X1_PER_KM) / (3.0 * X1_PER_KM)
+    return (Z0_PER_KM - Z1_PER_KM) / (3.0 * Z1_PER_KM)
 
 
-def detect_relay(df: pd.DataFrame) -> pd.Series:
+def detect_relay(meas: pd.DataFrame) -> pd.Series:
     """
-    Distance-relay trip decision per row.
+    Distance-relay trip decision per row from the exported loop
+    impedances: trip when the minimum loop impedance across the six
+    loops (3 ground + 3 phase-phase) falls inside the Zone 1 reach.
 
-    Returns a boolean Series indexed like ``df``: True = relay trips
-    (fault detected within Zone 1), False = no trip.
+    Returns a boolean Series indexed like ``meas``.
     """
-    # Scale per-unit voltages to actual volts
-    va_v = df["Va"] * V_NOM_PHASE_V
-    vb_v = df["Vb"] * V_NOM_PHASE_V
-    vc_v = df["Vc"] * V_NOM_PHASE_V
 
-    # Zero-sequence compensation
-    k0 = compensation_factor()
-    sum_i = df["Ia"] + df["Ib"] + df["Ic"]
+    z_min = meas[LOOP_COLUMNS].min(axis=1)
 
-    # Compensated apparent impedance per phase (ohms)
-    z_a = np.abs(va_v + k0 * sum_i) / (np.abs(df["Ia"]) + 1e-6)
-    z_b = np.abs(vb_v + k0 * sum_i) / (np.abs(df["Ib"]) + 1e-6)
-    z_c = np.abs(vc_v + k0 * sum_i) / (np.abs(df["Ic"]) + 1e-6)
-
-    # Minimum impedance across phases = closest fault to relay
-    z_min = np.minimum(z_a, np.minimum(z_b, z_c))
-
-    # Zone 1 trip decision
     reach = zone1_reach_ohms()
+
     return z_min < reach
 
 
@@ -145,24 +167,24 @@ def detect_relay(df: pd.DataFrame) -> pd.Series:
 
 def generate_predictions_csv(
     data_path: str | Path,
+    measurements_path: str | Path,
     output_path: str | Path,
 ) -> pd.DataFrame:
     """
-    Generate predictions_relay.csv from the raw dataset.
-
-    The relay makes a binary fault-detection decision per scenario.
-    Per-target columns mirror the overall decision (a conventional
-    relay detects fault presence; it does not classify fault type the
-    way the learned models do — this is documented in §3.9).
+    Generate predictions_relay.csv from the raw dataset plus the
+    exported loop-impedance measurements.
     """
     data_path = Path(data_path)
+    measurements_path = Path(measurements_path)
     output_path = Path(output_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
     df = pd.read_csv(data_path)
     df = df.reset_index().rename(columns={"index": "row_id"})
 
-    trip = detect_relay(df)
+    meas = pd.read_csv(measurements_path)
+
+    trip = detect_relay(meas)
 
     # Ground truth: fault occurred if any target is active
     fault_true = (df[TARGET_COLUMNS].sum(axis=1) > 0).astype(int)
@@ -207,16 +229,31 @@ def main():
 
         logger.print("LINE PARAMETERS (corrected Table 3.2, §3.3.1)")
         logger.print("-" * 70)
-        logger.print(f"Positive-sequence reactance X1 : {X1_PER_KM:.3f} Ω/km")
-        logger.print(f"Zero-sequence reactance     X0 : {X0_PER_KM:.3f} Ω/km")
+        logger.print(
+            f"Positive-sequence impedance Z1: {R1_PER_KM:.3f} + "
+            f"j{X1_PER_KM:.3f} Ω/km (|Z1| = {abs(Z1_PER_KM):.4f} Ω/km)"
+        )
+        logger.print(
+            f"Zero-sequence impedance  Z0 : {R0_PER_KM:.3f} + "
+            f"j{X0_PER_KM:.3f} Ω/km"
+        )
         logger.print(f"Line length                 : {LINE_LENGTH_KM:.0f} km")
         logger.print(f"Zone 1 reach setting        : {ZONE1_REACH_PCT * 100:.0f}%")
         logger.print(
             f"Zone 1 reach (ohms)         : {zone1_reach_ohms():.2f} Ω"
         )
+        k0 = compensation_factor()
         logger.print(
-            f"Zero-sequence compensation k0: {compensation_factor():.4f}"
+            f"Zero-sequence compensation k0: {k0.real:.4f} + j{k0.imag:.4f}"
         )
+        logger.print(
+            "Measurement                 : |V_phase| / |I_phase + k0*3I0|"
+        )
+        logger.print(
+            "Measurement                 : 6 loop impedances "
+            "(3 ground + 3 phase-phase), steady-state phasors"
+        )
+        logger.print(f"Measurements file           : {MEASUREMENTS_FILE}")
         logger.print(
             f"Nominal phase voltage       : {V_NOM_PHASE_V:.1f} V"
         )
@@ -229,10 +266,19 @@ def main():
         df = pd.read_csv(DATA_FILE)
         df = df.reset_index().rename(columns={"index": "row_id"})
 
+        meas = pd.read_csv(MEASUREMENTS_FILE)
+
+        if len(meas) != len(df):
+            raise RuntimeError(
+                "relay measurements file is not row-aligned with the "
+                f"dataset ({len(meas)} measurements vs {len(df)} rows); "
+                "re-run src/simulate.py"
+            )
+
         logger.print(f"Dataset shape: {df.shape}")
         logger.print("")
 
-        trip = detect_relay(df)
+        trip = detect_relay(meas)
         fault_true = (df[TARGET_COLUMNS].sum(axis=1) > 0).astype(int)
 
         # ----------------------------------------------------

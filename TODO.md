@@ -177,6 +177,108 @@ the LSTM position-prior limitation in the methods/limitations text.
 ### R1 — Re-simulate under corrected line parameters (2–3 weeks incl. re-training)
 **Where:** Outside this Python repo (Simulink/MATLAB model, Table 3.2 in Chapter Three §3.3.1).
 
+**STATUS: SIMULATION + CASCADE RE-RUN COMPLETE (2026-11-12, Phases 1–2).**
+Re-simulation was done in Python (`src/simulate.py`), not Simulink:
+an analytical time-domain simulation of the corrected 161 kV line
+(source behind fault-level impedance, nominal-pi line segments split
+at the fault point, constant-impedance load, symmetrical-component
+fault solve, DC-offset continuity sampling). Outputs:
+
+- `data/classdetectfault_sim.csv` — 5,365 rows (3,000 fault rows =
+  375 eight-row location sweeps + 2,365 no-fault rows);
+- `data/detectfault_sim.csv` — 9,503 rows (same 3,000 fault rows +
+  6,503 no-fault rows);
+- `outputs/simulate/report_2026-11-12_16-09-04.txt` — parameters,
+  declared auxiliary assumptions, and an 8-point verification
+  battery (all PASS; the regeneration is bit-identical across runs,
+  verified by md5).
+
+**Design-space correction (spec arithmetic):** the earlier plan text
+said "5 types × 8 Loc × 5 R_f × 5 angles × 3 loads = 3,000 sweeps =
+24,000 fault rows". That double-counts Loc: Loc is the *within-sweep*
+dimension (8 rows), not a scenario dimension. The full factorial over
+the locked levels is 5 sigs × 5 R_f × 5 angles × 3 loads = **375
+sweeps = 3,000 fault rows** (600 rows per signature). Downstream
+scenario counts: 375 fault scenarios + 296 no-fault windows = 671
+scenarios for the group-aware splits and K = 7 CV. Consequence to
+declare in the chapter: the detection dataset is 31.6% fault rows vs
+45.8% in the original (no-fault stratum mirrored from the original
+size while the fault stratum follows the factorial).
+
+**Verification battery (report section, all PASS):** (1) three-phase
+bolted fault current at the source bus 11.01 kA vs the 10.76 kA
+reference (within 5%); (2) line charging 4.15 MVAr (120 km section)
+and 10.28 MVAr (full 297.4 km route) — the chapter's ~30.9 MVAr
+figure back-solves as (161 kV)²·ωC·L, i.e. 161 kV used as the PHASE
+voltage (a √3 slip) — §3.3.1 text must be corrected when
+transcribing; (3) relay apparent impedance (standard ground loop,
+|V|/|I_a + k0·3I0|) matches z1·d within 0.5 Ω at every location,
+Zone 1 reach 38.22 Ω correctly excludes 105/120 km faults; (4)
+distance signal |I_fault| 4.76 → 0.89 kA and |Va| sag 0.568 → 0.928
+pu across 15 → 120 km; (5) symmetrical-component boundary conditions
+per signature (AG: I0=I1=I2; BC: I0=0, I1=−I2; BCG/ABG: healthy-phase
+fault current = 0; ABCG: I0=I2=0) at ≤1e-11 relative; (6) R_f sweep
+monotone (1,707 → 710 A over 0 → 100 Ω) and load operating points
+(0.931/0.862/0.815 pu load-bus voltage at 40/75/100% load); (7) DC
+offset vs inception angle peaks at the voltage-zero crossings
+(±2,279 A) and vanishes near the voltage peak (−69 A), τ = 18.0 ms,
+exported samples follow A_dc·e^(−t/τ) exactly; (8) prefault complex
+power balance closes to 6.6e-15 (source = source-Z + load + line
+series + charging). Faulted-phase quantities are physically
+consistent (the original data was flat in Loc).
+
+**Phase 2 (cascade, COMPLETE 2026-11-12):** data files switched to
+the `_sim` files in `relay.py`, the 8 training scripts,
+`hypothesis.py`, `scenario_cv.py`, `leakage_audit.py`, `table_4_3.py`
+(and `inference_svm.py`, `diagnose_h5.py`);
+`src/scenarios.py` structure note updated (375 clean sweeps, lag-1
+0.951). Relay fixes applied and re-run: 161 kV, Zone 1 reach
+38.22 Ω, standard current-side residual compensation, and a
+**measurement-chain redesign** — the relay now decides on the six
+loop impedances (3 ground + 3 phase-phase) exported per row by
+`src/simulate.py` (`outputs/simulate/relay_measurements_sim.csv`),
+because raw-sample impedance decisions are invalid on correct
+waveform physics (zero-crossing artifact; see
+`docs/simulation_caveats.md` item 4).
+
+Cascade results (all steps OK, reports 2026-11-12 16:21–17:25):
+
+- Relay baseline (`outputs/relay/report_2026-11-12_16-20-30.txt`):
+  TN 100%, TP 49.2%, overall 0.7158 on all 5,365 rows — secure but
+  incomplete (high-resistance and far faults outside Zone 1).
+- H₁–H₅ (`outputs/hypothesis_tests/report_2026-11-12_17-08-01.txt`):
+  H₁ all 8 models beat the relay by 23.67–24.32 pp on the 1,069
+  common test rows (relay 0.7568 there), McNemar p < 1e-6 all,
+  Cochran's Q = 1906.85 (df 8, p ≈ 0). H₂ per-target Q significant
+  (G 40.04, C 60.13, B 37.68, A 167.49); post-hoc Holm: lstm
+  significantly best on G/C/B (1.5–2.8 pp), lstm and cnn best on A
+  (lstm up to 7.2 pp over rnn, cnn up to 6.27 pp over rnn). H₃ all
+  models report ≈10 ms faster than the relay (HL ≈ −10 ms) except
+  lstm ≈ 188.75 ms slower [178.5, 197.0]. H₄ TOST at 5 pp: lstm
+  equivalent at all noise levels; knn equivalent up to 10% on all
+  targets; most models break at 20%; cnn/A and pinn/A not
+  equivalent even at 5%. H₅ MAE (% of 120 km): lstm 0.456, dtr
+  2.229, knn 5.183, cnn 9.679, ann 13.539, svm 13.614, rnn 15.230,
+  pinn 15.884; Friedman all-locations χ² = 2338.9, W = 0.5569.
+- Table 4.3 (`outputs/table_4_3/report_2026-11-12_17-24-42.txt`):
+  regenerated with bootstrap SDs (2,000, seed 42); withheld-cell
+  replacements regenerated (relay overall 0.7568 ± 0.0130 on the
+  common test rows / 0.7158 ± 0.0063 on all rows; svm 0.9991 ±
+  0.0009; dtr per-target F1s). All screens pass, no withheld cells.
+- combination_accuracy (`..._17-25-01.txt`): lstm 100% on all
+  multi-line combinations; weakest overall = dtr/rnn/knn on
+  quadruple-line faults.
+- leakage_audit (`..._17-25-01.txt`): clean — 0 spanning scenarios
+  for all 9 methods (models touch 134/671 test scenarios).
+- scenario_cv (`..._17-25-03.txt`): K = 7 scenario-grouped CV,
+  descriptive, fixed hyperparameters; detection 0.9914 (rnn) to
+  0.9978 (cnn); exact-match 0.8990 (rnn) to 0.9631 (cnn).
+
+Chapter-writing implications are consolidated in
+`docs/simulation_caveats.md` and the Phase 3 draft in
+`corrections/`.
+
+**Original text (pre-Phase-1):**
 **The bug:** Four parameters wrong, two by orders of magnitude:
 | Parameter | Was | Now | Error |
 |-----------|-----|-----|-------|
@@ -382,7 +484,10 @@ accuracy for 7 models (builders imported from the canonical scripts;
 LSTM excluded with stated reason — its scenario compliance is
 established by the shared partition). **The CV is descriptive with
 fixed hyperparameters, NOT a hyperparameter search** — the chapter
-text must say so.
+text must say so. **All 7 models' folds completed 2026-11-12**
+(report_2026-11-12_11-40-02.txt + cv_results CSV; the earlier runs had
+stopped mid-PINN). PINN: mean detection 0.9944 ± 0.0042, exact-match
+0.8092 ± 0.0214 — in line with the other trained nets.
 
 **Tables 4.8/4.9 (`src/combination_accuracy.py`):** now evaluated on
 the explicit common 1,554-row set; per-cell n printed (no longer
@@ -409,8 +514,15 @@ an artifact of the SVM output-path bug fixed under R2's bonus fix).
 `hypothesis.py` uses Bonferroni for H₅ and no family correction for H₁.
 The corrected Chapter requires Holm everywhere.
 
-**Code changes required:** Unify multiplicity control on Holm across H₁,
-H₂, H₅ pairwise families.
+**STATUS: CODE COMPLETE (2026-11-12).** All families now use Holm
+step-down in `src/hypothesis.py`, each carrying a `p_value_holm` field:
+- H₁: relay-vs-model McNemar family (8 comparisons) — done earlier.
+- H₂: per-target cross-family McNemar families (16 comparisons per
+  target, corrected within each family; omnibus Cochran's Q outside
+  the family) — added 2026-11-12, verified in
+  `outputs/hypothesis_tests/report_2026-11-12_11-50-38.txt`.
+- H₃: relay-vs-model Wilcoxon family (8 comparisons) — done 2026-10-28.
+- H₅: per-location Wilcoxon post-hoc families — done earlier.
 
 ---
 
@@ -457,9 +569,14 @@ wavelets).
 **Where:** `src/evaluator.py` → `evaluate_h4_tost()` / `evaluate_h4()`;
 `src/hypothesis.py` → `tost_paired()` / `run_h4()`; Chapter Four §4.4.4.
 
-**STATUS: CODE COMPLETE (2026-11-06).** Needs one `hypothesis.py` re-run
-to regenerate the H4 section with the new output format (queued behind
-the R9 CV run).
+**STATUS: CODE COMPLETE + RE-RUN COMPLETE (2026-11-12).** The queued
+`hypothesis.py` re-run has been executed:
+`outputs/hypothesis_tests/report_2026-11-12_11-50-38.txt`. The H4 section
+now prints, for all 96 model × target × noise cells, the paired diff +
+90% CI + p_lower + p_upper + p_TOST + verdict at the unified 0.05 margin.
+Results are discriminating: DTR is non-equivalent at every noise level;
+equivalence breaks at 20% noise for ann (C/B/A), cnn (C/B), pinn (C),
+rnn (C/A), svm (C/B); equivalence holds broadly at 5% noise.
 
 **Fixed:**
 1. Zero-variance guard in BOTH implementations: identical trial

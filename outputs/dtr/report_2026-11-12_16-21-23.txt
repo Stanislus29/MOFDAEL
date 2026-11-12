@@ -1,0 +1,281 @@
+======================================================================
+TRANSMISSION LINE FAULT DETECTION
+DECISION TREE CLASSIFIER
+======================================================================
+Timestamp: 2026-11-12_16-21-23
+Dataset: /home/stanislus/Documents/Mr Fiase/data/classdetectfault_sim.csv
+
+Dataset shape: (5365, 11)
+Rows removed: 0
+
+FEATURES:
+  Ia
+  Ib
+  Ic
+  Va
+  Vb
+  Vc
+
+ADDITIONAL TARGET:
+  Loc (fault location, km; regression head, fault rows only)
+
+TARGETS:
+  G
+  C
+  B
+  A
+
+======================================================================
+CLASS DISTRIBUTION
+======================================================================
+
+G:
+  0: 3565 (66.45%)
+  1: 1800 (33.55%)
+
+C:
+  0: 3565 (66.45%)
+  1: 1800 (33.55%)
+
+B:
+  0: 2965 (55.27%)
+  1: 2400 (44.73%)
+
+A:
+  0: 2965 (55.27%)
+  1: 2400 (44.73%)
+
+SCENARIO-LEVEL SPLIT (Section 3.8.2, R9):
+  scenarios total          : 671 (375 fault runs, 296 no-fault windows)
+  train scenarios          : 537 (4296 rows)
+  test scenarios           : 134 (1069 rows)
+  train fault/no-fault rows: 2400 / 1896
+  test fault/no-fault rows : 600 / 469
+  scenarios spanning both  : 0 (0 by construction)
+  no-fault windows are blocked contiguously (tail of the recording -> test); fault runs are partitioned with stratified group selection.
+
+Training samples: 4296
+Testing samples: 1069
+
+======================================================================
+TRAINING DECISION TREE: G
+======================================================================
+Criterion       : gini
+Max depth       : 10
+Min samples split: 2
+Min samples leaf : 1
+
+Training time: 0.035363 s
+Training log loss: 0.03305272
+Tree depth: 10
+Leaf count: 46
+
+--- G RESULTS ---
+Accuracy : 0.982226
+Precision: 1.000000
+Recall   : 0.947222
+F1 Score : 0.972896
+
+Confusion Matrix:
+[[709   0]
+ [ 19 341]]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.97      1.00      0.99       709
+           1       1.00      0.95      0.97       360
+
+    accuracy                           0.98      1069
+   macro avg       0.99      0.97      0.98      1069
+weighted avg       0.98      0.98      0.98      1069
+
+Total inference latency: 758.777899 ms
+
+Robustness sweep:
+  noise 1.0%: accuracy 0.9383 (+/- 0.0044), f1 0.9117 (+/- 0.0058)
+  noise 5.0%: accuracy 0.9053 (+/- 0.0070), f1 0.8696 (+/- 0.0086)
+  noise 10.0%: accuracy 0.8690 (+/- 0.0053), f1 0.8269 (+/- 0.0057)
+  noise 20.0%: accuracy 0.7978 (+/- 0.0081), f1 0.7520 (+/- 0.0085)
+
+======================================================================
+TRAINING DECISION TREE: C
+======================================================================
+Criterion       : gini
+Max depth       : 10
+Min samples split: 2
+Min samples leaf : 1
+
+Training time: 0.012527 s
+Training log loss: 0.03272580
+Tree depth: 10
+Leaf count: 71
+
+--- C RESULTS ---
+Accuracy : 0.971936
+Precision: 0.963483
+Recall   : 0.952778
+F1 Score : 0.958101
+
+Confusion Matrix:
+[[696  13]
+ [ 17 343]]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.98      0.98      0.98       709
+           1       0.96      0.95      0.96       360
+
+    accuracy                           0.97      1069
+   macro avg       0.97      0.97      0.97      1069
+weighted avg       0.97      0.97      0.97      1069
+
+Total inference latency: 741.999331 ms
+
+Robustness sweep:
+  noise 1.0%: accuracy 0.9519 (+/- 0.0038), f1 0.9304 (+/- 0.0051)
+  noise 5.0%: accuracy 0.9080 (+/- 0.0074), f1 0.8744 (+/- 0.0091)
+  noise 10.0%: accuracy 0.8587 (+/- 0.0088), f1 0.8181 (+/- 0.0093)
+  noise 20.0%: accuracy 0.7775 (+/- 0.0127), f1 0.7377 (+/- 0.0115)
+
+======================================================================
+TRAINING DECISION TREE: B
+======================================================================
+Criterion       : gini
+Max depth       : 10
+Min samples split: 2
+Min samples leaf : 1
+
+Training time: 0.011781 s
+Training log loss: 0.04907540
+Tree depth: 10
+Leaf count: 48
+
+--- B RESULTS ---
+Accuracy : 0.980355
+Precision: 0.989339
+Recall   : 0.966667
+F1 Score : 0.977871
+
+Confusion Matrix:
+[[584   5]
+ [ 16 464]]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.97      0.99      0.98       589
+           1       0.99      0.97      0.98       480
+
+    accuracy                           0.98      1069
+   macro avg       0.98      0.98      0.98      1069
+weighted avg       0.98      0.98      0.98      1069
+
+Total inference latency: 750.166794 ms
+
+Robustness sweep:
+  noise 1.0%: accuracy 0.9255 (+/- 0.0032), f1 0.9208 (+/- 0.0033)
+  noise 5.0%: accuracy 0.8807 (+/- 0.0062), f1 0.8790 (+/- 0.0058)
+  noise 10.0%: accuracy 0.8341 (+/- 0.0088), f1 0.8388 (+/- 0.0077)
+  noise 20.0%: accuracy 0.7517 (+/- 0.0124), f1 0.7737 (+/- 0.0095)
+
+======================================================================
+TRAINING DECISION TREE: A
+======================================================================
+Criterion       : gini
+Max depth       : 10
+Min samples split: 2
+Min samples leaf : 1
+
+Training time: 0.012511 s
+Training log loss: 0.07198585
+Tree depth: 10
+Leaf count: 98
+
+--- A RESULTS ---
+Accuracy : 0.956034
+Precision: 0.973742
+Recall   : 0.927083
+F1 Score : 0.949840
+
+Confusion Matrix:
+[[577  12]
+ [ 35 445]]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.94      0.98      0.96       589
+           1       0.97      0.93      0.95       480
+
+    accuracy                           0.96      1069
+   macro avg       0.96      0.95      0.96      1069
+weighted avg       0.96      0.96      0.96      1069
+
+Total inference latency: 746.761504 ms
+
+Robustness sweep:
+  noise 1.0%: accuracy 0.8726 (+/- 0.0082), f1 0.8662 (+/- 0.0080)
+  noise 5.0%: accuracy 0.7756 (+/- 0.0075), f1 0.7832 (+/- 0.0070)
+  noise 10.0%: accuracy 0.7085 (+/- 0.0116), f1 0.7317 (+/- 0.0100)
+  noise 20.0%: accuracy 0.6237 (+/- 0.0084), f1 0.6759 (+/- 0.0069)
+
+Overall fault-occurred accuracy: 0.997194
+
+======================================================================
+TRAINING DECISION TREE: Loc
+======================================================================
+Estimator : DecisionTreeRegressor
+Criterion : squared_error (defaults; unbounded depth, min_samples_leaf=1)
+
+Training time: 0.010908 s
+Training fault rows: 2400
+Test fault rows: 600
+MAE : 2.6750 km (2.2292% of 120 km line)
+RMSE: 12.3845 km
+
+MAE by true location (km):
+   15 km: 3.4000
+   30 km: 3.4000
+   45 km: 4.8000
+   60 km: 1.6000
+   75 km: 2.4000
+   90 km: 1.6000
+  105 km: 1.6000
+  120 km: 2.6000
+
+Models saved to:
+  /home/stanislus/Documents/Mr Fiase/outputs/dtr/models/dtr_model_2026-11-12_16-21-23.joblib
+
+======================================================================
+OVERALL RESULTS
+======================================================================
+Mean Accuracy : 0.972638
+Mean Precision: 0.981641
+Mean F1       : 0.964677
+Mean Latency  : 0.701054 ms
+Mean Robustness: 0.922077
+
+======================================================================
+OUTPUT FILES
+======================================================================
+Report:
+  /home/stanislus/Documents/Mr Fiase/outputs/dtr/report_2026-11-12_16-21-23.txt
+
+Metrics:
+  /home/stanislus/Documents/Mr Fiase/outputs/dtr/metrics.csv
+
+Loss:
+  /home/stanislus/Documents/Mr Fiase/outputs/dtr/loss_history.csv
+
+Scenario predictions:
+  /home/stanislus/Documents/Mr Fiase/outputs/dtr/predictions_dtr.csv
+
+Per-row latency:
+  /home/stanislus/Documents/Mr Fiase/outputs/dtr/latency_per_row_dtr.csv
+
+Robustness sweep:
+  /home/stanislus/Documents/Mr Fiase/outputs/dtr/robustness_dtr.csv
+
+TRAINING COMPLETE

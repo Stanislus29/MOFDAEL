@@ -38,7 +38,7 @@ DATA_DIR = PROJECT_ROOT / "data"
 
 OUTPUT_DIR = PROJECT_ROOT / "outputs" / "ann"
 
-DATA_FILE = DATA_DIR / "classdetectfault_data.csv"
+DATA_FILE = DATA_DIR / "classdetectfault_sim.csv"
 
 OUTPUT_DIR.mkdir(
     parents=True,

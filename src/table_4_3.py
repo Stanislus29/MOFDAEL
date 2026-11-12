@@ -58,9 +58,9 @@ DATA_DIR = PROJECT_ROOT / "data"
 
 OUTPUT_DIR = PROJECT_ROOT / "outputs" / "table_4_3"
 
-DATA_FILE = DATA_DIR / "classdetectfault_data.csv"
+DATA_FILE = DATA_DIR / "classdetectfault_sim.csv"
 
-DETECTFAULT_FILE = DATA_DIR / "detectfault_data.csv"
+DETECTFAULT_FILE = DATA_DIR / "detectfault_sim.csv"
 
 OUTPUTS_DIR = PROJECT_ROOT / "outputs"
 
@@ -771,7 +771,7 @@ def main():
         )
 
         logger.print(
-            f"  classdetectfault_data.csv rows: {len(raw)} "
+            f"  classdetectfault_sim.csv rows: {len(raw)} "
             f"(narrative: {NARRATIVE_TOTAL_SCENARIOS} scenarios / "
             f"{NARRATIVE_TOTAL_ROWS} total rows)"
         )
@@ -791,7 +791,7 @@ def main():
             fault_rows = int((detect["Loc"] > 0).sum())
 
             logger.print(
-                f"  detectfault_data.csv rows: {len(detect)} "
+                f"  detectfault_sim.csv rows: {len(detect)} "
                 f"({len(detect) + 1} lines including header); "
                 f"Loc column present: "
                 f"{'yes' if 'Loc' in detect.columns else 'no'}; "
@@ -827,22 +827,35 @@ def main():
 
             return sel["accuracy"].iloc[0]
 
+        def overall_n(model):
+
+            sel = table[
+                (table["model"] == model)
+                & (table["target"] == "overall")
+            ]
+
+            return int(sel["n"].iloc[0])
+
+        relay_common_n = overall_n("relay")
+        relay_all_n = overall_n("relay (all rows)")
+        svm_n = overall_n("svm")
+
         logger.print(
             "  1. Relay accuracy 0.0589 (incompatible with its own"
         )
         logger.print(
             "     precision/F1) -> regenerated: "
             f"{overall_cell('relay')} on the common test rows "
-            f"(n = 339, comparable with the hypothesis tests) and "
-            f"{overall_cell('relay (all rows)')} on all 7,861 "
-            "dataset rows."
+            f"(n = {relay_common_n}, comparable with the hypothesis "
+            f"tests) and {overall_cell('relay (all rows)')} on all "
+            f"{relay_all_n} dataset rows."
         )
         logger.print(
             "  2. SVM accuracy 0.09671 (incompatible with its own"
         )
         logger.print(
             "     precision/F1) -> regenerated: "
-            f"{overall_cell('svm')} (own test split, n = 1,573)."
+            f"{overall_cell('svm')} (own test split, n = {svm_n})."
         )
         logger.print(
             "  3. Decision Tree F1 recorded without a decimal"
