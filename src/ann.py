@@ -14,7 +14,7 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader, TensorDataset
 
-from sklearn.model_selection import train_test_split
+from scenarios import group_partition, log_split_info
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import (
     accuracy_score,
@@ -24,6 +24,8 @@ from sklearn.metrics import (
     confusion_matrix,
     classification_report,
     log_loss,
+    mean_absolute_error,
+    mean_squared_error,
 )
 
 # ============================================================
@@ -122,6 +124,12 @@ ANN_DROPOUT = 0.1
 LEARNING_RATE = 0.001
 BATCH_SIZE = 64
 EPOCHS = 30
+
+# Fault-location percentage-error denominator. Percentage errors
+# are reported as a fraction of the full protected line length,
+# stated explicitly here and in every output. Regression targets
+# are scaled to [0, 1] by this constant before training.
+LINE_LENGTH_KM = 120.0
 
 ROBUSTNESS_NOISE_LEVELS = [0.01, 0.05, 0.1, 0.2]
 ROBUSTNESS_TRIALS = 10
@@ -273,6 +281,65 @@ class ANNClassifierWrapper:
         return (probs >= 0.5).astype(int)
 
 
+class ANNRegressorWrapper(ANNClassifierWrapper):
+    """Regression variant of the classifier wrapper, used as the
+    fault-location head. Same architecture and preprocessing; the
+    linear network output is used directly and trained with MSE
+    on the scaled target (km / LINE_LENGTH_KM)."""
+
+    def fit(self, X: pd.DataFrame, y: pd.Series) -> list[float]:
+        X_scaled = self.scaler.fit_transform(X)
+
+        X_tensor = torch.tensor(X_scaled, dtype=torch.float32)
+        y_tensor = torch.tensor(
+            y.to_numpy(dtype=np.float64) / LINE_LENGTH_KM,
+            dtype=torch.float32,
+        ).unsqueeze(1)
+
+        dataset = TensorDataset(X_tensor, y_tensor)
+        loader = DataLoader(
+            dataset,
+            batch_size=self.batch_size,
+            shuffle=True
+        )
+
+        criterion = nn.MSELoss()
+        optimizer = optim.Adam(self.model.parameters(), lr=self.lr)
+
+        self.model.train()
+        loss_history = []
+
+        for epoch in range(self.epochs):
+            epoch_loss = 0.0
+            for batch_x, batch_y in loader:
+                batch_x = batch_x.to(self.device)
+                batch_y = batch_y.to(self.device)
+
+                optimizer.zero_grad()
+                outputs = self.model(batch_x)
+                loss = criterion(outputs, batch_y)
+                loss.backward()
+                optimizer.step()
+
+                epoch_loss += loss.item() * batch_x.size(0)
+
+            total_epoch_loss = epoch_loss / len(dataset)
+            loss_history.append(total_epoch_loss)
+
+        return loss_history
+
+    def predict(self, X: pd.DataFrame | np.ndarray) -> np.ndarray:
+        self.model.eval()
+        X_tensor = self._prepare_tensor(X).to(self.device)
+
+        with torch.no_grad():
+            output = self.model(X_tensor).cpu().numpy().flatten()
+
+        # Undo the scaling: network output is a fraction of the
+        # line length; report in km.
+        return output * LINE_LENGTH_KM
+
+
 # ============================================================
 # LOG LOSS
 # ============================================================
@@ -317,6 +384,46 @@ def train_fault_model(X_train, y_train, target, logger):
 
     logger.print(f"\nTraining time: {training_time:.6f} s")
     logger.print(f"Final training log loss: {final_loss:.8f}")
+
+    return model, training_time, final_loss, epoch_losses
+
+
+def train_location_model(X_train, y_train, logger):
+    """Train the fault-location regression head (fault rows only)."""
+
+    logger.print("")
+    logger.print("=" * 70)
+    logger.print("TRAINING ANN: Loc")
+    logger.print("=" * 70)
+
+    logger.print(f"Architecture: {ANN_HIDDEN_LAYERS}")
+    logger.print("Output      : linear (location, km)")
+    logger.print("Loss        : MSELoss (target scaled by line length)")
+    logger.print(f"Epochs      : {EPOCHS}")
+    logger.print(f"Batch Size  : {BATCH_SIZE}")
+    logger.print(f"Device      : {DEVICE}")
+
+    model = ANNRegressorWrapper(
+        input_size=X_train.shape[1],
+        hidden_layers=ANN_HIDDEN_LAYERS,
+        dropout=ANN_DROPOUT,
+        lr=LEARNING_RATE,
+        epochs=EPOCHS,
+        batch_size=BATCH_SIZE,
+        device=DEVICE
+    )
+
+    start = time.perf_counter()
+    epoch_losses = model.fit(X_train, y_train)
+    end = time.perf_counter()
+
+    training_time = end - start
+    final_loss = epoch_losses[-1]
+
+    logger.print(f"\nTraining time: {training_time:.6f} s")
+    logger.print(
+        f"Final training MSE (scaled target): {final_loss:.8f}"
+    )
 
     return model, training_time, final_loss, epoch_losses
 
@@ -531,7 +638,11 @@ def main():
         for feature in FEATURE_COLUMNS:
             logger.print(f"  {feature}")
 
-        logger.print("\nIGNORED METADATA:\n  Loc")
+        logger.print(
+            "\nADDITIONAL TARGET:\n"
+            "  Loc (fault location, km; regression head,"
+            " fault rows only)"
+        )
 
         logger.print("\nTARGETS:")
         for target in TARGET_COLUMNS:
@@ -558,15 +669,18 @@ def main():
         # TRAIN / TEST SPLIT
         # ----------------------------------------------------
 
-        X_train, X_test, y_train, y_test = train_test_split(
-            X,
-            y,
+        train_pos, test_pos, split_info = group_partition(
+            df,
             test_size=TEST_SIZE,
             random_state=RANDOM_STATE,
-            shuffle=True
         )
 
+        X_train, X_test = X.iloc[train_pos], X.iloc[test_pos]
+        y_train, y_test = y.iloc[train_pos], y.iloc[test_pos]
+
         test_row_id = pd.Series(X_test.index, name="row_id").reset_index(drop=True)
+
+        log_split_info(logger, split_info)
 
         logger.print("")
         logger.print(f"Training samples: {len(X_train)}")
@@ -708,6 +822,112 @@ def main():
         logger.print(
             f"Overall fault-occurred accuracy: {overall_accuracy:.6f}"
         )
+
+        # ----------------------------------------------------
+        # FAULT LOCATION (REGRESSION HEAD, FAULT ROWS ONLY)
+        # ----------------------------------------------------
+        # Fifth task of this script: a regressor of the same
+        # architecture trained on fault rows only (Loc > 0).
+        # No-fault rows have no fault location to estimate, so
+        # their Loc_pred is left empty. The head is trained on the
+        # fault rows OUTSIDE the whole test split and evaluated on
+        # the fault rows OF the test split, so its output rows
+        # align row-for-row with the per-line predictions above.
+        # Errors feed H5 in src/hypothesis.py, reported in km and
+        # as a percentage of the protected line length
+        # (LINE_LENGTH_KM, stated explicitly).
+
+        fault_mask = (
+            df[TARGET_COLUMNS].sum(axis=1) > 0
+        ) & (df["Loc"] > 0)
+
+        fault_idx_all = df.index[fault_mask]
+
+        loc_test_idx = X_test.index.intersection(
+            fault_idx_all
+        )
+        loc_train_idx = fault_idx_all.difference(
+            X_test.index
+        )
+
+        location_model, location_training_time, \
+            location_final_loss, location_epoch_losses = \
+            train_location_model(
+                X.loc[loc_train_idx],
+                df.loc[loc_train_idx, "Loc"],
+                logger
+            )
+
+        models["Loc"] = location_model
+
+        loc_pred = location_model.predict(
+            X.loc[loc_test_idx]
+        )
+        loc_true = df.loc[loc_test_idx, "Loc"].to_numpy()
+        loc_error = np.abs(loc_pred - loc_true)
+
+        mae_km = float(mean_absolute_error(loc_true, loc_pred))
+        rmse_km = float(
+            np.sqrt(mean_squared_error(loc_true, loc_pred))
+        )
+        mae_pct = mae_km / LINE_LENGTH_KM * 100
+
+        logger.print(
+            f"Test fault rows: {len(loc_test_idx)}"
+        )
+        logger.print(
+            f"MAE : {mae_km:.4f} km "
+            f"({mae_pct:.4f}% of {LINE_LENGTH_KM:.0f} km line)"
+        )
+        logger.print(
+            f"RMSE: {rmse_km:.4f} km"
+        )
+
+        per_location_mae = (
+            pd.DataFrame({
+                "Loc": loc_true,
+                "error": loc_error,
+            })
+            .groupby("Loc")["error"]
+            .mean()
+        )
+
+        logger.print("\nMAE by true location (km):")
+
+        for location_value, error_mean in per_location_mae.items():
+            logger.print(
+                f"  {int(location_value):>3} km: {error_mean:.4f}"
+            )
+
+        metrics.append({
+            "timestamp": timestamp,
+            "target": "Loc",
+            "architecture": str(ANN_HIDDEN_LAYERS),
+            "epochs": EPOCHS,
+            "mae_km": mae_km,
+            "mae_pct_line": mae_pct,
+            "rmse_km": rmse_km,
+            "training_time_seconds": location_training_time,
+            "log_loss": location_final_loss,
+        })
+
+        # Export-aligned columns. Rows follow X_test.index order,
+        # matching the per-line prediction columns; values are
+        # empty (NaN) on no-fault test rows.
+        test_fault_mask = fault_mask.loc[X_test.index]
+
+        loc_true_test = df.loc[X_test.index, "Loc"].where(
+            test_fault_mask
+        )
+
+        loc_pred_test = pd.Series(
+            np.nan,
+            index=X_test.index
+        )
+        loc_pred_test.loc[loc_test_idx] = loc_pred
+
+        predictions_wide["Loc_true"] = loc_true_test.to_numpy()
+        predictions_wide["Loc_pred"] = loc_pred_test.to_numpy()
 
         # ----------------------------------------------------
         # SAVE ROW-LEVEL PREDICTIONS AND ROBUSTNESS SWEEP

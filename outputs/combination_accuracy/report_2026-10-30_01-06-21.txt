@@ -1,0 +1,257 @@
+======================================================================
+PER-COMBINATION ACCURACY (single- through quadruple-line)
+======================================================================
+Timestamp: 2026-10-30_01-06-21
+
+Prediction files found: 9
+Common test rows across all models: 1554
+  (all training scripts share the scenario-level split; the relay is restricted to the same rows)
+
+======================================================================
+MODEL: ann
+======================================================================
+
+single-line faults (n=0): no test examples
+  G            n=     0  no test examples
+  C            n=     0  no test examples
+  B            n=     0  no test examples
+  A            n=     0  no test examples
+
+double-line faults (n=424): accuracy = 0.974057
+  G+C          n=     0  no test examples
+  G+B          n=     0  no test examples
+  G+A          n=   224  accuracy = 0.973214
+  C+B          n=   200  accuracy = 0.975000
+  C+A          n=     0  no test examples
+  B+A          n=     0  no test examples
+
+triple-line faults (n=440): accuracy = 0.677273
+  G+C+B        n=     0  no test examples
+  G+C+A        n=     0  no test examples
+  G+B+A        n=   224  accuracy = 0.991071
+  C+B+A        n=   216  accuracy = 0.351852
+
+quadruple-line faults (n=221): accuracy = 0.226244
+  G+C+B+A      n=   221  accuracy = 0.226244
+
+======================================================================
+MODEL: cnn
+======================================================================
+
+single-line faults (n=0): no test examples
+  G            n=     0  no test examples
+  C            n=     0  no test examples
+  B            n=     0  no test examples
+  A            n=     0  no test examples
+
+double-line faults (n=424): accuracy = 0.983491
+  G+C          n=     0  no test examples
+  G+B          n=     0  no test examples
+  G+A          n=   224  accuracy = 1.000000
+  C+B          n=   200  accuracy = 0.965000
+  C+A          n=     0  no test examples
+  B+A          n=     0  no test examples
+
+triple-line faults (n=440): accuracy = 0.536364
+  G+C+B        n=     0  no test examples
+  G+C+A        n=     0  no test examples
+  G+B+A        n=   224  accuracy = 0.982143
+  C+B+A        n=   216  accuracy = 0.074074
+
+quadruple-line faults (n=221): accuracy = 0.787330
+  G+C+B+A      n=   221  accuracy = 0.787330
+
+======================================================================
+MODEL: dtr
+======================================================================
+
+single-line faults (n=0): no test examples
+  G            n=     0  no test examples
+  C            n=     0  no test examples
+  B            n=     0  no test examples
+  A            n=     0  no test examples
+
+double-line faults (n=424): accuracy = 0.988208
+  G+C          n=     0  no test examples
+  G+B          n=     0  no test examples
+  G+A          n=   224  accuracy = 1.000000
+  C+B          n=   200  accuracy = 0.975000
+  C+A          n=     0  no test examples
+  B+A          n=     0  no test examples
+
+triple-line faults (n=440): accuracy = 0.570455
+  G+C+B        n=     0  no test examples
+  G+C+A        n=     0  no test examples
+  G+B+A        n=   224  accuracy = 0.977679
+  C+B+A        n=   216  accuracy = 0.148148
+
+quadruple-line faults (n=221): accuracy = 0.542986
+  G+C+B+A      n=   221  accuracy = 0.542986
+
+======================================================================
+MODEL: knn
+======================================================================
+
+single-line faults (n=0): no test examples
+  G            n=     0  no test examples
+  C            n=     0  no test examples
+  B            n=     0  no test examples
+  A            n=     0  no test examples
+
+double-line faults (n=424): accuracy = 0.997642
+  G+C          n=     0  no test examples
+  G+B          n=     0  no test examples
+  G+A          n=   224  accuracy = 1.000000
+  C+B          n=   200  accuracy = 0.995000
+  C+A          n=     0  no test examples
+  B+A          n=     0  no test examples
+
+triple-line faults (n=440): accuracy = 0.729545
+  G+C+B        n=     0  no test examples
+  G+C+A        n=     0  no test examples
+  G+B+A        n=   224  accuracy = 0.986607
+  C+B+A        n=   216  accuracy = 0.462963
+
+quadruple-line faults (n=221): accuracy = 0.511312
+  G+C+B+A      n=   221  accuracy = 0.511312
+
+======================================================================
+MODEL: lstm
+======================================================================
+
+single-line faults (n=0): no test examples
+  G            n=     0  no test examples
+  C            n=     0  no test examples
+  B            n=     0  no test examples
+  A            n=     0  no test examples
+
+double-line faults (n=424): accuracy = 0.941038
+  G+C          n=     0  no test examples
+  G+B          n=     0  no test examples
+  G+A          n=   224  accuracy = 0.888393
+  C+B          n=   200  accuracy = 1.000000
+  C+A          n=     0  no test examples
+  B+A          n=     0  no test examples
+
+triple-line faults (n=440): accuracy = 0.531818
+  G+C+B        n=     0  no test examples
+  G+C+A        n=     0  no test examples
+  G+B+A        n=   224  accuracy = 1.000000
+  C+B+A        n=   216  accuracy = 0.046296
+
+quadruple-line faults (n=221): accuracy = 0.814480
+  G+C+B+A      n=   221  accuracy = 0.814480
+
+======================================================================
+MODEL: pinn
+======================================================================
+
+single-line faults (n=0): no test examples
+  G            n=     0  no test examples
+  C            n=     0  no test examples
+  B            n=     0  no test examples
+  A            n=     0  no test examples
+
+double-line faults (n=424): accuracy = 0.964623
+  G+C          n=     0  no test examples
+  G+B          n=     0  no test examples
+  G+A          n=   224  accuracy = 0.964286
+  C+B          n=   200  accuracy = 0.965000
+  C+A          n=     0  no test examples
+  B+A          n=     0  no test examples
+
+triple-line faults (n=440): accuracy = 0.734091
+  G+C+B        n=     0  no test examples
+  G+C+A        n=     0  no test examples
+  G+B+A        n=   224  accuracy = 0.968750
+  C+B+A        n=   216  accuracy = 0.490741
+
+quadruple-line faults (n=221): accuracy = 0.303167
+  G+C+B+A      n=   221  accuracy = 0.303167
+
+======================================================================
+MODEL: relay
+======================================================================
+
+single-line faults (n=0): no test examples
+  G            n=     0  no test examples
+  C            n=     0  no test examples
+  B            n=     0  no test examples
+  A            n=     0  no test examples
+
+double-line faults (n=424): accuracy = 0.000000
+  G+C          n=     0  no test examples
+  G+B          n=     0  no test examples
+  G+A          n=   224  accuracy = 0.000000
+  C+B          n=   200  accuracy = 0.000000
+  C+A          n=     0  no test examples
+  B+A          n=     0  no test examples
+
+triple-line faults (n=440): accuracy = 0.000000
+  G+C+B        n=     0  no test examples
+  G+C+A        n=     0  no test examples
+  G+B+A        n=   224  accuracy = 0.000000
+  C+B+A        n=   216  accuracy = 0.000000
+
+quadruple-line faults (n=221): accuracy = 0.904977
+  G+C+B+A      n=   221  accuracy = 0.904977
+
+======================================================================
+MODEL: rnn
+======================================================================
+
+single-line faults (n=0): no test examples
+  G            n=     0  no test examples
+  C            n=     0  no test examples
+  B            n=     0  no test examples
+  A            n=     0  no test examples
+
+double-line faults (n=424): accuracy = 0.966981
+  G+C          n=     0  no test examples
+  G+B          n=     0  no test examples
+  G+A          n=   224  accuracy = 0.977679
+  C+B          n=   200  accuracy = 0.955000
+  C+A          n=     0  no test examples
+  B+A          n=     0  no test examples
+
+triple-line faults (n=440): accuracy = 0.722727
+  G+C+B        n=     0  no test examples
+  G+C+A        n=     0  no test examples
+  G+B+A        n=   224  accuracy = 0.946429
+  C+B+A        n=   216  accuracy = 0.490741
+
+quadruple-line faults (n=221): accuracy = 0.262443
+  G+C+B+A      n=   221  accuracy = 0.262443
+
+======================================================================
+MODEL: svm
+======================================================================
+
+single-line faults (n=0): no test examples
+  G            n=     0  no test examples
+  C            n=     0  no test examples
+  B            n=     0  no test examples
+  A            n=     0  no test examples
+
+double-line faults (n=424): accuracy = 0.948113
+  G+C          n=     0  no test examples
+  G+B          n=     0  no test examples
+  G+A          n=   224  accuracy = 0.937500
+  C+B          n=   200  accuracy = 0.960000
+  C+A          n=     0  no test examples
+  B+A          n=     0  no test examples
+
+triple-line faults (n=440): accuracy = 0.545455
+  G+C+B        n=     0  no test examples
+  G+C+A        n=     0  no test examples
+  G+B+A        n=   224  accuracy = 1.000000
+  C+B+A        n=   216  accuracy = 0.074074
+
+quadruple-line faults (n=221): accuracy = 0.714932
+  G+C+B+A      n=   221  accuracy = 0.714932
+
+======================================================================
+OUTPUT FILES
+======================================================================
+Report:  /home/stanislus/Documents/Mr Fiase/outputs/combination_accuracy/report_2026-10-30_01-06-21.txt
+Results: /home/stanislus/Documents/Mr Fiase/outputs/combination_accuracy/results_2026-10-30_01-06-21.csv

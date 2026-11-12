@@ -185,16 +185,58 @@ def main():
 
         logger.print(f"\nPrediction files found: {len(files)}")
 
-        all_records = []
+        # ----------------------------------------------------
+        # COMMON TEST ROWS (R9)
+        # ----------------------------------------------------
+        # All training scripts share the same scenario-level
+        # split (src/scenarios.py), so the learned models'
+        # test rows coincide; the relay is evaluated on the
+        # same common rows for comparability. This replaces
+        # the unexplained "n = 2,235 common scenarios" of the
+        # original Tables 4.8/4.9 with an explicit,
+        # reproducible common set.
+
+        frames = {}
 
         for path in files:
 
             model_name = path.stem.replace("predictions_", "")
 
-            df = pd.read_csv(path)
+            frames[model_name] = pd.read_csv(path)
+
+        common_ids = None
+
+        for df in frames.values():
+
+            ids = set(df["row_id"])
+
+            common_ids = ids if common_ids is None else (
+                common_ids & ids
+            )
+
+        common_ids = sorted(common_ids)
+
+        logger.print(
+            f"Common test rows across all models: "
+            f"{len(common_ids)}"
+        )
+        logger.print(
+            "  (all training scripts share the scenario-level "
+            "split; the relay is restricted to the same rows)"
+        )
+
+        all_records = []
+
+        for model_name, df in frames.items():
+
+            df_common = (
+                df.set_index("row_id")
+                .loc[common_ids]
+                .reset_index()
+            )
 
             all_records += compute_combination_accuracy(
-                df, model_name, logger
+                df_common, model_name, logger
             )
 
         results_df = pd.DataFrame(all_records)

@@ -9,7 +9,7 @@ import joblib
 import numpy as np
 import pandas as pd
 
-from sklearn.model_selection import train_test_split
+from scenarios import group_partition, log_split_info
 from sklearn.preprocessing import StandardScaler
 from sklearn.utils.class_weight import compute_class_weight
 
@@ -21,6 +21,8 @@ from sklearn.metrics import (
     confusion_matrix,
     classification_report,
     log_loss,
+    mean_absolute_error,
+    mean_squared_error,
 )
 
 import tensorflow as tf
@@ -144,6 +146,12 @@ PINN_EARLY_STOPPING_PATIENCE = 10
 
 # Weight of the physics residual term relative to the data loss.
 PINN_PHYSICS_WEIGHT = 0.1
+
+# Fault-location percentage-error denominator. Percentage errors
+# are reported as a fraction of the full protected line length,
+# stated explicitly here and in every output. Regression targets
+# are scaled to [0, 1] by this constant before training.
+LINE_LENGTH_KM = 120.0
 
 ROBUSTNESS_NOISE_LEVELS = [0.01, 0.05, 0.1, 0.2]
 
@@ -281,6 +289,63 @@ def make_predict_fn(model, scaler):
         ).numpy().flatten()
 
         return (probabilities > 0.5).astype(int), probabilities
+
+    return predict_fn
+
+
+# ============================================================
+# FAULT LOCATION HEAD (PHYSICS-INFORMED REGRESSION)
+# ============================================================
+
+class LocationPINN(FaultPINN):
+
+    """Regression variant of FaultPINN for fault location. Same
+    trunk and physics residual; linear output trained with MSE on
+    the scaled target. The physics residual (sum of unscaled
+    currents vanishes only in the unfaulted state) is retained
+    with the same PINN_PHYSICS_WEIGHT so the head stays a member
+    of the physics-informed family."""
+
+    def __init__(self, input_dim, current_mean, current_std):
+
+        super().__init__(
+            input_dim,
+            current_mean,
+            current_std
+        )
+
+        # Replace the classification head with a linear one.
+        self.output_layer = layers.Dense(1, activation=None)
+
+
+def create_pinn_location(input_dim, current_mean, current_std):
+
+    model = LocationPINN(
+        input_dim,
+        current_mean,
+        current_std
+    )
+
+    dummy_input = tf.zeros((1, input_dim))
+    model(dummy_input, training=False)
+
+    return model
+
+
+def make_location_predict_fn(model, scaler):
+
+    def predict_fn(X_raw):
+
+        X_scaled = scaler.transform(X_raw)
+
+        output = model(
+            X_scaled,
+            training=False
+        ).numpy().flatten()
+
+        # Undo the scaling: network output is a fraction of the
+        # line length; report in km.
+        return output * LINE_LENGTH_KM
 
     return predict_fn
 
@@ -508,6 +573,205 @@ def train_fault_model(
     logger.print(
         f"Best val loss  : "
         f"{history['val_loss'][best_epoch]:.6f}"
+    )
+
+    return model, training_time, history, best_epoch
+
+
+def train_location_model(
+    X_loc_scaled,
+    y_loc_scaled,
+    current_mean,
+    current_std,
+    logger
+):
+    """Train the fault-location regression head (fault rows
+    only; physics-informed trunk, linear output, MSE on the
+    scaled target)."""
+
+    logger.print("")
+    logger.print("=" * 70)
+
+    logger.print(
+        "TRAINING PINN: Loc"
+    )
+
+    logger.print("=" * 70)
+
+    logger.print(
+        f"Hidden units   : {PINN_HIDDEN_UNITS}"
+    )
+
+    logger.print(
+        "Output         : linear (location, km)"
+    )
+
+    logger.print(
+        "Loss           : mse + physics residual "
+        "(target scaled by line length)"
+    )
+
+    logger.print(
+        f"Physics weight : {PINN_PHYSICS_WEIGHT}"
+    )
+
+    logger.print(
+        f"Learning rate  : {PINN_LEARNING_RATE}"
+    )
+
+    logger.print(
+        f"Max epochs     : {PINN_EPOCHS}"
+    )
+
+    logger.print(
+        f"Batch size     : {PINN_BATCH_SIZE}"
+    )
+
+    model = create_pinn_location(
+        X_loc_scaled.shape[1],
+        current_mean,
+        current_std
+    )
+
+    # Shuffle training rows before the tail validation split;
+    # the index order groups locations, so a plain tail split
+    # would make the validation strata non-representative.
+    rng = np.random.default_rng(RANDOM_STATE)
+
+    order = rng.permutation(len(X_loc_scaled))
+
+    X_loc_scaled = X_loc_scaled[order]
+    y_loc_scaled = y_loc_scaled[order]
+
+    n_val = int(
+        X_loc_scaled.shape[0] * PINN_VALIDATION_SPLIT
+    )
+
+    X_fit, X_val = (
+        X_loc_scaled[:-n_val],
+        X_loc_scaled[-n_val:],
+    )
+    y_fit, y_val = (
+        y_loc_scaled[:-n_val],
+        y_loc_scaled[-n_val:],
+    )
+
+    optimizer = tf.keras.optimizers.Adam(
+        learning_rate=PINN_LEARNING_RATE
+    )
+
+    mse = tf.keras.losses.MeanSquaredError()
+
+    dataset = tf.data.Dataset.from_tensor_slices(
+        (X_fit, y_fit)
+    )
+
+    dataset = dataset.shuffle(
+        buffer_size=len(X_fit),
+        seed=RANDOM_STATE
+    ).batch(PINN_BATCH_SIZE)
+
+    history = {
+        "loss": [],
+        "val_loss": [],
+    }
+
+    best_val_loss = np.inf
+    best_weights = None
+    patience_counter = 0
+
+    start = time.perf_counter()
+
+    for epoch in range(PINN_EPOCHS):
+
+        epoch_data_loss = []
+        epoch_physics_loss = []
+
+        for X_batch, y_batch in dataset:
+
+            with tf.GradientTape() as tape:
+
+                y_pred = model(X_batch, training=True)
+                y_pred = tf.reshape(y_pred, [-1])
+
+                data_loss = mse(y_batch, y_pred)
+
+                residual = model.physics_residual(X_batch)
+                physics_loss = tf.reduce_mean(tf.square(residual))
+
+                total_loss = (
+                    data_loss
+                    + PINN_PHYSICS_WEIGHT * physics_loss
+                )
+
+            gradients = tape.gradient(
+                total_loss,
+                model.trainable_variables
+            )
+
+            optimizer.apply_gradients(
+                zip(gradients, model.trainable_variables)
+            )
+
+            epoch_data_loss.append(float(data_loss))
+            epoch_physics_loss.append(float(physics_loss))
+
+        val_pred = model(X_val, training=False)
+        val_pred = tf.reshape(val_pred, [-1])
+
+        val_loss = float(mse(y_val, val_pred))
+
+        train_loss = float(np.mean(epoch_data_loss))
+
+        history["loss"].append(train_loss)
+        history["val_loss"].append(val_loss)
+
+        if val_loss < best_val_loss:
+
+            best_val_loss = val_loss
+            best_weights = [w.numpy() for w in model.trainable_variables]
+            patience_counter = 0
+
+        else:
+
+            patience_counter += 1
+
+            if patience_counter >= PINN_EARLY_STOPPING_PATIENCE:
+                break
+
+    if best_weights is not None:
+
+        for var, weight in zip(model.trainable_variables, best_weights):
+            var.assign(weight)
+
+    end = time.perf_counter()
+
+    training_time = end - start
+
+    best_epoch = int(
+        np.argmin(history["val_loss"])
+    )
+
+    logger.print(
+        f"\nTraining time: {training_time:.6f} s"
+    )
+
+    logger.print(
+        f"Epochs run   : {len(history['loss'])}"
+    )
+
+    logger.print(
+        f"Best epoch   : {best_epoch + 1}"
+    )
+
+    logger.print(
+        f"Best train mse (scaled): "
+        f"{history['loss'][best_epoch]:.8f}"
+    )
+
+    logger.print(
+        f"Best val mse (scaled)  : "
+        f"{history['val_loss'][best_epoch]:.8f}"
     )
 
     return model, training_time, history, best_epoch
@@ -853,7 +1117,9 @@ def main():
         # FEATURES
         # ----------------------------------------------------
 
-        # Loc is NOT used.
+        # Loc is the fault-location regression target (fault rows
+        # only) for the location head; it is never a classifier
+        # feature.
 
         X = df[
             FEATURE_COLUMNS
@@ -880,11 +1146,12 @@ def main():
 
         logger.print("")
         logger.print(
-            "IGNORED METADATA:"
+            "ADDITIONAL TARGET:"
         )
 
         logger.print(
-            "  Loc"
+            "  Loc (fault location, km; regression head,"
+            " fault rows only)"
         )
 
         logger.print("")
@@ -952,16 +1219,18 @@ def main():
         # TRAIN / TEST SPLIT
         # ----------------------------------------------------
 
-        X_train, X_test, \
-        y_train, y_test = train_test_split(
-            X,
-            y,
+        train_pos, test_pos, split_info = group_partition(
+            df,
             test_size=TEST_SIZE,
             random_state=RANDOM_STATE,
-            shuffle=True
         )
 
+        X_train, X_test = X.iloc[train_pos], X.iloc[test_pos]
+        y_train, y_test = y.iloc[train_pos], y.iloc[test_pos]
+
         test_row_id = pd.Series(X_test.index, name="row_id").reset_index(drop=True)
+
+        log_split_info(logger, split_info)
 
         logger.print("")
         logger.print(
@@ -1214,6 +1483,158 @@ def main():
         logger.print(
             f"Overall fault-occurred accuracy: {overall_accuracy:.6f}"
         )
+
+        # ----------------------------------------------------
+        # FAULT LOCATION (PHYSICS-INFORMED REGRESSION HEAD)
+        # ----------------------------------------------------
+        # Fifth task of this script: the regression variant of the
+        # same physics-informed trunk on fault rows only (Loc > 0).
+        # The physics residual term is kept with the same
+        # PINN_PHYSICS_WEIGHT so the head remains a member of the
+        # physics-informed family. No-fault rows have no fault
+        # location to estimate, so their Loc_pred is left empty.
+        # Errors feed H5 in src/hypothesis.py, reported in km and
+        # as a percentage of the protected line length
+        # (LINE_LENGTH_KM, stated explicitly).
+
+        fault_mask = (
+            df[TARGET_COLUMNS].sum(axis=1) > 0
+        ) & (df["Loc"] > 0)
+
+        fault_idx_all = df.index[fault_mask]
+
+        loc_test_idx = X_test.index.intersection(
+            fault_idx_all
+        )
+        loc_train_idx = fault_idx_all.difference(
+            X_test.index
+        )
+
+        location_scaler = StandardScaler()
+        X_loc_train_scaled = location_scaler.fit_transform(
+            X.loc[loc_train_idx]
+        ).astype(np.float32)
+
+        loc_current_mean = (
+            location_scaler.mean_[CURRENT_INDICES]
+            .astype(np.float32)
+        )
+        loc_current_std = (
+            location_scaler.scale_[CURRENT_INDICES]
+            .astype(np.float32)
+        )
+
+        location_model, location_training_time, \
+            location_history, location_best_epoch = \
+            train_location_model(
+                X_loc_train_scaled,
+                (
+                    df.loc[loc_train_idx, "Loc"]
+                    .to_numpy(dtype=np.float64)
+                    / LINE_LENGTH_KM
+                ).astype(np.float32),
+                loc_current_mean,
+                loc_current_std,
+                logger
+            )
+
+        models_dict["Loc"] = location_model
+
+        location_predict_fn = make_location_predict_fn(
+            location_model,
+            location_scaler
+        )
+
+        loc_pred = location_predict_fn(
+            X.loc[loc_test_idx]
+        )
+        loc_true = df.loc[loc_test_idx, "Loc"].to_numpy(dtype=float)
+        loc_error = np.abs(loc_pred - loc_true)
+
+        mae_km = float(mean_absolute_error(loc_true, loc_pred))
+        rmse_km = float(
+            np.sqrt(mean_squared_error(loc_true, loc_pred))
+        )
+        mae_pct = mae_km / LINE_LENGTH_KM * 100
+
+        logger.print(
+            f"Test fault rows: {len(loc_test_idx)}"
+        )
+        logger.print(
+            f"MAE : {mae_km:.4f} km "
+            f"({mae_pct:.4f}% of {LINE_LENGTH_KM:.0f} km line)"
+        )
+        logger.print(
+            f"RMSE: {rmse_km:.4f} km"
+        )
+
+        per_location_mae = (
+            pd.DataFrame({
+                "Loc": loc_true,
+                "error": loc_error,
+            })
+            .groupby("Loc")["error"]
+            .mean()
+        )
+
+        logger.print("\nMAE by true location (km):")
+
+        for location_value, error_mean in per_location_mae.items():
+            logger.print(
+                f"  {int(location_value):>3} km: {error_mean:.4f}"
+            )
+
+        model_path = (
+            MODEL_DIR
+            / f"pinn_model_{timestamp}_Loc"
+        )
+        location_model.save_weights(
+            str(model_path) + ".weights.h5"
+        )
+        model_paths["Loc"] = str(model_path) + ".weights.h5"
+
+        metrics.append({
+
+            "timestamp": timestamp,
+
+            "target": "Loc",
+
+            "hidden_units": str(PINN_HIDDEN_UNITS),
+
+            "physics_weight": PINN_PHYSICS_WEIGHT,
+
+            "learning_rate": PINN_LEARNING_RATE,
+
+            "epochs_run": len(location_history["loss"]),
+
+            "best_epoch": location_best_epoch + 1,
+
+            "mae_km": mae_km,
+
+            "mae_pct_line": mae_pct,
+
+            "rmse_km": rmse_km,
+
+            "training_time_seconds": location_training_time,
+        })
+
+        # Export-aligned columns. Rows follow X_test.index order,
+        # matching the per-line prediction columns; values are
+        # empty (NaN) on no-fault test rows.
+        test_fault_mask = fault_mask.loc[X_test.index]
+
+        loc_true_test = df.loc[X_test.index, "Loc"].where(
+            test_fault_mask
+        )
+
+        loc_pred_test = pd.Series(
+            np.nan,
+            index=X_test.index
+        )
+        loc_pred_test.loc[loc_test_idx] = loc_pred
+
+        predictions_wide["Loc_true"] = loc_true_test.to_numpy()
+        predictions_wide["Loc_pred"] = loc_pred_test.to_numpy()
 
         # ----------------------------------------------------
         # SAVE ROW-LEVEL PREDICTIONS AND ROBUSTNESS SWEEP

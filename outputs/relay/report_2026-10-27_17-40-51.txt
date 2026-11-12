@@ -1,0 +1,44 @@
+======================================================================
+CONVENTIONAL DISTANCE RELAY — DETECTION BASELINE (H1)
+======================================================================
+Timestamp: 2026-10-27_17-40-51
+Dataset: /home/stanislus/Documents/Mr Fiase/data/classdetectfault_data.csv
+
+LINE PARAMETERS (corrected Table 3.2, §3.3.1)
+----------------------------------------------------------------------
+Positive-sequence reactance X1 : 0.390 Ω/km
+Zero-sequence reactance     X0 : 1.352 Ω/km
+Line length                 : 120 km
+Zone 1 reach setting        : 80%
+Zone 1 reach (ohms)         : 37.44 Ω
+Zero-sequence compensation k0: 0.8222
+Nominal phase voltage       : 230940.1 V
+
+Dataset shape: (7861, 12)
+
+PER-LINE ACCURACY
+----------------------------------------------------------------------
+  G: accuracy=0.603994  no-fault(TN)=0.559910 (2500 of 4465)  fault(TP)=0.661955 (2248 of 3396)
+  C: accuracy=0.807149  no-fault(TN)=0.730337 (3380 of 4628)  fault(TP)=0.917105 (2965 of 3233)
+  B: accuracy=0.887546  no-fault(TN)=0.895535 (3129 of 3494)  fault(TP)=0.881154 (3848 of 4367)
+  A: accuracy=0.737311  no-fault(TN)=0.734936 (2476 of 3369)  fault(TP)=0.739092 (3320 of 4492)
+
+DETECTION RESULTS (overall)
+----------------------------------------------------------------------
+Total scenarios        : 7861
+Fault scenarios        : 5496
+No-fault scenarios     : 2365
+Relay trips            : 4213
+Overall accuracy       : 0.817199
+No-fault accuracy (TN) : 0.967442 (2288 of 2365)
+Fault accuracy (TP)    : 0.752547 (4136 of 5496)
+
+Confusion matrix (rows=true, cols=pred):
+  TN=2288, FP=77, FN=1360, TP=4136
+
+OUTPUT FILES
+----------------------------------------------------------------------
+Predictions: /home/stanislus/Documents/Mr Fiase/outputs/relay/predictions_relay.csv
+Report:      /home/stanislus/Documents/Mr Fiase/outputs/relay/report_2026-10-27_17-40-51.txt
+
+Predictions saved (7861 rows) to /home/stanislus/Documents/Mr Fiase/outputs/relay/predictions_relay.csv

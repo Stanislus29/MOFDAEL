@@ -1,0 +1,126 @@
+======================================================================
+H5 FAULT-LOCATION DIAGNOSTIC (R3)
+======================================================================
+Timestamp: 2026-10-27_17-48-04
+Dataset: /home/stanislus/Documents/Mr Fiase/data/classdetectfault_data.csv
+Percentage denominator (line length): 120 km
+
+Prediction files loaded: 8
+Common rows across all models: 339
+
+======================================================================
+CHECK 1: LOCATION PREDICTIONS IN OUTPUTS
+======================================================================
+     ann: no Loc columns
+     cnn: no Loc columns
+     dtr: no Loc columns
+     knn: no Loc columns
+    lstm: no Loc columns
+    pinn: no Loc columns
+   relay: no Loc columns
+     rnn: no Loc columns
+
+FINDING: no model exports fault-location predictions.
+  'Loc' is listed under IGNORED METADATA in every training
+  script, so no model ever produced a location estimate and
+  no per-scenario location file exists anywhere in outputs/.
+
+======================================================================
+CHECK 2: WHAT RUN_H5 ACTUALLY TESTED (side by side)
+======================================================================
+
+Per-scenario classification-error vectors at Loc = 45 km (overall target), first 20 rows:
+
+  row_id | ann err | cnn err | identical?
+  --------------------------------------------
+      26 |    0    |    0    | yes
+      50 |    0    |    0    | yes
+      58 |    0    |    0    | yes
+     106 |    0    |    0    | yes
+     322 |    0    |    0    | yes
+     346 |    0    |    0    | yes
+     354 |    0    |    0    | yes
+     378 |    0    |    0    | yes
+     418 |    0    |    0    | yes
+     530 |    0    |    0    | yes
+     538 |    0    |    0    | yes
+     554 |    0    |    0    | yes
+     586 |    0    |    0    | yes
+     642 |    0    |    0    | yes
+     682 |    0    |    0    | yes
+     706 |    0    |    0    | yes
+     786 |    0    |    0    | yes
+     794 |    0    |    0    | yes
+     842 |    0    |    0    | yes
+     858 |    0    |    0    | yes
+
+  20 of 20 rows have identical error bits.
+
+  Non-zero differences: 0 of 20
+  -> Wilcoxon has no discordant pairs; p = 1.0, HL = 0.0000
+
+  Reproduced: Wilcoxon p = nan, Hodges-Lehmann = 0.0000
+
+DEFECT IDENTIFIED: run_h5() never tested fault-location accuracy.
+  It grouped per-line CLASSIFICATION error by 'Loc' and compared
+  models on that. Because models make near-identical errors, the
+  vectors collapse: 63 pairwise HL estimates of exactly 0.0000
+  with CI [0.0000, 0.0000], probabilities of only 1.000000 and
+  0.317311, and Friedman statistics at exact integers.
+  This is a degenerate variable, not a finding of equivalence.
+
+======================================================================
+CHECK 3: LOCATION LEARNABILITY (repair feasibility)
+======================================================================
+
+Decision-tree location regressor (baseline feasibility check):
+  Fault rows: 5496 of 7861 (Loc > 0 stratum)
+  Location MAE: 6.16 km
+  As % of line length (denominator = 120 km): 5.14%
+  8-class location classification accuracy: 0.7855 (chance = 0.1250)
+
+FINDING: location IS learnable from the exported features, so the
+  repair path (adding a location head to each model and retraining)
+  is viable. Retraining all models is a coordinated job (2-5 days
+  per the review); it also regenerates every performance number.
+
+======================================================================
+CHECK 4: REACTANCE-METHOD (RELAY) LOCATION FEASIBILITY
+======================================================================
+
+Correlation |Va/Ia| vs true Loc (fault rows): 0.0056
+  Signed single-sample ratios cannot separate reactance from
+  resistance, so a conventional impedance-based location
+  estimate is NOT recoverable from this dataset representation.
+
+  Location estimation requires either the full waveform window
+  (for phasor extraction, available after an R1 re-simulation
+  exports phasors or sample windows) or a learned location head
+  per model. A reactance-method estimate from single samples is
+  not defensible and is not attempted here.
+
+======================================================================
+VERDICT
+======================================================================
+
+H5 as previously computed tested the wrong quantity and
+ returned a degenerate variable that must not be reported
+ as fault-location equivalence.
+
+Repair paths (choose one before submission):
+  A. Retrain all models with a location head exporting
+     Loc_true/Loc_pred per scenario; run_h5 in hypothesis.py
+     then performs the real test (error in km and % of the
+     120 km line, denominator stated). Effort:
+     2-5 days, regenerates every performance number.
+  B. Preferred per the review if time is short: withdraw fault
+     location from the objectives and research questions and
+     state it in 3.15 as scope not addressed (writing task).
+
+run_h5 is now guarded: it fails loudly when location
+ predictions are absent instead of silently testing
+ classification error and publishing degenerate p-values.
+
+OUTPUT FILES
+----------------------------------------------------------------------
+Report: /home/stanislus/Documents/Mr Fiase/outputs/h5_diagnostics/report_2026-10-27_17-48-04.txt

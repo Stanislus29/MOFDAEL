@@ -1,5 +1,19 @@
 from __future__ import annotations
 
+import os
+
+# Bitwise-reproducible training runs (the traceability rule in
+# AGENTS.md requires every number to be regenerable). TF_DETE-
+# RMINISTIC_OPS forces deterministic op kernels (GPU); single-
+# threaded execution removes oneDNN threaded fp reductions,
+# which are the CPU source of run-to-run wobble. These must be
+# set BEFORE tensorflow is imported.
+os.environ.setdefault("TF_DETERMINISTIC_OPS", "1")
+os.environ.setdefault("PYTHONHASHSEED", "0")
+os.environ.setdefault("TF_NUM_INTRAOP_THREADS", "1")
+os.environ.setdefault("TF_NUM_INTEROP_THREADS", "1")
+os.environ.setdefault("OMP_NUM_THREADS", "1")
+
 import sys
 import time
 from pathlib import Path
@@ -9,7 +23,7 @@ import joblib
 import numpy as np
 import pandas as pd
 
-from sklearn.model_selection import train_test_split
+from scenarios import group_partition, log_split_info
 from sklearn.preprocessing import StandardScaler
 from sklearn.utils.class_weight import compute_class_weight
 
@@ -21,6 +35,8 @@ from sklearn.metrics import (
     confusion_matrix,
     classification_report,
     log_loss,
+    mean_absolute_error,
+    mean_squared_error,
 )
 
 import tensorflow as tf
@@ -141,6 +157,12 @@ CNN_VALIDATION_SPLIT = 0.1
 
 CNN_EARLY_STOPPING_PATIENCE = 10
 
+# Fault-location percentage-error denominator. Percentage errors
+# are reported as a fraction of the full protected line length,
+# stated explicitly here and in every output. Regression targets
+# are scaled to [0, 1] by this constant before training.
+LINE_LENGTH_KM = 120.0
+
 ROBUSTNESS_NOISE_LEVELS = [0.01, 0.05, 0.1, 0.2]
 
 ROBUSTNESS_TRIALS = 10
@@ -229,6 +251,79 @@ def create_cnn(input_length):
     )
 
     return model
+
+
+def create_cnn_location(input_length):
+
+    # Location head: the same convolutional architecture with a
+    # linear output and MSE loss on the scaled target. No class
+    # weights apply to regression.
+    model = models.Sequential()
+
+    model.add(
+        layers.Input(shape=(input_length, 1))
+    )
+
+    for filters in CNN_FILTERS:
+
+        model.add(
+            layers.Conv1D(
+                filters=filters,
+                kernel_size=CNN_KERNEL_SIZE,
+                activation="relu",
+            )
+        )
+
+    model.add(
+        layers.Flatten()
+    )
+
+    model.add(
+        layers.Dense(
+            CNN_DENSE_UNITS,
+            activation="relu"
+        )
+    )
+
+    model.add(
+        layers.Dropout(CNN_DROPOUT)
+    )
+
+    model.add(
+        layers.Dense(1, activation=None)
+    )
+
+    model.compile(
+        optimizer=tf.keras.optimizers.Adam(
+            learning_rate=CNN_LEARNING_RATE
+        ),
+        loss="mse",
+        metrics=["mae"],
+    )
+
+    return model
+
+
+def make_location_predict_fn(model, scaler):
+
+    def predict_fn(X_raw):
+
+        X_scaled = scaler.transform(X_raw)
+
+        X_reshaped = X_scaled.reshape(
+            -1, X_scaled.shape[1], 1
+        )
+
+        output = model.predict(
+            X_reshaped,
+            verbose=0
+        ).flatten()
+
+        # Undo the scaling: network output is a fraction of the
+        # line length; report in km.
+        return output * LINE_LENGTH_KM
+
+    return predict_fn
 
 
 # ============================================================
@@ -364,6 +459,111 @@ def train_fault_model(
     logger.print(
         f"Best val loss  : "
         f"{history.history['val_loss'][best_epoch]:.6f}"
+    )
+
+    return model, training_time, history, best_epoch
+
+
+def train_location_model(
+    X_loc_scaled,
+    y_loc,
+    logger
+):
+    """Train the fault-location regression head (fault rows
+    only; same convolutional architecture, linear output, MSE
+    loss on the scaled target)."""
+
+    logger.print("")
+    logger.print("=" * 70)
+
+    logger.print(
+        "TRAINING CNN: Loc"
+    )
+
+    logger.print("=" * 70)
+
+    logger.print(
+        "Output        : linear (location, km)"
+    )
+
+    logger.print(
+        "Loss          : mse (target scaled by line length)"
+    )
+
+    logger.print(
+        f"Filters       : {CNN_FILTERS}"
+    )
+
+    logger.print(
+        f"Kernel size   : {CNN_KERNEL_SIZE}"
+    )
+
+    logger.print(
+        f"Learning rate : {CNN_LEARNING_RATE}"
+    )
+
+    logger.print(
+        f"Max epochs    : {CNN_EPOCHS}"
+    )
+
+    logger.print(
+        f"Batch size    : {CNN_BATCH_SIZE}"
+    )
+
+    model = create_cnn_location(
+        X_loc_scaled.shape[1]
+    )
+
+    early_stopping = callbacks.EarlyStopping(
+        monitor="val_loss",
+        patience=CNN_EARLY_STOPPING_PATIENCE,
+        restore_best_weights=True,
+    )
+
+    X_reshaped = X_loc_scaled.reshape(
+        -1, X_loc_scaled.shape[1], 1
+    )
+
+    start = time.perf_counter()
+
+    history = model.fit(
+        X_reshaped,
+        y_loc,
+        epochs=CNN_EPOCHS,
+        batch_size=CNN_BATCH_SIZE,
+        validation_split=CNN_VALIDATION_SPLIT,
+        callbacks=[early_stopping],
+        verbose=0,
+    )
+
+    end = time.perf_counter()
+
+    training_time = end - start
+
+    best_epoch = int(
+        np.argmin(history.history["val_loss"])
+    )
+
+    logger.print(
+        f"\nTraining time: {training_time:.6f} s"
+    )
+
+    logger.print(
+        f"Epochs run   : {len(history.history['loss'])}"
+    )
+
+    logger.print(
+        f"Best epoch   : {best_epoch + 1}"
+    )
+
+    logger.print(
+        f"Best train mse (scaled): "
+        f"{history.history['loss'][best_epoch]:.8f}"
+    )
+
+    logger.print(
+        f"Best val mse (scaled)  : "
+        f"{history.history['val_loss'][best_epoch]:.8f}"
     )
 
     return model, training_time, history, best_epoch
@@ -709,7 +909,9 @@ def main():
         # FEATURES
         # ----------------------------------------------------
 
-        # Loc is NOT used.
+        # Loc is the fault-location regression target (fault rows
+        # only) for the location head; it is never a classifier
+        # feature.
 
         X = df[
             FEATURE_COLUMNS
@@ -736,11 +938,12 @@ def main():
 
         logger.print("")
         logger.print(
-            "IGNORED METADATA:"
+            "ADDITIONAL TARGET:"
         )
 
         logger.print(
-            "  Loc"
+            "  Loc (fault location, km; regression head,"
+            " fault rows only)"
         )
 
         logger.print("")
@@ -799,16 +1002,18 @@ def main():
         # TRAIN / TEST SPLIT
         # ----------------------------------------------------
 
-        X_train, X_test, \
-        y_train, y_test = train_test_split(
-            X,
-            y,
+        train_pos, test_pos, split_info = group_partition(
+            df,
             test_size=TEST_SIZE,
             random_state=RANDOM_STATE,
-            shuffle=True
         )
 
+        X_train, X_test = X.iloc[train_pos], X.iloc[test_pos]
+        y_train, y_test = y.iloc[train_pos], y.iloc[test_pos]
+
         test_row_id = pd.Series(X_test.index, name="row_id").reset_index(drop=True)
+
+        log_split_info(logger, split_info)
 
         logger.print("")
         logger.print(
@@ -1050,6 +1255,144 @@ def main():
         logger.print(
             f"Overall fault-occurred accuracy: {overall_accuracy:.6f}"
         )
+
+        # ----------------------------------------------------
+        # FAULT LOCATION (REGRESSION HEAD, FAULT ROWS ONLY)
+        # ----------------------------------------------------
+        # Fifth task of this script: a regressor of the same
+        # architecture trained on fault rows only (Loc > 0).
+        # No-fault rows have no fault location to estimate, so
+        # their Loc_pred is left empty. The head uses its own
+        # scaler fitted on its training rows and is evaluated on
+        # the fault rows OF the test split, so its output rows
+        # align row-for-row with the per-line predictions above.
+        # Errors feed H5 in src/hypothesis.py, reported in km and
+        # as a percentage of the protected line length
+        # (LINE_LENGTH_KM, stated explicitly).
+
+        fault_mask = (
+            df[TARGET_COLUMNS].sum(axis=1) > 0
+        ) & (df["Loc"] > 0)
+
+        fault_idx_all = df.index[fault_mask]
+
+        loc_test_idx = X_test.index.intersection(
+            fault_idx_all
+        )
+        loc_train_idx = fault_idx_all.difference(
+            X_test.index
+        )
+
+        location_scaler = StandardScaler()
+        X_loc_train_scaled = location_scaler.fit_transform(
+            X.loc[loc_train_idx]
+        )
+
+        location_model, location_training_time, \
+            location_history, location_best_epoch = \
+            train_location_model(
+                X_loc_train_scaled,
+                (
+                    df.loc[loc_train_idx, "Loc"]
+                    .to_numpy() / LINE_LENGTH_KM
+                ),
+                logger
+            )
+
+        model_path = (
+            MODEL_DIR
+            / f"cnn_model_{timestamp}_Loc.keras"
+        )
+        location_model.save(model_path)
+        model_paths["Loc"] = str(model_path)
+
+        location_predict_fn = make_location_predict_fn(
+            location_model,
+            location_scaler
+        )
+
+        loc_pred = location_predict_fn(
+            X.loc[loc_test_idx]
+        )
+        loc_true = df.loc[loc_test_idx, "Loc"].to_numpy()
+        loc_error = np.abs(loc_pred - loc_true)
+
+        mae_km = float(mean_absolute_error(loc_true, loc_pred))
+        rmse_km = float(
+            np.sqrt(mean_squared_error(loc_true, loc_pred))
+        )
+        mae_pct = mae_km / LINE_LENGTH_KM * 100
+
+        logger.print(
+            f"Test fault rows: {len(loc_test_idx)}"
+        )
+        logger.print(
+            f"MAE : {mae_km:.4f} km "
+            f"({mae_pct:.4f}% of {LINE_LENGTH_KM:.0f} km line)"
+        )
+        logger.print(
+            f"RMSE: {rmse_km:.4f} km"
+        )
+
+        per_location_mae = (
+            pd.DataFrame({
+                "Loc": loc_true,
+                "error": loc_error,
+            })
+            .groupby("Loc")["error"]
+            .mean()
+        )
+
+        logger.print("\nMAE by true location (km):")
+
+        for location_value, error_mean in per_location_mae.items():
+            logger.print(
+                f"  {int(location_value):>3} km: {error_mean:.4f}"
+            )
+
+        metrics.append({
+
+            "timestamp": timestamp,
+
+            "target": "Loc",
+
+            "filters": str(CNN_FILTERS),
+
+            "kernel_size": CNN_KERNEL_SIZE,
+
+            "learning_rate": CNN_LEARNING_RATE,
+
+            "epochs_run": len(location_history.history["loss"]),
+
+            "best_epoch": location_best_epoch + 1,
+
+            "mae_km": mae_km,
+
+            "mae_pct_line": mae_pct,
+
+            "rmse_km": rmse_km,
+
+            "training_time_seconds":
+                location_training_time,
+        })
+
+        # Export-aligned columns. Rows follow X_test.index order,
+        # matching the per-line prediction columns; values are
+        # empty (NaN) on no-fault test rows.
+        test_fault_mask = fault_mask.loc[X_test.index]
+
+        loc_true_test = df.loc[X_test.index, "Loc"].where(
+            test_fault_mask
+        )
+
+        loc_pred_test = pd.Series(
+            np.nan,
+            index=X_test.index
+        )
+        loc_pred_test.loc[loc_test_idx] = loc_pred
+
+        predictions_wide["Loc_true"] = loc_true_test.to_numpy()
+        predictions_wide["Loc_pred"] = loc_pred_test.to_numpy()
 
         # ----------------------------------------------------
         # SAVE ROW-LEVEL PREDICTIONS AND ROBUSTNESS SWEEP

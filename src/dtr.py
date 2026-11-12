@@ -9,8 +9,8 @@ import joblib
 import numpy as np
 import pandas as pd
 
-from sklearn.model_selection import train_test_split
-from sklearn.tree import DecisionTreeClassifier
+from scenarios import group_partition, log_split_info
+from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
 
 from sklearn.metrics import (
     accuracy_score,
@@ -20,6 +20,8 @@ from sklearn.metrics import (
     confusion_matrix,
     classification_report,
     log_loss,
+    mean_absolute_error,
+    mean_squared_error,
 )
 
 
@@ -127,6 +129,11 @@ DT_MIN_SAMPLES_SPLIT = 2
 
 DT_MIN_SAMPLES_LEAF = 1
 
+# Fault-location percentage-error denominator. Percentage errors
+# are reported as a fraction of the full protected line length,
+# stated explicitly here and in every output.
+LINE_LENGTH_KM = 120.0
+
 ROBUSTNESS_NOISE_LEVELS = [0.01, 0.05, 0.1, 0.2]
 
 ROBUSTNESS_TRIALS = 10
@@ -174,6 +181,22 @@ def create_dt():
         min_samples_split=DT_MIN_SAMPLES_SPLIT,
         min_samples_leaf=DT_MIN_SAMPLES_LEAF,
         class_weight="balanced",
+        random_state=RANDOM_STATE,
+    )
+
+
+def create_dt_location():
+
+    # Location head: regression variant of the classification
+    # tree, with its own configuration. Default hyperparameters
+    # (unbounded depth, min_samples_leaf=1) are used because the
+    # location task needs to separate nine distance levels, finer
+    # than the binary per-line classification task allows. Tested
+    # against the classifier configuration (max_depth=10), which
+    # degraded MAE from ~6 km to ~29 km; see the report's
+    # LOCATION ACCURACY section.
+    return DecisionTreeRegressor(
+        criterion="squared_error",
         random_state=RANDOM_STATE,
     )
 
@@ -603,7 +626,9 @@ def main():
         # FEATURES
         # ----------------------------------------------------
 
-        # Loc is NOT used.
+        # Loc is the fault-location regression target (fault rows
+        # only) for the location head; it is never a classifier
+        # feature.
 
         X = df[
             FEATURE_COLUMNS
@@ -630,11 +655,12 @@ def main():
 
         logger.print("")
         logger.print(
-            "IGNORED METADATA:"
+            "ADDITIONAL TARGET:"
         )
 
         logger.print(
-            "  Loc"
+            "  Loc (fault location, km; regression head,"
+            " fault rows only)"
         )
 
         logger.print("")
@@ -693,16 +719,18 @@ def main():
         # TRAIN / TEST SPLIT
         # ----------------------------------------------------
 
-        X_train, X_test, \
-        y_train, y_test = train_test_split(
-            X,
-            y,
+        train_pos, test_pos, split_info = group_partition(
+            df,
             test_size=TEST_SIZE,
             random_state=RANDOM_STATE,
-            shuffle=True
         )
 
+        X_train, X_test = X.iloc[train_pos], X.iloc[test_pos]
+        y_train, y_test = y.iloc[train_pos], y.iloc[test_pos]
+
         test_row_id = pd.Series(X_test.index, name="row_id").reset_index(drop=True)
+
+        log_split_info(logger, split_info)
 
         logger.print("")
         logger.print(
@@ -908,6 +936,148 @@ def main():
         logger.print(
             f"Overall fault-occurred accuracy: {overall_accuracy:.6f}"
         )
+
+        # ----------------------------------------------------
+        # FAULT LOCATION (REGRESSION HEAD, FAULT ROWS ONLY)
+        # ----------------------------------------------------
+        # Fifth task of this script: a regressor of the same
+        # estimator family trained on fault rows only (Loc > 0).
+        # No-fault rows have no fault location to estimate, so
+        # their Loc_pred is left empty. The head is trained on the
+        # fault rows OUTSIDE the whole test split and evaluated on
+        # the fault rows OF the test split, so its output rows
+        # align row-for-row with the per-line predictions above.
+        # Errors feed H5 in src/hypothesis.py, reported in km and
+        # as a percentage of the protected line length
+        # (LINE_LENGTH_KM, stated explicitly).
+
+        fault_mask = (
+            df[TARGET_COLUMNS].sum(axis=1) > 0
+        ) & (df["Loc"] > 0)
+
+        fault_idx_all = df.index[fault_mask]
+
+        loc_test_idx = X_test.index.intersection(
+            fault_idx_all
+        )
+        loc_train_idx = fault_idx_all.difference(
+            X_test.index
+        )
+
+        logger.print("")
+        logger.print("=" * 70)
+        logger.print("TRAINING DECISION TREE: Loc")
+        logger.print("=" * 70)
+
+        logger.print(
+            "Estimator : DecisionTreeRegressor"
+        )
+        logger.print(
+            "Criterion : squared_error (defaults;"
+            " unbounded depth, min_samples_leaf=1)"
+        )
+
+        location_model = create_dt_location()
+
+        location_start = time.perf_counter()
+
+        location_model.fit(
+            X.loc[loc_train_idx],
+            df.loc[loc_train_idx, "Loc"]
+        )
+
+        location_end = time.perf_counter()
+
+        location_training_time = (
+            location_end - location_start
+        )
+
+        loc_pred = location_model.predict(
+            X.loc[loc_test_idx]
+        )
+        loc_true = df.loc[loc_test_idx, "Loc"].to_numpy()
+        loc_error = np.abs(loc_pred - loc_true)
+
+        mae_km = float(mean_absolute_error(loc_true, loc_pred))
+        rmse_km = float(
+            np.sqrt(mean_squared_error(loc_true, loc_pred))
+        )
+        mae_pct = mae_km / LINE_LENGTH_KM * 100
+
+        logger.print(
+            f"\nTraining time: {location_training_time:.6f} s"
+        )
+        logger.print(
+            f"Training fault rows: {len(loc_train_idx)}"
+        )
+        logger.print(
+            f"Test fault rows: {len(loc_test_idx)}"
+        )
+        logger.print(
+            f"MAE : {mae_km:.4f} km "
+            f"({mae_pct:.4f}% of {LINE_LENGTH_KM:.0f} km line)"
+        )
+        logger.print(
+            f"RMSE: {rmse_km:.4f} km"
+        )
+
+        per_location_mae = (
+            pd.DataFrame({
+                "Loc": loc_true,
+                "error": loc_error,
+            })
+            .groupby("Loc")["error"]
+            .mean()
+        )
+
+        logger.print("\nMAE by true location (km):")
+
+        for location_value, error_mean in per_location_mae.items():
+            logger.print(
+                f"  {int(location_value):>3} km: {error_mean:.4f}"
+            )
+
+        metrics.append({
+
+            "timestamp": timestamp,
+
+            "target": "Loc",
+
+            "criterion": "squared_error",
+
+            "max_depth": None,
+
+            "min_samples_split": 2,
+
+            "min_samples_leaf": 1,
+
+            "mae_km": mae_km,
+
+            "mae_pct_line": mae_pct,
+
+            "rmse_km": rmse_km,
+
+            "training_time_seconds":
+                location_training_time,
+        })
+
+        # Export-aligned columns. Rows follow X_test.index order,
+        # matching the per-line prediction columns; values are
+        # empty (NaN) on no-fault test rows.
+        test_fault_mask = fault_mask.loc[X_test.index]
+
+        loc_true_test = df.loc[X_test.index, "Loc"].where(
+            test_fault_mask
+        )
+
+        loc_pred_test = pd.Series(
+            np.nan,
+            index=X_test.index
+        )
+        loc_pred_test.loc[loc_test_idx] = loc_pred
+
+        predictions_wide["Loc_true"] = loc_true_test.to_numpy()
+        predictions_wide["Loc_pred"] = loc_pred_test.to_numpy()
 
         # ----------------------------------------------------
         # SAVE SCENARIO-LEVEL PREDICTIONS AND ROBUSTNESS SWEEP

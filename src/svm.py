@@ -9,9 +9,9 @@ import joblib
 import numpy as np
 import pandas as pd
 
-from sklearn.model_selection import train_test_split
+from scenarios import group_partition, log_split_info
 from sklearn.preprocessing import StandardScaler
-from sklearn.svm import SVC
+from sklearn.svm import SVC, SVR
 from sklearn.pipeline import Pipeline
 
 from sklearn.metrics import (
@@ -21,6 +21,8 @@ from sklearn.metrics import (
     f1_score,
     confusion_matrix,
     classification_report,
+    mean_absolute_error,
+    mean_squared_error,
 )
 
 
@@ -32,12 +34,7 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 DATA_DIR = PROJECT_ROOT / "data"
 
-OUTPUT_DIR = (
-    PROJECT_ROOT
-    / "outputs"
-    /"svm"
-    / "training reports"
-)
+OUTPUT_DIR = PROJECT_ROOT / "outputs" / "svm"
 
 DATA_FILE = DATA_DIR / "classdetectfault_data.csv"
 
@@ -98,7 +95,8 @@ MODEL_FILE = MODEL_DIR / f"svm_model_{timestamp}.joblib"
 # ============================================================
 
 # IMPORTANT:
-# Loc is intentionally NOT here.
+# Loc is the fault-location regression target for the location
+# head (fault rows only); it is never a classifier feature.
 
 FEATURE_COLUMNS = [
     "Ia",
@@ -130,6 +128,11 @@ SVM_C = 8.0
 SVM_GAMMA = "scale"
 
 SVM_KERNEL = "rbf"
+
+# Fault-location percentage-error denominator. Percentage errors
+# are reported as a fraction of the full protected line length,
+# stated explicitly here and in every output.
+LINE_LENGTH_KM = 120.0
 
 ROBUSTNESS_NOISE_LEVELS = [0.01, 0.05, 0.1, 0.2]
 
@@ -192,6 +195,30 @@ def create_svm():
 
                 random_state=RANDOM_STATE,
 
+                verbose=False,
+            )
+        )
+    ])
+
+
+def create_svm_location():
+
+    # Location head: the regression variant of the same support
+    # vector configuration. SVM regression adds an epsilon
+    # insensitive-loss tube (sklearn default 0.1 of the target
+    # range) that the classifier does not have.
+    return Pipeline([
+        (
+            "scaler",
+            StandardScaler()
+        ),
+
+        (
+            "svm",
+            SVR(
+                kernel=SVM_KERNEL,
+                C=SVM_C,
+                gamma=SVM_GAMMA,
                 verbose=False,
             )
         )
@@ -650,7 +677,9 @@ def main():
         # FEATURES
         # ----------------------------------------------------
 
-        # Loc is NOT used.
+        # Loc is the fault-location regression target (fault rows
+        # only) for the location head; it is never a classifier
+        # feature.
 
         X = df[
             FEATURE_COLUMNS
@@ -677,11 +706,12 @@ def main():
 
         logger.print("")
         logger.print(
-            "IGNORED METADATA:"
+            "ADDITIONAL TARGET:"
         )
 
         logger.print(
-            "  Loc"
+            "  Loc (fault location, km; regression head,"
+            " fault rows only)"
         )
 
         logger.print("")
@@ -740,16 +770,18 @@ def main():
         # TRAIN / TEST SPLIT
         # ----------------------------------------------------
 
-        X_train, X_test, \
-        y_train, y_test = train_test_split(
-            X,
-            y,
+        train_pos, test_pos, split_info = group_partition(
+            df,
             test_size=TEST_SIZE,
             random_state=RANDOM_STATE,
-            shuffle=True
         )
 
+        X_train, X_test = X.iloc[train_pos], X.iloc[test_pos]
+        y_train, y_test = y.iloc[train_pos], y.iloc[test_pos]
+
         test_row_id = pd.Series(X_test.index, name="row_id").reset_index(drop=True)
+
+        log_split_info(logger, split_info)
 
         logger.print("")
         logger.print(
@@ -958,6 +990,151 @@ def main():
         logger.print(
             f"Overall fault-occurred accuracy: {overall_accuracy:.6f}"
         )
+
+        # ----------------------------------------------------
+        # FAULT LOCATION (REGRESSION HEAD, FAULT ROWS ONLY)
+        # ----------------------------------------------------
+        # Fifth task of this script: a regressor of the same
+        # estimator family trained on fault rows only (Loc > 0).
+        # No-fault rows have no fault location to estimate, so
+        # their Loc_pred is left empty. The head is trained on the
+        # fault rows OUTSIDE the whole test split and evaluated on
+        # the fault rows OF the test split, so its output rows
+        # align row-for-row with the per-line predictions above.
+        # Errors feed H5 in src/hypothesis.py, reported in km and
+        # as a percentage of the protected line length
+        # (LINE_LENGTH_KM, stated explicitly).
+
+        fault_mask = (
+            df[TARGET_COLUMNS].sum(axis=1) > 0
+        ) & (df["Loc"] > 0)
+
+        fault_idx_all = df.index[fault_mask]
+
+        loc_test_idx = X_test.index.intersection(
+            fault_idx_all
+        )
+        loc_train_idx = fault_idx_all.difference(
+            X_test.index
+        )
+
+        logger.print("")
+        logger.print("=" * 70)
+        logger.print("TRAINING SVM: Loc")
+        logger.print("=" * 70)
+
+        logger.print(
+            "Estimator : SVR"
+        )
+        logger.print(
+            f"Kernel    : {SVM_KERNEL}"
+        )
+        logger.print(
+            f"C         : {SVM_C}"
+        )
+        logger.print(
+            f"Gamma     : {SVM_GAMMA}"
+        )
+
+        location_model = create_svm_location()
+
+        location_start = time.perf_counter()
+
+        location_model.fit(
+            X.loc[loc_train_idx],
+            df.loc[loc_train_idx, "Loc"]
+        )
+
+        location_end = time.perf_counter()
+
+        location_training_time = (
+            location_end - location_start
+        )
+
+        loc_pred = location_model.predict(
+            X.loc[loc_test_idx]
+        )
+        loc_true = df.loc[loc_test_idx, "Loc"].to_numpy()
+        loc_error = np.abs(loc_pred - loc_true)
+
+        mae_km = float(mean_absolute_error(loc_true, loc_pred))
+        rmse_km = float(
+            np.sqrt(mean_squared_error(loc_true, loc_pred))
+        )
+        mae_pct = mae_km / LINE_LENGTH_KM * 100
+
+        logger.print(
+            f"\nTraining time: {location_training_time:.6f} s"
+        )
+        logger.print(
+            f"Training fault rows: {len(loc_train_idx)}"
+        )
+        logger.print(
+            f"Test fault rows: {len(loc_test_idx)}"
+        )
+        logger.print(
+            f"MAE : {mae_km:.4f} km "
+            f"({mae_pct:.4f}% of {LINE_LENGTH_KM:.0f} km line)"
+        )
+        logger.print(
+            f"RMSE: {rmse_km:.4f} km"
+        )
+
+        per_location_mae = (
+            pd.DataFrame({
+                "Loc": loc_true,
+                "error": loc_error,
+            })
+            .groupby("Loc")["error"]
+            .mean()
+        )
+
+        logger.print("\nMAE by true location (km):")
+
+        for location_value, error_mean in per_location_mae.items():
+            logger.print(
+                f"  {int(location_value):>3} km: {error_mean:.4f}"
+            )
+
+        metrics.append({
+
+            "timestamp": timestamp,
+
+            "target": "Loc",
+
+            "kernel": SVM_KERNEL,
+
+            "C": SVM_C,
+
+            "gamma": SVM_GAMMA,
+
+            "mae_km": mae_km,
+
+            "mae_pct_line": mae_pct,
+
+            "rmse_km": rmse_km,
+
+            "training_time_seconds":
+                location_training_time,
+        })
+
+        # Export-aligned columns. Rows follow X_test.index order,
+        # matching the per-line prediction columns; values are
+        # empty (NaN) on no-fault test rows.
+        test_fault_mask = fault_mask.loc[X_test.index]
+
+        loc_true_test = df.loc[X_test.index, "Loc"].where(
+            test_fault_mask
+        )
+
+        loc_pred_test = pd.Series(
+            np.nan,
+            index=X_test.index
+        )
+        loc_pred_test.loc[loc_test_idx] = loc_pred
+
+        predictions_wide["Loc_true"] = loc_true_test.to_numpy()
+        predictions_wide["Loc_pred"] = loc_pred_test.to_numpy()
 
         # ----------------------------------------------------
         # SAVE SCENARIO-LEVEL PREDICTIONS AND ROBUSTNESS SWEEP

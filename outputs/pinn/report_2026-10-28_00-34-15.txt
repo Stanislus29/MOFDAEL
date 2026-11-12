@@ -1,0 +1,299 @@
+======================================================================
+TRANSMISSION LINE FAULT DETECTION
+PHYSICS-INFORMED NEURAL NETWORK
+======================================================================
+Timestamp: 2026-10-28_00-34-15
+Dataset: /home/stanislus/Documents/Mr Fiase/data/classdetectfault_data.csv
+
+Dataset shape: (7861, 11)
+Rows removed: 0
+
+FEATURES:
+  Ia
+  Ib
+  Ic
+  Va
+  Vb
+  Vc
+
+ADDITIONAL TARGET:
+  Loc (fault location, km; regression head, fault rows only)
+
+TARGETS:
+  G
+  C
+  B
+  A
+
+PHYSICS CONSTRAINT:
+  Kirchhoff current law: Ia + Ib + Ic -> 0
+
+======================================================================
+CLASS DISTRIBUTION
+======================================================================
+
+G:
+  0: 4465 (56.80%)
+  1: 3396 (43.20%)
+
+C:
+  0: 4628 (58.87%)
+  1: 3233 (41.13%)
+
+B:
+  0: 3494 (44.45%)
+  1: 4367 (55.55%)
+
+A:
+  0: 3369 (42.86%)
+  1: 4492 (57.14%)
+
+Training samples: 6288
+Testing samples: 1573
+
+======================================================================
+TRAINING PINN: G
+======================================================================
+Hidden units   : [64, 64, 32]
+Physics weight : 0.1
+Learning rate  : 0.001
+Max epochs     : 100
+Batch size     : 32
+
+Training time: 346.546642 s
+Epochs run   : 54
+Best epoch   : 44
+Best train loss: 0.248050
+Best val loss  : 0.205998
+
+--- G RESULTS ---
+Accuracy : 0.874126
+Precision: 0.849645
+Recall   : 0.866860
+F1 Score : 0.858166
+Test log loss: 0.19626045
+
+Confusion Matrix:
+[[776 106]
+ [ 92 599]]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.89      0.88      0.89       882
+           1       0.85      0.87      0.86       691
+
+    accuracy                           0.87      1573
+   macro avg       0.87      0.87      0.87      1573
+weighted avg       0.87      0.87      0.87      1573
+
+Total inference latency: 6163.006236 ms
+Latency/sample: 3.917995 ms
+
+Robustness sweep:
+  noise 1.0%: accuracy 0.8760 (+/- 0.0028), f1 0.8597 (+/- 0.0031)
+  noise 5.0%: accuracy 0.8715 (+/- 0.0060), f1 0.8560 (+/- 0.0073)
+  noise 10.0%: accuracy 0.8622 (+/- 0.0082), f1 0.8496 (+/- 0.0097)
+  noise 20.0%: accuracy 0.8388 (+/- 0.0099), f1 0.8282 (+/- 0.0113)
+
+======================================================================
+TRAINING PINN: C
+======================================================================
+Hidden units   : [64, 64, 32]
+Physics weight : 0.1
+Learning rate  : 0.001
+Max epochs     : 100
+Batch size     : 32
+
+Training time: 511.541509 s
+Epochs run   : 78
+Best epoch   : 68
+Best train loss: 0.049794
+Best val loss  : 0.017028
+
+--- C RESULTS ---
+Accuracy : 0.993643
+Precision: 1.000000
+Recall   : 0.983633
+F1 Score : 0.991749
+Test log loss: 0.01815093
+
+Confusion Matrix:
+[[962   0]
+ [ 10 601]]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.99      1.00      0.99       962
+           1       1.00      0.98      0.99       611
+
+    accuracy                           0.99      1573
+   macro avg       0.99      0.99      0.99      1573
+weighted avg       0.99      0.99      0.99      1573
+
+Total inference latency: 6299.187389 ms
+Latency/sample: 4.004569 ms
+
+Robustness sweep:
+  noise 1.0%: accuracy 0.9938 (+/- 0.0008), f1 0.9920 (+/- 0.0010)
+  noise 5.0%: accuracy 0.9428 (+/- 0.0039), f1 0.9303 (+/- 0.0044)
+  noise 10.0%: accuracy 0.8661 (+/- 0.0062), f1 0.8493 (+/- 0.0063)
+  noise 20.0%: accuracy 0.7592 (+/- 0.0110), f1 0.7571 (+/- 0.0093)
+
+======================================================================
+TRAINING PINN: B
+======================================================================
+Hidden units   : [64, 64, 32]
+Physics weight : 0.1
+Learning rate  : 0.001
+Max epochs     : 100
+Batch size     : 32
+
+Training time: 698.149756 s
+Epochs run   : 86
+Best epoch   : 76
+Best train loss: 0.044829
+Best val loss  : 0.014330
+
+--- B RESULTS ---
+Accuracy : 0.994278
+Precision: 1.000000
+Recall   : 0.989399
+F1 Score : 0.994671
+Test log loss: 0.01721019
+
+Confusion Matrix:
+[[724   0]
+ [  9 840]]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.99      1.00      0.99       724
+           1       1.00      0.99      0.99       849
+
+    accuracy                           0.99      1573
+   macro avg       0.99      0.99      0.99      1573
+weighted avg       0.99      0.99      0.99      1573
+
+Total inference latency: 7922.994709 ms
+Latency/sample: 5.036869 ms
+
+Robustness sweep:
+  noise 1.0%: accuracy 0.9933 (+/- 0.0005), f1 0.9938 (+/- 0.0005)
+  noise 5.0%: accuracy 0.9788 (+/- 0.0016), f1 0.9805 (+/- 0.0015)
+  noise 10.0%: accuracy 0.9498 (+/- 0.0036), f1 0.9548 (+/- 0.0031)
+  noise 20.0%: accuracy 0.8761 (+/- 0.0077), f1 0.8947 (+/- 0.0061)
+
+======================================================================
+TRAINING PINN: A
+======================================================================
+Hidden units   : [64, 64, 32]
+Physics weight : 0.1
+Learning rate  : 0.001
+Max epochs     : 100
+Batch size     : 32
+
+Training time: 405.726451 s
+Epochs run   : 51
+Best epoch   : 41
+Best train loss: 0.022555
+Best val loss  : 0.014263
+
+--- A RESULTS ---
+Accuracy : 0.996186
+Precision: 0.997748
+Recall   : 0.995506
+F1 Score : 0.996625
+Test log loss: 0.00759683
+
+Confusion Matrix:
+[[681   2]
+ [  4 886]]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.99      1.00      1.00       683
+           1       1.00      1.00      1.00       890
+
+    accuracy                           1.00      1573
+   macro avg       1.00      1.00      1.00      1573
+weighted avg       1.00      1.00      1.00      1573
+
+Total inference latency: 7835.616170 ms
+Latency/sample: 4.981320 ms
+
+Robustness sweep:
+  noise 1.0%: accuracy 0.9963 (+/- 0.0008), f1 0.9967 (+/- 0.0007)
+  noise 5.0%: accuracy 0.9892 (+/- 0.0020), f1 0.9905 (+/- 0.0017)
+  noise 10.0%: accuracy 0.9704 (+/- 0.0037), f1 0.9741 (+/- 0.0032)
+  noise 20.0%: accuracy 0.9013 (+/- 0.0054), f1 0.9178 (+/- 0.0042)
+
+Overall fault-occurred accuracy: 0.997457
+
+======================================================================
+TRAINING PINN: Loc
+======================================================================
+Hidden units   : [64, 64, 32]
+Output         : linear (location, km)
+Loss           : mse + physics residual (target scaled by line length)
+Physics weight : 0.1
+Learning rate  : 0.001
+Max epochs     : 100
+Batch size     : 32
+
+Training time: 123.856388 s
+Epochs run   : 23
+Best epoch   : 13
+Best train mse (scaled): 0.08716776
+Best val mse (scaled)  : 0.08322997
+Test fault rows: 1091
+MAE : 30.0125 km (25.0104% of 120 km line)
+RMSE: 34.3209 km
+
+MAE by true location (km):
+   15 km: 52.6841
+   30 km: 37.6158
+   45 km: 22.6891
+   60 km: 7.6103
+   75 km: 7.3310
+   90 km: 22.2822
+  105 km: 37.2375
+  120 km: 52.3344
+
+Manifest saved to:
+  /home/stanislus/Documents/Mr Fiase/outputs/pinn/models/pinn_manifest_2026-10-28_00-34-15.joblib
+
+======================================================================
+OVERALL RESULTS
+======================================================================
+Mean Accuracy : 0.964558
+Mean Precision: 0.961848
+Mean F1       : 0.960303
+Mean Latency  : 4.485188 ms
+Mean Robustness: 0.964860
+
+======================================================================
+OUTPUT FILES
+======================================================================
+Report:
+  /home/stanislus/Documents/Mr Fiase/outputs/pinn/report_2026-10-28_00-34-15.txt
+
+Metrics:
+  /home/stanislus/Documents/Mr Fiase/outputs/pinn/metrics.csv
+
+Loss history (per epoch):
+  /home/stanislus/Documents/Mr Fiase/outputs/pinn/loss_history.csv
+
+Predictions:
+  /home/stanislus/Documents/Mr Fiase/outputs/pinn/predictions_pinn.csv
+
+Per-row latency:
+  /home/stanislus/Documents/Mr Fiase/outputs/pinn/latency_per_row_pinn.csv
+
+Robustness sweep:
+  /home/stanislus/Documents/Mr Fiase/outputs/pinn/robustness_pinn.csv
+
+TRAINING COMPLETE
