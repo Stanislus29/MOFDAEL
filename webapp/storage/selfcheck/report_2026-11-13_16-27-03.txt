@@ -1,0 +1,51 @@
+======================================================================
+MOFDAEL PLATFORM — BENCHMARK REPRODUCTION AUDIT
+======================================================================
+Timestamp: 2026-11-13_16-27-03
+Benchmark dataset: classdetectfault_sim.csv
+
+[relay]
+  detection agreement : 1.000000
+  status              : PASS
+
+[ann]
+  detection agreement : 1.000000
+  loc max |diff| (km) : 0.00000763
+  status              : PASS
+
+[cnn]
+  detection agreement : 1.000000
+  loc max |diff| (km) : 0.00001526
+  status              : PASS
+
+[lstm]
+  detection agreement : 1.000000
+  loc max |diff| (km) : 0.00001876
+  status              : PASS
+
+[pinn]
+  detection agreement : 1.000000
+  loc max |diff| (km) : 0.00000763
+  status              : PASS
+
+[rnn]
+  detection agreement : 1.000000
+  loc max |diff| (km) : 0.00001526
+  status              : PASS
+
+[svm]
+  detection agreement : 1.000000
+  status              : PASS
+
+[knn]
+  detection agreement : 1.000000
+  status              : PASS
+
+[dtr]
+  detection agreement : 1.000000
+  status              : PASS
+
+======================================================================
+SUMMARY: 9/9 models reproduce the benchmark
+Report  : /home/stanislus/Documents/Mr Fiase/webapp/storage/selfcheck/report_2026-11-13_16-27-03.txt
+======================================================================

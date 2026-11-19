@@ -1,0 +1,22 @@
+{
+  "created_at": "2026-11-13T17:28:42.375813",
+  "n_rows": 400,
+  "line_length_km": 120.0,
+  "models": {
+    "lstm": {
+      "n_rows": 400,
+      "latency": {
+        "sampled_rows": 100,
+        "mean_ms_per_row": 50.13024511999902
+      },
+      "notes": [
+        "Rows grouped into fault events by Loc resets (single-sample events when Loc is absent)."
+      ],
+      "accuracy": 1.0,
+      "mean_confidence": 1.0,
+      "loc_mae_km": 0.7628429124999999,
+      "loc_mae_pct": 0.6357024270833332
+    }
+  },
+  "n_flag_fault_consensus": 400
+}

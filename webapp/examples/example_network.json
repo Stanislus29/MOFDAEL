@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "name": "Example 161 kV Subtransmission Ring",
+  "nodes": [
+    { "id": "src_1", "type": "source", "x": 80, "y": 220, "label": "Grid Infeed", "props": {} },
+    { "id": "ss_a", "type": "substation", "x": 240, "y": 220, "label": "Substation A", "props": {} },
+    { "id": "rl_1", "type": "relay", "x": 350, "y": 160, "label": "R1", "props": {} },
+    { "id": "tx_a", "type": "transformer", "x": 240, "y": 360, "label": "TX A", "props": {} },
+    { "id": "bus_a", "type": "busbar", "x": 460, "y": 360, "label": "Bus A", "props": {} },
+    { "id": "rl_2", "type": "relay", "x": 560, "y": 160, "label": "R2", "props": {} },
+    { "id": "ss_b", "type": "substation", "x": 700, "y": 220, "label": "Substation B", "props": {} },
+    { "id": "ld_1", "type": "load", "x": 860, "y": 140, "label": "Town Load", "props": {} },
+    { "id": "ld_2", "type": "load", "x": 620, "y": 400, "label": "Industrial Load", "props": {} },
+    { "id": "j_1", "type": "junction", "x": 470, "y": 100, "label": "", "props": {} }
+  ],
+  "edges": [
+    {
+      "id": "e_src_a", "from": "src_1", "to": "ss_a",
+      "props": { "label": "Infeed", "length_km": 12, "r1_per_km": 0.08, "x1_per_km": 0.39, "r0_per_km": 0.228, "x0_per_km": 1.352 }
+    },
+    {
+      "id": "e_fd_a", "from": "ss_a", "to": "j_1",
+      "props": { "label": "Feeder A", "length_km": 60, "r1_per_km": 0.08, "x1_per_km": 0.39, "r0_per_km": 0.228, "x0_per_km": 1.352 }
+    },
+    {
+      "id": "e_fd_b", "from": "j_1", "to": "ss_b",
+      "props": { "label": "Feeder B", "length_km": 90, "r1_per_km": 0.08, "x1_per_km": 0.39, "r0_per_km": 0.228, "x0_per_km": 1.352 }
+    },
+    {
+      "id": "e_fd_c", "from": "ss_b", "to": "bus_a",
+      "props": { "label": "Feeder C", "length_km": 40, "r1_per_km": 0.08, "x1_per_km": 0.39, "r0_per_km": 0.228, "x0_per_km": 1.352 }
+    },
+    { "id": "e_tx_a", "from": "ss_a", "to": "tx_a", "props": { "length_km": 2, "r1_per_km": 0.08, "x1_per_km": 0.39, "r0_per_km": 0.228, "x0_per_km": 1.352 } },
+    { "id": "e_bus", "from": "tx_a", "to": "bus_a", "props": { "length_km": 3, "r1_per_km": 0.08, "x1_per_km": 0.39, "r0_per_km": 0.228, "x0_per_km": 1.352 } },
+    { "id": "e_rl1", "from": "ss_a", "to": "rl_1", "props": { "length_km": 0.5, "r1_per_km": 0.08, "x1_per_km": 0.39, "r0_per_km": 0.228, "x0_per_km": 1.352 } },
+    { "id": "e_rl2", "from": "rl_1", "to": "rl_2", "props": { "length_km": 55, "r1_per_km": 0.08, "x1_per_km": 0.39, "r0_per_km": 0.228, "x0_per_km": 1.352 } },
+    { "id": "e_rl2b", "from": "rl_2", "to": "ss_b", "props": { "length_km": 0.5, "r1_per_km": 0.08, "x1_per_km": 0.39, "r0_per_km": 0.228, "x0_per_km": 1.352 } },
+    { "id": "e_ld1", "from": "ss_b", "to": "ld_1", "props": { "length_km": 1, "r1_per_km": 0.08, "x1_per_km": 0.39, "r0_per_km": 0.228, "x0_per_km": 1.352 } },
+    { "id": "e_ld2", "from": "bus_a", "to": "ld_2", "props": { "length_km": 5, "r1_per_km": 0.08, "x1_per_km": 0.39, "r0_per_km": 0.228, "x0_per_km": 1.352 } }
+  ]
+}

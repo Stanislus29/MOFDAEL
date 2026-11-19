@@ -1,0 +1,74 @@
+======================================================================
+FAULT WAVELET ANALYSIS -- ABG, AB, ABC, ABCG
+======================================================================
+Timestamp: 2026-11-19_11-17-52
+Source physics: src/simulate.py
+
+----------------------------------------------------------------------
+CONFIGURATION
+----------------------------------------------------------------------
+Signatures       : ABG, AB, ABC, ABCG
+Fault resistance : 0.001 ohm (bolted)
+Fault location   : 60.0 km (of 120.0 km line)
+Load level       : 75% (normal)
+Inception angle  : 0.0 deg (voltage zero crossing -> max DC offset)
+Sampling interval: 1.000 ms (1 kHz)
+Window length    : 600 samples = 600 ms
+Mother wavelet   : Morlet, w0 = 6.0
+CWT scales       : 36, 2.00..60.00 samples
+Pseudo-frequency : 15.9 Hz .. 477.5 Hz
+Frequency bands  : transient (0.0, 30.0) Hz, fundamental (45.0, 55.0) Hz, high (60.0, 1000.0) Hz
+
+----------------------------------------------------------------------
+RESULTS -- ABG FAULT
+----------------------------------------------------------------------
+  DC offset amplitude (phase a, t=0) : 3137.3450 A
+  Ia: dominant 51.08 Hz, centroid 50.43 Hz, max energy at 28.0 ms
+  Ib: dominant 51.08 Hz, centroid 50.44 Hz, max energy at 28.0 ms
+  Ic: dominant 51.08 Hz, centroid 50.87 Hz, max energy at 557.0 ms
+
+----------------------------------------------------------------------
+RESULTS -- AB FAULT
+----------------------------------------------------------------------
+  DC offset amplitude (phase a, t=0) : 2692.5755 A
+  Ia: dominant 51.08 Hz, centroid 50.45 Hz, max energy at 29.0 ms
+  Ib: dominant 51.08 Hz, centroid 50.38 Hz, max energy at 27.0 ms
+  Ic: dominant 51.08 Hz, centroid 50.83 Hz, max energy at 45.0 ms
+
+----------------------------------------------------------------------
+RESULTS -- ABC FAULT
+----------------------------------------------------------------------
+  DC offset amplitude (phase a, t=0) : 3747.8724 A
+  Ia: dominant 51.08 Hz, centroid 50.43 Hz, max energy at 28.0 ms
+  Ib: dominant 51.08 Hz, centroid 50.50 Hz, max energy at 31.0 ms
+  Ic: dominant 51.08 Hz, centroid 50.61 Hz, max energy at 35.0 ms
+
+----------------------------------------------------------------------
+RESULTS -- ABCG FAULT
+----------------------------------------------------------------------
+  DC offset amplitude (phase a, t=0) : 3747.8403 A
+  Ia: dominant 51.08 Hz, centroid 50.43 Hz, max energy at 28.0 ms
+  Ib: dominant 51.08 Hz, centroid 50.50 Hz, max energy at 31.0 ms
+  Ic: dominant 51.08 Hz, centroid 50.61 Hz, max energy at 35.0 ms
+
+----------------------------------------------------------------------
+FEATURE SUMMARY (signature level)
+----------------------------------------------------------------------
+  ABG: dominant = Ia 51.1 Hz, Ib 51.1 Hz, Ic 51.1 Hz; transient energy = Ia 3.8265e+09, Ib 2.9416e+09, Ic 6.8317e+06
+  AB: dominant = Ia 51.1 Hz, Ib 51.1 Hz, Ic 51.1 Hz; transient energy = Ia 3.4457e+09, Ib 3.1085e+09, Ic 1.3247e+07
+  ABC: dominant = Ia 51.1 Hz, Ib 51.1 Hz, Ic 51.1 Hz; transient energy = Ia 4.7146e+09, Ib 2.8951e+09, Ic 2.1243e+09
+  ABCG: dominant = Ia 51.1 Hz, Ib 51.1 Hz, Ic 51.1 Hz; transient energy = Ia 4.7146e+09, Ib 2.8950e+09, Ic 2.1244e+09
+
+----------------------------------------------------------------------
+OUTPUT FILES
+----------------------------------------------------------------------
+Report      : /home/stanislus/Documents/Mr Fiase/outputs/wavelet/report_2026-11-19_11-17-52.txt
+Features    : /home/stanislus/Documents/Mr Fiase/outputs/wavelet/wavelet_features.csv
+Figure      : /home/stanislus/Documents/Mr Fiase/outputs/wavelet/figures/wavelet_ABG_scalogram.png
+Figure      : /home/stanislus/Documents/Mr Fiase/outputs/wavelet/figures/wavelet_AB_scalogram.png
+Figure      : /home/stanislus/Documents/Mr Fiase/outputs/wavelet/figures/wavelet_ABC_scalogram.png
+Figure      : /home/stanislus/Documents/Mr Fiase/outputs/wavelet/figures/wavelet_ABCG_scalogram.png
+Figure      : /home/stanislus/Documents/Mr Fiase/outputs/wavelet/figures/wavelet_comparison.png
+Figure      : /home/stanislus/Documents/Mr Fiase/outputs/wavelet/figures/wavelet_timeseries.png
+
+Wavelet analysis complete.

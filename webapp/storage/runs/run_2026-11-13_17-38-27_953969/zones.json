@@ -1,0 +1,347 @@
+{
+  "version": 1,
+  "segments": [
+    {
+      "segment": "Feeder A",
+      "n_rows": 17,
+      "n_flagged": 17,
+      "flagged_fraction": 1.0,
+      "zones": [
+        {
+          "loc_mean_km": 0.0,
+          "loc_min_km": 0.0,
+          "loc_max_km": 0.0,
+          "n_rows": 8,
+          "flag_fraction": 0.111111,
+          "mean_confidence": null,
+          "phases": {
+            "G": 1,
+            "C": 1,
+            "B": 1,
+            "A": 1
+          },
+          "position_source": "loc_truth"
+        },
+        {
+          "loc_mean_km": 10.0,
+          "loc_min_km": 10.0,
+          "loc_max_km": 10.0,
+          "n_rows": 3,
+          "flag_fraction": 0.8888890000000002,
+          "mean_confidence": null,
+          "phases": {
+            "G": 1,
+            "C": 1,
+            "B": 1,
+            "A": 1
+          },
+          "position_source": "loc_truth"
+        },
+        {
+          "loc_mean_km": 30.0,
+          "loc_min_km": 30.0,
+          "loc_max_km": 30.0,
+          "n_rows": 3,
+          "flag_fraction": 0.8888890000000002,
+          "mean_confidence": null,
+          "phases": {
+            "G": 1,
+            "C": 1,
+            "B": 1,
+            "A": 1
+          },
+          "position_source": "loc_truth"
+        },
+        {
+          "loc_mean_km": 45.0,
+          "loc_min_km": 45.0,
+          "loc_max_km": 45.0,
+          "n_rows": 3,
+          "flag_fraction": 0.8888890000000002,
+          "mean_confidence": null,
+          "phases": {
+            "G": 1,
+            "C": 1,
+            "B": 1,
+            "A": 1
+          },
+          "position_source": "loc_truth"
+        }
+      ],
+      "per_model": {
+        "relay": {
+          "flags": 17,
+          "n_rows": 17,
+          "flag_fraction": 1.0
+        },
+        "svm": {
+          "flags": 9,
+          "n_rows": 17,
+          "flag_fraction": 0.529412,
+          "mean_confidence": 0.539031
+        },
+        "dtr": {
+          "flags": 9,
+          "n_rows": 17,
+          "flag_fraction": 0.529412,
+          "mean_confidence": 0.546427
+        },
+        "knn": {
+          "flags": 9,
+          "n_rows": 17,
+          "flag_fraction": 0.529412,
+          "mean_confidence": 0.529412
+        },
+        "ann": {
+          "flags": 9,
+          "n_rows": 17,
+          "flag_fraction": 0.529412,
+          "mean_confidence": 0.535381
+        },
+        "cnn": {
+          "flags": 9,
+          "n_rows": 17,
+          "flag_fraction": 0.529412,
+          "mean_confidence": 0.536192
+        },
+        "lstm": {
+          "flags": 0,
+          "n_rows": 17,
+          "flag_fraction": 0.0,
+          "mean_confidence": 2e-06
+        },
+        "pinn": {
+          "flags": 9,
+          "n_rows": 17,
+          "flag_fraction": 0.529412,
+          "mean_confidence": 0.532037
+        },
+        "rnn": {
+          "flags": 9,
+          "n_rows": 17,
+          "flag_fraction": 0.529412,
+          "mean_confidence": 0.550418
+        }
+      },
+      "has_location": true
+    },
+    {
+      "segment": "Feeder B",
+      "n_rows": 17,
+      "n_flagged": 17,
+      "flagged_fraction": 1.0,
+      "zones": [
+        {
+          "loc_mean_km": 0.0,
+          "loc_min_km": 0.0,
+          "loc_max_km": 0.0,
+          "n_rows": 8,
+          "flag_fraction": 0.111111,
+          "mean_confidence": null,
+          "phases": {
+            "G": 1,
+            "C": 1,
+            "B": 1,
+            "A": 1
+          },
+          "position_source": "loc_truth"
+        },
+        {
+          "loc_mean_km": 15.0,
+          "loc_min_km": 15.0,
+          "loc_max_km": 15.0,
+          "n_rows": 3,
+          "flag_fraction": 0.8888890000000002,
+          "mean_confidence": null,
+          "phases": {
+            "G": 1,
+            "C": 1,
+            "B": 1,
+            "A": 1
+          },
+          "position_source": "loc_truth"
+        },
+        {
+          "loc_mean_km": 50.0,
+          "loc_min_km": 50.0,
+          "loc_max_km": 50.0,
+          "n_rows": 3,
+          "flag_fraction": 0.8888890000000002,
+          "mean_confidence": null,
+          "phases": {
+            "G": 1,
+            "C": 1,
+            "B": 1,
+            "A": 1
+          },
+          "position_source": "loc_truth"
+        },
+        {
+          "loc_mean_km": 80.0,
+          "loc_min_km": 80.0,
+          "loc_max_km": 80.0,
+          "n_rows": 3,
+          "flag_fraction": 0.8888890000000002,
+          "mean_confidence": null,
+          "phases": {
+            "G": 1,
+            "C": 1,
+            "B": 1,
+            "A": 1
+          },
+          "position_source": "loc_truth"
+        }
+      ],
+      "per_model": {
+        "relay": {
+          "flags": 17,
+          "n_rows": 17,
+          "flag_fraction": 1.0
+        },
+        "svm": {
+          "flags": 9,
+          "n_rows": 17,
+          "flag_fraction": 0.529412,
+          "mean_confidence": 0.538685
+        },
+        "dtr": {
+          "flags": 9,
+          "n_rows": 17,
+          "flag_fraction": 0.529412,
+          "mean_confidence": 0.546427
+        },
+        "knn": {
+          "flags": 9,
+          "n_rows": 17,
+          "flag_fraction": 0.529412,
+          "mean_confidence": 0.529412
+        },
+        "ann": {
+          "flags": 9,
+          "n_rows": 17,
+          "flag_fraction": 0.529412,
+          "mean_confidence": 0.530132
+        },
+        "cnn": {
+          "flags": 9,
+          "n_rows": 17,
+          "flag_fraction": 0.529412,
+          "mean_confidence": 0.536191
+        },
+        "lstm": {
+          "flags": 0,
+          "n_rows": 17,
+          "flag_fraction": 0.0,
+          "mean_confidence": 2.1e-05
+        },
+        "pinn": {
+          "flags": 9,
+          "n_rows": 17,
+          "flag_fraction": 0.529412,
+          "mean_confidence": 0.53061
+        },
+        "rnn": {
+          "flags": 9,
+          "n_rows": 17,
+          "flag_fraction": 0.529412,
+          "mean_confidence": 0.54884
+        }
+      },
+      "has_location": true
+    },
+    {
+      "segment": "Feeder C",
+      "n_rows": 14,
+      "n_flagged": 14,
+      "flagged_fraction": 1.0,
+      "zones": [
+        {
+          "loc_mean_km": 2.1818181818181817,
+          "loc_min_km": 0.0,
+          "loc_max_km": 8.0,
+          "n_rows": 11,
+          "flag_fraction": 0.32323227272727273,
+          "mean_confidence": null,
+          "phases": {
+            "G": 1,
+            "C": 1,
+            "B": 1,
+            "A": 1
+          },
+          "position_source": "loc_truth"
+        },
+        {
+          "loc_mean_km": 25.0,
+          "loc_min_km": 25.0,
+          "loc_max_km": 25.0,
+          "n_rows": 3,
+          "flag_fraction": 0.8888890000000002,
+          "mean_confidence": null,
+          "phases": {
+            "G": 1,
+            "C": 1,
+            "B": 1,
+            "A": 1
+          },
+          "position_source": "loc_truth"
+        }
+      ],
+      "per_model": {
+        "relay": {
+          "flags": 14,
+          "n_rows": 14,
+          "flag_fraction": 1.0
+        },
+        "svm": {
+          "flags": 6,
+          "n_rows": 14,
+          "flag_fraction": 0.428571,
+          "mean_confidence": 0.440252
+        },
+        "dtr": {
+          "flags": 6,
+          "n_rows": 14,
+          "flag_fraction": 0.428571,
+          "mean_confidence": 0.449233
+        },
+        "knn": {
+          "flags": 6,
+          "n_rows": 14,
+          "flag_fraction": 0.428571,
+          "mean_confidence": 0.428571
+        },
+        "ann": {
+          "flags": 6,
+          "n_rows": 14,
+          "flag_fraction": 0.428571,
+          "mean_confidence": 0.435854
+        },
+        "cnn": {
+          "flags": 6,
+          "n_rows": 14,
+          "flag_fraction": 0.428571,
+          "mean_confidence": 0.436805
+        },
+        "lstm": {
+          "flags": 0,
+          "n_rows": 14,
+          "flag_fraction": 0.0,
+          "mean_confidence": 0.000227
+        },
+        "pinn": {
+          "flags": 6,
+          "n_rows": 14,
+          "flag_fraction": 0.428571,
+          "mean_confidence": 0.43221
+        },
+        "rnn": {
+          "flags": 6,
+          "n_rows": 14,
+          "flag_fraction": 0.428571,
+          "mean_confidence": 0.454269
+        }
+      },
+      "has_location": true
+    }
+  ]
+}

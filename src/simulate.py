@@ -215,10 +215,12 @@ SIGNATURES: dict[str, tuple[tuple[int, ...], bool, tuple[int, int, int, int]]] =
     "BC": ((1, 2), False, (0, 1, 1, 0)),
     "BCG": ((1, 2), True, (0, 1, 1, 1)),
     "ABG": ((0, 1), True, (1, 0, 1, 1)),
+    "AB": ((0, 1), False, (0, 0, 1, 1)),
     "ABCG": ((0, 1, 2), True, (1, 1, 1, 1)),
+    "ABC": ((0, 1, 2), False, (0, 1, 1, 1)),
 }
 
-SIGNATURE_ORDER = ["AG", "BC", "BCG", "ABG", "ABCG"]
+SIGNATURE_ORDER = ["AG", "BC", "BCG", "ABG", "AB", "ABCG", "ABC"]
 
 
 # ============================================================
@@ -508,9 +510,9 @@ def fault_admittance_seq(sig_name: str, r_f: float) -> np.ndarray:
 
             Yf_phase[p, p] += 1.0 / r_eff
 
-    else:
+    elif len(phases) == 2:
 
-        # ungrounded phase-to-phase: current (Vb - Vc)/r_f
+        # ungrounded phase-to-phase: current (Vp - Vq)/r_f
         p, q = phases
 
         Yf_phase[p, p] += 1.0 / r_eff
@@ -520,6 +522,23 @@ def fault_admittance_seq(sig_name: str, r_f: float) -> np.ndarray:
         Yf_phase[q, p] += -1.0 / r_eff
 
         Yf_phase[q, q] += 1.0 / r_eff
+
+    else:
+
+        # three-phase ungrounded: all phases shorted together, floating
+        # neutral (no ground path). Balanced -> positive sequence only,
+        # i.e. Yf_seq = diag(0, 1/r_eff, 0). Phase-domain matrix whose
+        # sequence transform is that diagonal (built so the constant /
+        # zero-sequence vector is in the null space).
+        a = _A_ROT
+
+        s = 1.0 / r_eff
+
+        Yf_phase = s * np.array([
+            [1.0, a, a * a],
+            [a * a, 1.0, a],
+            [a, a * a, 1.0],
+        ], dtype=complex)
 
     # transform to the sequence domain
     a = _A_ROT
@@ -1031,6 +1050,12 @@ def verification_block(logger: ReportLogger) -> None:
             checks = [("I0 = 0", abs(i0) / base),
                       ("I1 = -I2", abs(i1 + i2) / base)]
 
+        elif sig_name == "AB":
+
+            # ungrounded phase-to-phase: no zero sequence, I1 = -I2
+            checks = [("I0 = 0", abs(i0) / base),
+                      ("I1 = -I2", abs(i1 + i2) / base)]
+
         elif sig_name in ("BCG", "ABG"):
 
             # healthy phase carries no fault current (BCG: phase a,
@@ -1042,7 +1067,7 @@ def verification_block(logger: ReportLogger) -> None:
             checks = [("healthy-phase I_f = 0",
                        abs(i_abc_f[healthy]) / base)]
 
-        else:  # ABCG
+        else:  # ABCG (and ABC: balanced three-phase, only positive sequence)
 
             checks = [("I0 = 0", abs(i0) / base),
                       ("I2 = 0", abs(i2) / base)]
