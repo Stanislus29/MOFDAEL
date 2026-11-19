@@ -289,12 +289,32 @@ def evaluate_h3(
 # H4: ROBUSTNESS UNDER VARYING OPERATING CONDITIONS (TOST EQUIVALENCE)
 # ==============================================================================
 
-def evaluate_h4_tost(baseline_accs: np.ndarray, noisy_accs: np.ndarray, equivalence_margin: float = 0.02, alpha: float = 0.05):
+def evaluate_h4_tost(baseline_accs: np.ndarray, noisy_accs: np.ndarray, equivalence_margin: float = 0.05, alpha: float = 0.05):
     """Two One-Sided Tests (TOST) for statistical equivalence."""
     diffs = noisy_accs - baseline_accs
     mean_diff = np.mean(diffs)
     n = len(diffs)
-    se = np.std(diffs, ddof=1) / np.sqrt(n)
+    sd_diff = np.std(diffs, ddof=1)
+
+    # Zero-variance guard (R8): identical trial vectors make the
+    # t statistic undefined. The verdict is degenerate: a common
+    # difference strictly inside both margins is equivalent with
+    # p = 0; a difference at or beyond a margin is not.
+    if sd_diff == 0.0:
+        inside = abs(mean_diff) < equivalence_margin
+        p_degenerate = 0.0 if inside else 1.0
+        return {
+            "mean_diff": mean_diff,
+            "se": 0.0,
+            "p_upper": p_degenerate,
+            "p_lower": p_degenerate,
+            "p_tost": p_degenerate,
+            "equivalent": inside,
+            "ci90_low": mean_diff,
+            "ci90_high": mean_diff,
+        }
+
+    se = sd_diff / np.sqrt(n)
 
     t_upper = (mean_diff - equivalence_margin) / se
     p_upper = stats.t.cdf(t_upper, df=n - 1)
@@ -303,6 +323,13 @@ def evaluate_h4_tost(baseline_accs: np.ndarray, noisy_accs: np.ndarray, equivale
     p_lower = 1 - stats.t.cdf(t_lower, df=n - 1)
 
     p_tost = max(p_upper, p_lower)
+
+    # 90% CI on the paired difference (R8): equivalent iff the
+    # interval lies wholly inside (-margin, +margin).
+    t_crit = stats.t.ppf(1.0 - alpha, df=n - 1)
+    ci90_low = mean_diff - t_crit * se
+    ci90_high = mean_diff + t_crit * se
+
     return {
         "mean_diff": mean_diff,
         "se": se,
@@ -310,6 +337,8 @@ def evaluate_h4_tost(baseline_accs: np.ndarray, noisy_accs: np.ndarray, equivale
         "p_lower": p_lower,
         "p_tost": p_tost,
         "equivalent": p_tost < alpha,
+        "ci90_low": ci90_low,
+        "ci90_high": ci90_high,
     }
 
 
@@ -318,7 +347,7 @@ def evaluate_h4(
     models: list[str],
     output_dir: Path,
     timestamp: str,
-    margin: float = 0.02
+    margin: float = 0.05
 ):
     """H4 evaluation with CSV and formatted TXT report logging."""
     results = []
@@ -351,6 +380,8 @@ def evaluate_h4(
             status = "EQUIVALENT" if tost_res["equivalent"] else "NOT EQUIVALENT"
             txt_lines.append(
                 f"  Noise Level: {noise * 100:4.1f}% | Mean Diff: {tost_res['mean_diff'] * 100:6.2f}% | "
+                f"90% CI: [{tost_res['ci90_low'] * 100:6.2f}%, {tost_res['ci90_high'] * 100:6.2f}%] | "
+                f"p_lower: {tost_res['p_lower']:.4e} | p_upper: {tost_res['p_upper']:.4e} | "
                 f"TOST p-val: {tost_res['p_tost']:.4e} | Conclusion: {status}"
             )
 
@@ -407,7 +438,7 @@ def run_hypothesis_evaluations(predictions_df, latency_df, robustness_df, fold_f
     evaluate_h4(
         robustness_df=robustness_df,
         models=["CNN", "LSTM"],
-        margin=0.02,
+        margin=0.05,
         output_dir=eval_dir,
         timestamp=timestamp
     )

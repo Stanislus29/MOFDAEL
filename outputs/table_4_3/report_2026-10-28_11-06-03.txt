@@ -1,0 +1,31 @@
+======================================================================
+TABLE 4.3 REGENERATION FROM SOURCE (R6 + R7)
+======================================================================
+Timestamp: 2026-10-28_11-06-03
+Dataset: /home/stanislus/Documents/Mr Fiase/data/classdetectfault_data.csv
+Bootstrap iterations: 2000 (seed 42)
+
+Prediction files loaded: 9
+
+     ann: 1573 rows
+     cnn: 1573 rows
+     dtr: 1573 rows
+     knn: 1573 rows
+    lstm: 1675 rows
+    pinn: 1573 rows
+   relay: 7861 rows
+     rnn: 1573 rows
+     svm: 1573 rows
+
+Common test rows across models: 339
+  (relay primary evaluation set; comparable with the hypothesis tests)
+
+======================================================================
+SCREEN 1: BETWEEN-MODEL VARIANCE (flag if agreement > 99%)
+======================================================================
+        G: agreement = 0.7198 (ok)
+        C: agreement = 0.9646 (ok)
+        B: agreement = 0.9882 (ok)
+        A: agreement = 0.9823 (ok)
+  overall: agreement = 0.9882 (ok)
+

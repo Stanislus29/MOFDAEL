@@ -17,7 +17,7 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 DATA_DIR = PROJECT_ROOT / "data"
 
-DATA_FILE = DATA_DIR / "classdetectfault_data.csv"
+DATA_FILE = DATA_DIR / "classdetectfault_sim.csv"
 
 OUTPUTS_DIR = PROJECT_ROOT / "outputs"
 
@@ -51,6 +51,18 @@ TOST_MARGIN = 0.05
 
 # Must match ROBUSTNESS_TRIALS in the training scripts.
 ROBUSTNESS_TRIALS = 10
+
+# Fault-location percentage-error denominator (H5). Percentage
+# errors are expressed as a fraction of the full protected line
+# length and the denominator is stated explicitly in all output.
+LINE_LENGTH_KM = 120.0
+
+# Relay per-scenario decision latency (H3), the constant
+# reference value from Table 4.3: a fixed relay processing
+# cycle, not a measured random variable. Every relay-versus-
+# model comparison in run_h3 uses this constant aligned to the
+# common test rows.
+RELAY_DECISION_LATENCY_MS = 10.0
 
 BOOTSTRAP_ITERATIONS = 2000
 
@@ -332,11 +344,33 @@ def tost_paired(a, b, margin):
             "diff": 0.0, "se": 0.0, "df": 0,
             "p_lower": 1.0, "p_upper": 1.0,
             "p_tost": 1.0, "equivalent": False,
+            "ci90_low": np.nan, "ci90_high": np.nan,
         }
 
     mean_diff = np.mean(diff)
     sd_diff = np.std(diff, ddof=1)
-    se = sd_diff / np.sqrt(n) if sd_diff > 0 else 1e-10
+    
+    # Zero-variance guard (R8): when every paired difference is
+    # identical the t statistic is undefined (se = 0). The
+    # equivalence verdict is then degenerate, not a numerical
+    # hack: a common difference strictly inside both margins is
+    # equivalent with p = 0; a difference at or beyond a margin
+    # is not equivalent with p = 1.
+    
+    if sd_diff == 0.0:
+        
+        inside = abs(mean_diff) < margin
+        
+        p_degenerate = 0.0 if inside else 1.0
+        
+        return {
+            "diff": mean_diff, "se": 0.0, "df": n - 1,
+            "p_lower": p_degenerate, "p_upper": p_degenerate,
+            "p_tost": p_degenerate, "equivalent": inside,
+            "ci90_low": mean_diff, "ci90_high": mean_diff,
+        }
+    
+    se = sd_diff / np.sqrt(n)
     
     df = n - 1
 
@@ -350,10 +384,20 @@ def tost_paired(a, b, margin):
 
     equivalent = p_tost < ALPHA
 
+    # 90% CI on the paired difference (R8): the TOST verdict is
+    # equivalent iff this interval lies wholly inside
+    # (-margin, +margin).
+
+    t_crit = stats.t.ppf(1.0 - ALPHA, df)
+
+    ci90_low = mean_diff - t_crit * se
+    ci90_high = mean_diff + t_crit * se
+
     return {
         "diff": mean_diff, "se": se, "df": df,
         "p_lower": p_lower, "p_upper": p_upper,
         "p_tost": p_tost, "equivalent": equivalent,
+        "ci90_low": ci90_low, "ci90_high": ci90_high,
     }
 
 
@@ -406,17 +450,13 @@ def run_h1(predictions, common_rows, logger):
         for name in model_names
     }
 
-    # Load relay baseline from classdetectfault_data.csv if available
-    if DATA_FILE.exists():
-        raw_df = pd.read_csv(DATA_FILE)
-        if "row_id" not in raw_df.columns:
-            raw_df = raw_df.reset_index().rename(columns={"index": "row_id"})
-        raw_df = raw_df.set_index("row_id").loc[common_rows]
-        
-        # Relay logic: assuming relay triggers if any of G, C, B, A are 1 in original dataset
-        relay_true = raw_df[TARGET_COLUMNS].max(axis=1).to_numpy()
-        # Relay baseline prediction (traditional protective relaying assuming perfect immediate trip or standard response matching true fault status)
-        correctness["relay"] = (relay_true == relay_true).astype(int) # Baseline reference representation
+    # Relay baseline is loaded as a regular prediction file
+    # (outputs/relay/predictions_relay.csv) by load_predictions().
+    # It is included in the Cochran's Q omnibus but excluded from the
+    # pairwise loop as a subject (we compare each learned model vs relay,
+    # not relay vs itself).
+    relay_name = "relay"
+    pairwise_models = [n for n in model_names if n != relay_name]
 
     matrix = np.column_stack([correctness[name] for name in correctness])
 
@@ -435,12 +475,18 @@ def run_h1(predictions, common_rows, logger):
         "target": "overall", **omnibus,
     }]
 
-    if "relay" not in correctness:
+    if relay_name not in correctness:
+        logger.print(
+            f"\nRelay baseline '{relay_name}' not found in predictions. "
+            f"Skipping pairwise McNemar vs relay."
+        )
         return records
 
-    for name in model_names:
+    # Collect raw p-values for Holm correction across the family
+    raw_results = []
+    for name in pairwise_models:
 
-        result = mcnemar_test(correctness[name], correctness["relay"])
+        result = mcnemar_test(correctness[name], correctness[relay_name])
 
         logger.print(
             f"\n{name} vs relay: "
@@ -451,10 +497,40 @@ def run_h1(predictions, common_rows, logger):
             f"OR = {result['odds_ratio']:.4f}"
         )
 
-        records.append({
-            "test": "mcnemar_vs_relay", "hypothesis": "H1",
-            "target": "overall", "model": name, **result,
-        })
+        raw_results.append((name, result))
+
+    # Holm step-down correction across the family of McNemar comparisons
+    m = len(raw_results)
+    if m > 0:
+
+        def holm_adjusted(p_sorted):
+            """Holm step-down adjusted p-values for sorted raw p-values."""
+            adjusted = []
+            running_max = 0.0
+            for i, p in enumerate(p_sorted):
+                # Holm: p_adj(i) = min(1, max_{j<=i} (m - j) * p_(j))
+                val = (m - i) * p
+                running_max = max(running_max, val)
+                adjusted.append(min(1.0, running_max))
+            return adjusted
+
+        p_sorted = sorted(r[1]["p_value"] for r in raw_results)
+        p_adj = holm_adjusted(p_sorted)
+        p_adj_map = dict(zip(p_sorted, p_adj))
+
+        for name, result in raw_results:
+
+            records.append({
+                "test": "mcnemar_vs_relay", "hypothesis": "H1",
+                "target": "overall", "model": name,
+                "p_value_holm": p_adj_map[result["p_value"]],
+                **result,
+            })
+
+            logger.print(
+                f"  {name}: Holm-adjusted p = "
+                f"{p_adj_map[result['p_value']]:.6f}"
+            )
 
     return records
 
@@ -473,6 +549,13 @@ def run_h2(predictions, logger):
         name for name in predictions
         if name in CLASSICAL_MODELS + DEEP_LEARNING_MODELS
     ]
+
+    # ------------------------------------------------------------
+    # Multiplicity control (Section 3.8.3): within each target, the
+    # 16 cross-family pairwise comparisons form one McNemar family.
+    # Holm step-down adjustment is applied across each family; the
+    # omnibus Cochran's Q tests are not part of the family.
+    # ------------------------------------------------------------
 
     records = []
 
@@ -504,6 +587,9 @@ def run_h2(predictions, logger):
             "target": target, **omnibus,
         })
 
+        # Collect raw p-values for the target's pairwise family
+        raw_results = []
+
         for classical, deep in itertools.product(
             CLASSICAL_MODELS, DEEP_LEARNING_MODELS
         ):
@@ -515,16 +601,40 @@ def run_h2(predictions, logger):
                 correctness[deep], correctness[classical]
             )
 
+            raw_results.append((deep, classical, result))
+
+        # Holm step-down across the target's pairwise family
+        m = len(raw_results)
+
+        def holm_adjusted(p_sorted):
+            """Holm step-down adjusted p-values for sorted raw p-values."""
+            adjusted = []
+            running_max = 0.0
+            for i, p in enumerate(p_sorted):
+                # Holm: p_adj(i) = min(1, max_{j<=i} (m - j) * p_(j))
+                val = (m - i) * p
+                running_max = max(running_max, val)
+                adjusted.append(min(1.0, running_max))
+            return adjusted
+
+        p_sorted = sorted(r[2]["p_value"] for r in raw_results)
+        p_adj = holm_adjusted(p_sorted)
+        p_adj_map = dict(zip(p_sorted, p_adj))
+
+        for deep, classical, result in raw_results:
+
             logger.print(
                 f"  {deep} vs {classical}: "
                 f"p = {result['p_value']:.6f} ({result['method']}), "
-                f"diff = {result['accuracy_diff_pct']:.2f}pp"
+                f"diff = {result['accuracy_diff_pct']:.2f}pp, "
+                f"Holm-adj p = {p_adj_map[result['p_value']]:.6f}"
             )
 
             records.append({
                 "test": "mcnemar_cross_family", "hypothesis": "H2",
                 "target": target,
                 "deep_model": deep, "classical_model": classical,
+                "p_value_holm": p_adj_map[result["p_value"]],
                 **result,
             })
 
@@ -534,6 +644,16 @@ def run_h2(predictions, logger):
 # ============================================================
 # H3: FAULT REPORTING LATENCY
 # ============================================================
+# H3 tests fault-reporting latency against the distance relay —
+# the comparator named in the hypothesis. The relay's per-
+# scenario decision latency is the constant reference value from
+# Table 4.3 (a fixed processing cycle, not a measured random
+# variable), so each relay-versus-model comparison is a paired
+# Wilcoxon signed-rank of model latency minus that constant.
+# Holm correction is applied across the family of relay-versus-
+# model comparisons. The model-versus-model cross-family table
+# is retained as supplementary material (Table 4.15) and is not
+# part of the primary H3 family.
 
 def run_h3(logger, rng):
 
@@ -575,7 +695,104 @@ def run_h3(logger, rng):
     for name in latencies:
         latencies[name] = latencies[name].loc[common_rows].sort_index()
 
+    # Column selection per model: the per-row latency column.
+    latency_col = {}
+
+    for name in latencies:
+        latency_col[name] = (
+            "total_latency_ms"
+            if "total_latency_ms" in latencies[name].columns
+            else latencies[name].columns[0]
+        )
+
+    # ----------------------------------------------------
+    # RELAY REFERENCE LATENCY (Table 4.3)
+    # ----------------------------------------------------
+    # The relay's decision latency is a constant per-scenario
+    # reference (fixed processing cycle from the simulation
+    # logs), not a measured random variable. It is aligned to
+    # the common test rows for the paired comparison.
+
+    relay_latency = pd.Series(
+        RELAY_DECISION_LATENCY_MS,
+        index=common_rows,
+    ).sort_index()
+
+    logger.print(
+        f"\nRelay reference latency (Table 4.3, constant): "
+        f"{RELAY_DECISION_LATENCY_MS:.1f} ms"
+    )
+
     records = []
+
+    # ----------------------------------------------------
+    # PRIMARY FAMILY: RELAY VERSUS EACH MODEL
+    # ----------------------------------------------------
+
+    model_names = sorted(latencies.keys())
+
+    logger.print(
+        f"\nPrimary family: relay vs each model "
+        f"(Holm-corrected across {len(model_names)} comparisons)"
+    )
+
+    raw_results = []
+
+    for name in model_names:
+
+        lat_model = latencies[name][latency_col[name]].to_numpy()
+
+        result = wilcoxon_paired(lat_model, relay_latency.to_numpy(), rng)
+
+        raw_results.append((name, result))
+
+    # Holm step-down correction across the relay family
+    m = len(raw_results)
+
+    p_sorted = sorted(r[1]["p_value"] for r in raw_results)
+
+    adjusted = []
+    running_max = 0.0
+
+    for i, p in enumerate(p_sorted):
+        running_max = max(running_max, (m - i) * p)
+        adjusted.append(min(1.0, running_max))
+
+    p_adj_map = dict(zip(p_sorted, adjusted))
+
+    for name, result in raw_results:
+
+        # d = model - relay: positive values mean the model is
+        # slower than the relay.
+        slower = result["hodges_lehmann"] > 0
+
+        logger.print(
+            f"\n  relay vs {name} (Latency ms): "
+            f"p = {result['p_value']:.6f}, "
+            f"Holm-adj p = {p_adj_map[result['p_value']]:.6f}, "
+            f"Hodges-Lehmann = {result['hodges_lehmann']:.4f} ms "
+            f"[{result['hl_ci_low']:.4f}, {result['hl_ci_high']:.4f}] "
+            f"({'model slower' if slower else 'model faster'}), "
+            f"rank-biserial r = {result['rank_biserial_r']:.4f}"
+        )
+
+        records.append({
+            "test": "wilcoxon_paired", "hypothesis": "H3",
+            "target": "total_latency",
+            "model_a": "relay", "model_b": name,
+            "p_value_holm": p_adj_map[result["p_value"]],
+            **result,
+        })
+
+    # ----------------------------------------------------
+    # SUPPLEMENTARY: MODEL-VERSUS-MODEL (CROSS-FAMILY)
+    # ----------------------------------------------------
+
+    logger.print(
+        "\nSupplementary: model-versus-model cross-family "
+        "comparisons (Table 4.15; not part of the primary "
+        "H3 family)"
+    )
 
     for classical, deep in itertools.product(
         CLASSICAL_MODELS, DEEP_LEARNING_MODELS
@@ -583,12 +800,11 @@ def run_h3(logger, rng):
 
         if classical not in latencies or deep not in latencies:
             continue
-            
-        col_c = "total_latency_ms" if "total_latency_ms" in latencies[classical].columns else latencies[classical].columns[0]
-        col_d = "total_latency_ms" if "total_latency_ms" in latencies[deep].columns else latencies[deep].columns[0]
 
-        lat_classical = latencies[classical][col_c].to_numpy()
-        lat_deep = latencies[deep][col_d].to_numpy()
+        lat_classical = (
+            latencies[classical][latency_col[classical]].to_numpy()
+        )
+        lat_deep = latencies[deep][latency_col[deep]].to_numpy()
 
         result = wilcoxon_paired(lat_deep, lat_classical, rng)
 
@@ -596,11 +812,13 @@ def run_h3(logger, rng):
             f"\n  {deep} vs {classical} (Latency ms): "
             f"p = {result['p_value']:.6f}, "
             f"Hodges-Lehmann = {result['hodges_lehmann']:.4f} ms "
-            f"[{result['hl_ci_low']:.4f}, {result['hl_ci_high']:.4f}]"
+            f"[{result['hl_ci_low']:.4f}, {result['hl_ci_high']:.4f}], "
+            f"rank-biserial r = {result['rank_biserial_r']:.4f}"
         )
 
         records.append({
-            "test": "wilcoxon_paired", "hypothesis": "H3",
+            "test": "wilcoxon_paired_supplementary",
+            "hypothesis": "H3",
             "target": "total_latency",
             "deep_model": deep, "classical_model": classical,
             **result,
@@ -663,7 +881,11 @@ def run_h4(logger):
                 logger.print(
                     f"  {reference['noise_level'] * 100:.0f}% vs "
                     f"{row['noise_level'] * 100:.0f}% noise: "
-                    f"diff = {result['diff']:.4f}, "
+                    f"diff = {result['diff']:.4f} "
+                    f"[90% CI {result['ci90_low']:.4f}, "
+                    f"{result['ci90_high']:.4f}], "
+                    f"p_lower = {result['p_lower']:.6f}, "
+                    f"p_upper = {result['p_upper']:.6f}, "
                     f"p_TOST = {result['p_tost']:.6f} ({verdict})"
                 )
 
@@ -681,12 +903,27 @@ def run_h4(logger):
 # ============================================================
 # H5: FAULT LOCATION ACCURACY
 # ============================================================
-# "Location error" here is per-row classification error (0 = correct,
-# 1 = incorrect) on G/C/B/A, grouped by the true fault location (Loc)
-# and blocked across models. Friedman is the omnibus test across all
-# models at each location, Wilcoxon signed-rank is the post-hoc
-# pairwise comparison, both non-parametric since the error is bounded
-# at zero and right-skewed.
+# H5 tests fault-LOCATION accuracy, not classification accuracy.
+# It requires per-model location predictions as Loc_true / Loc_pred
+# columns in each model's predictions_<model>.csv file (produced once
+# the models are retrained with a location head — see TODO.md R3).
+#
+# If no model exports location predictions, run_h5 FAILS LOUDLY and is
+# skipped. It deliberately does NOT fall back to the previous behaviour
+# (grouping per-line classification error by Loc), which tested the
+# wrong quantity and produced the degenerate result documented in
+# outputs/h5_diagnostics/ (63 Hodges-Lehmann estimates of exactly
+# 0.0000, probabilities of only 1.000000 and 0.317311) that must not
+# be reported as location equivalence.
+#
+# When location predictions ARE available:
+#   - error is the per-scenario absolute difference |Loc_pred - Loc_true|
+#     in kilometres;
+#   - percentage error divides by the full protected line length
+#     (LINE_LENGTH_KM, stated explicitly in all output);
+#   - Friedman is the omnibus test across models at each location and
+#     pooled over all fault scenarios; Wilcoxon signed-rank is the
+#     post-hoc pairwise comparison with Holm correction.
 
 def run_h5(predictions, common_rows, logger, rng):
 
@@ -694,15 +931,59 @@ def run_h5(predictions, common_rows, logger, rng):
     logger.print("H5: FAULT LOCATION ACCURACY")
     logger.print("=" * 70)
 
-    model_names = [
-        name for name in predictions
-        if name in CLASSICAL_MODELS + DEEP_LEARNING_MODELS
+    logger.print(
+        "\nPercentage-error denominator (protected line length): "
+        f"{LINE_LENGTH_KM:.0f} km"
+    )
+
+    # ----------------------------------------------------
+    # LOCATE PER-MODEL LOCATION PREDICTIONS
+    # ----------------------------------------------------
+
+    location_models = [
+        name for name, df in predictions.items()
+        if "Loc_true" in df.columns and "Loc_pred" in df.columns
     ]
 
-    if len(model_names) < 2:
+    if len(location_models) < 2:
 
-        logger.print("Need at least two models to compare. Skipping.")
+        logger.print(
+            "\nH5 SKIPPED: no per-model fault-location predictions available."
+        )
+        logger.print(
+            "  Models with Loc_true/Loc_pred columns: "
+            f"{location_models if location_models else 'none'}"
+        )
+        logger.print(
+            "  'Loc' is under IGNORED METADATA in every training script, so"
+        )
+        logger.print(
+            "  no model ever produced a location estimate (diagnosis:"
+        )
+        logger.print(
+            "  outputs/h5_diagnostics/). Testing per-line classification"
+        )
+        logger.print(
+            "  error grouped by Loc — as previously done — is NOT a test of"
+        )
+        logger.print(
+            "  fault-location accuracy and returned a degenerate variable;"
+        )
+        logger.print(
+            "  that behaviour has been removed. See TODO.md R3 for the two"
+        )
+        logger.print(
+            "  honest repair paths (retrain location heads, or withdraw the"
+        )
+        logger.print(
+            "  objective and declare it in section 3.15)."
+        )
+
         return []
+
+    # ----------------------------------------------------
+    # LOAD TRUE LOCATIONS FROM THE DATASET
+    # ----------------------------------------------------
 
     if not DATA_FILE.exists():
 
@@ -716,139 +997,142 @@ def run_h5(predictions, common_rows, logger, rng):
 
     raw_df = raw_df.set_index("row_id").loc[common_rows]
 
-    locations = sorted(raw_df["Loc"].unique())
+    # Fault scenarios only: the no-fault stratum (Loc = 0) is not a
+    # location. The eight fault locations of Table 3.3 are Loc > 0.
+    fault_rows = raw_df.index[raw_df["Loc"] > 0]
 
-    logger.print(f"\nLocations found: {locations}")
+    if len(fault_rows) < 2:
+
+        logger.print("\nNo fault scenarios in the common set. Skipping.")
+        return []
+
+    logger.print(
+        f"\nModels with location predictions: {location_models}"
+    )
+    logger.print(f"Fault scenarios in common set: {len(fault_rows)}")
+
+    # Per-scenario absolute location error (km) per model,
+    # indexed by row_id so per-location slices line up across
+    # models.
+    loc_error = {}
+
+    for name in location_models:
+
+        df = predictions[name].loc[fault_rows].sort_index()
+
+        true_loc = df["Loc_true"].to_numpy(dtype=float)
+        pred_loc = df["Loc_pred"].to_numpy(dtype=float)
+
+        loc_error[name] = pd.Series(
+            np.abs(pred_loc - true_loc),
+            index=df.index,
+        )
+
+    # ----------------------------------------------------
+    # POOLED MAE PER MODEL (km and % of line length)
+    # ----------------------------------------------------
+
+    logger.print("\nMAE per model (all fault scenarios pooled):")
+    logger.print(
+        f"  {'model':>6} | {'MAE (km)':>9} | "
+        f"{'MAE (% of ' + format(LINE_LENGTH_KM, '.0f') + ' km line)':>22}"
+    )
+    logger.print("  " + "-" * 44)
+
+    for name in location_models:
+        mae_km = float(loc_error[name].mean())
+        mae_pct = mae_km / LINE_LENGTH_KM * 100
+        logger.print(
+            f"  {name:>6} | {mae_km:>9.4f} | {mae_pct:>21.4f}%"
+        )
+
+    # ----------------------------------------------------
+    # FRIEDMAN OMNIBUS, WILCOXON POST-HOC (HOLM)
+    # ----------------------------------------------------
 
     records = []
 
-    for loc in locations:
+    # Pooled across all fault scenarios
+    analyses = [("all_locations", fault_rows)]
 
-        loc_rows = raw_df.index[raw_df["Loc"] == loc]
+    # Per location (the eight fault locations of Table 3.3)
+    for loc in sorted(raw_df.loc[fault_rows, "Loc"].unique()):
+        analyses.append((f"Loc_{loc}", raw_df.index[raw_df["Loc"] == loc]))
 
-        if len(loc_rows) < 2:
+    for label, rows in analyses:
+
+        rows = raw_df.index.intersection(rows)
+
+        if len(rows) < 2:
             continue
 
-        logger.print(f"\n--- Loc = {loc} ---")
-
-        # Per-line error at this location, blocked by model
-        for target in TARGET_COLUMNS:
-
-            error = {
-                name: (
-                    predictions[name].loc[loc_rows, f"{target}_true"]
-                    != predictions[name].loc[loc_rows, f"{target}_pred"]
-                ).astype(int).to_numpy()
-                for name in model_names
-            }
-
-            matrix = np.column_stack(
-                [error[name] for name in model_names]
-            )
-
-            omnibus = friedman_test(matrix)
-
-            logger.print(
-                f"  {target}: Friedman chi2 = {omnibus['statistic']:.4f}, "
-                f"df = {omnibus['df']}, p = {omnibus['p_value']:.6f}, "
-                f"Kendall's W = {omnibus['kendalls_w']:.4f}"
-            )
-
-            records.append({
-                "test": "friedman_omnibus", "hypothesis": "H5",
-                "location": loc, "target": target, **omnibus,
-            })
-
-            pairs = list(itertools.combinations(model_names, 2))
-            bonferroni_alpha = ALPHA / len(pairs) if pairs else ALPHA
-
-            for model_a, model_b in pairs:
-
-                result = wilcoxon_paired(
-                    error[model_a], error[model_b], rng
-                )
-
-                significant = result["p_value"] < bonferroni_alpha
-
-                logger.print(
-                    f"    {model_a} vs {model_b}: "
-                    f"p = {result['p_value']:.6f} "
-                    f"({'sig' if significant else 'ns'} @ "
-                    f"Bonferroni alpha={bonferroni_alpha:.5f}), "
-                    f"Hodges-Lehmann = {result['hodges_lehmann']:.4f} "
-                    f"[{result['hl_ci_low']:.4f}, {result['hl_ci_high']:.4f}]"
-                )
-
-                records.append({
-                    "test": "wilcoxon_posthoc", "hypothesis": "H5",
-                    "location": loc, "target": target,
-                    "model_a": model_a, "model_b": model_b,
-                    "bonferroni_alpha": bonferroni_alpha,
-                    "significant": significant,
-                    **result,
-                })
-
-        # Cumulative accuracy across all lines, at this location
-        overall_error = {
-            name: (
-                predictions[name].loc[loc_rows, "overall_true"]
-                != predictions[name].loc[loc_rows, "overall_pred"]
-            ).astype(int).to_numpy()
-            for name in model_names
-        }
+        logger.print(f"\n--- {label} (n = {len(rows)}) ---")
 
         matrix = np.column_stack(
-            [overall_error[name] for name in model_names]
+            [loc_error[name].loc[rows].to_numpy() for name in location_models]
         )
 
         omnibus = friedman_test(matrix)
 
         logger.print(
-            f"  overall: Friedman chi2 = {omnibus['statistic']:.4f}, "
+            f"  Friedman chi2 = {omnibus['statistic']:.4f}, "
             f"df = {omnibus['df']}, p = {omnibus['p_value']:.6f}, "
             f"Kendall's W = {omnibus['kendalls_w']:.4f}"
         )
 
         records.append({
             "test": "friedman_omnibus", "hypothesis": "H5",
-            "location": loc, "target": "overall", **omnibus,
+            "location": label, "metric": "abs_location_error_km",
+            **omnibus,
         })
 
-        pairs = list(itertools.combinations(model_names, 2))
-        bonferroni_alpha = ALPHA / len(pairs) if pairs else ALPHA
+        pairs = list(itertools.combinations(location_models, 2))
 
+        raw_results = []
         for model_a, model_b in pairs:
 
             result = wilcoxon_paired(
-                overall_error[model_a], overall_error[model_b], rng
+                loc_error[model_a].loc[rows].to_numpy(),
+                loc_error[model_b].loc[rows].to_numpy(),
+                rng
             )
+            raw_results.append((model_a, model_b, result))
 
-            significant = result["p_value"] < bonferroni_alpha
+        # Holm step-down correction across the pairwise family
+        m = len(raw_results)
 
-            logger.print(
-                f"    {model_a} vs {model_b}: "
-                f"p = {result['p_value']:.6f} "
-                f"({'sig' if significant else 'ns'} @ "
-                f"Bonferroni alpha={bonferroni_alpha:.5f}), "
-                f"Hodges-Lehmann = {result['hodges_lehmann']:.4f} "
-                f"[{result['hl_ci_low']:.4f}, {result['hl_ci_high']:.4f}]"
-            )
+        if m > 0:
 
-            records.append({
-                "test": "wilcoxon_posthoc", "hypothesis": "H5",
-                "location": loc, "target": "overall",
-                "model_a": model_a, "model_b": model_b,
-                "bonferroni_alpha": bonferroni_alpha,
-                "significant": significant,
-                **result,
-            })
+            p_sorted = sorted(r[2]["p_value"] for r in raw_results)
+            adjusted = []
+            running_max = 0.0
+            for i, p in enumerate(p_sorted):
+                running_max = max(running_max, (m - i) * p)
+                adjusted.append(min(1.0, running_max))
+            p_adj_map = dict(zip(p_sorted, adjusted))
+
+            for model_a, model_b, result in raw_results:
+
+                logger.print(
+                    f"    {model_a} vs {model_b}: "
+                    f"p = {result['p_value']:.6f}, "
+                    f"Holm-adj p = {p_adj_map[result['p_value']]:.6f}, "
+                    f"Hodges-Lehmann = {result['hodges_lehmann']:.4f} km "
+                    f"[{result['hl_ci_low']:.4f}, "
+                    f"{result['hl_ci_high']:.4f}]"
+                )
+
+                records.append({
+                    "test": "wilcoxon_posthoc", "hypothesis": "H5",
+                    "location": label,
+                    "metric": "abs_location_error_km",
+                    "model_a": model_a, "model_b": model_b,
+                    "p_value_holm": p_adj_map[result["p_value"]],
+                    **result,
+                })
 
     return records
 
-
-# ============================================================
-# MAIN
-# ============================================================
 
 def main():
 

@@ -1,0 +1,275 @@
+======================================================================
+TRANSMISSION LINE FAULT DETECTION
+RECURRENT NEURAL NETWORK (RNN)
+======================================================================
+Timestamp: 2026-11-12_16-23-34
+Dataset: /home/stanislus/Documents/Mr Fiase/data/classdetectfault_sim.csv
+
+Dataset shape: (5365, 11)
+Rows removed: 0
+
+FEATURES:
+  Ia
+  Ib
+  Ic
+  Va
+  Vb
+  Vc
+
+ADDITIONAL TARGET:
+  Loc (fault location, km; regression head, fault rows only)
+
+TARGETS:
+  G
+  C
+  B
+  A
+
+======================================================================
+CLASS DISTRIBUTION
+======================================================================
+
+G:
+  0: 3565 (66.45%)
+  1: 1800 (33.55%)
+
+C:
+  0: 3565 (66.45%)
+  1: 1800 (33.55%)
+
+B:
+  0: 2965 (55.27%)
+  1: 2400 (44.73%)
+
+A:
+  0: 2965 (55.27%)
+  1: 2400 (44.73%)
+
+SCENARIO-LEVEL SPLIT (Section 3.8.2, R9):
+  scenarios total          : 671 (375 fault runs, 296 no-fault windows)
+  train scenarios          : 537 (4296 rows)
+  test scenarios           : 134 (1069 rows)
+  train fault/no-fault rows: 2400 / 1896
+  test fault/no-fault rows : 600 / 469
+  scenarios spanning both  : 0 (0 by construction)
+  no-fault windows are blocked contiguously (tail of the recording -> test); fault runs are partitioned with stratified group selection.
+
+Training samples: 4296
+Testing samples: 1069
+
+======================================================================
+TRAINING RNN: G
+======================================================================
+Hidden Size : 64
+Layers      : 2
+Epochs      : 30
+Batch Size  : 64
+Device      : cpu
+
+Training time: 3.953270 s
+Final training log loss: 0.05284750
+
+--- G RESULTS ---
+Accuracy : 0.985033
+Precision: 0.994253
+Recall   : 0.961111
+F1 Score : 0.977401
+
+Confusion Matrix:
+[[707   2]
+ [ 14 346]]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.98      1.00      0.99       709
+           1       0.99      0.96      0.98       360
+
+    accuracy                           0.99      1069
+   macro avg       0.99      0.98      0.98      1069
+weighted avg       0.99      0.99      0.98      1069
+
+Total inference latency: 823.393502 ms
+Latency/sample: 0.770246 ms
+
+Robustness sweep:
+  noise 1.0%: accuracy 0.9842 (+/- 0.0011), f1 0.9761 (+/- 0.0016)
+  noise 5.0%: accuracy 0.9702 (+/- 0.0014), f1 0.9557 (+/- 0.0020)
+  noise 10.0%: accuracy 0.9203 (+/- 0.0043), f1 0.8892 (+/- 0.0054)
+  noise 20.0%: accuracy 0.8029 (+/- 0.0087), f1 0.7607 (+/- 0.0085)
+
+======================================================================
+TRAINING RNN: C
+======================================================================
+Hidden Size : 64
+Layers      : 2
+Epochs      : 30
+Batch Size  : 64
+Device      : cpu
+
+Training time: 2.944280 s
+Final training log loss: 0.07851924
+
+--- C RESULTS ---
+Accuracy : 0.978485
+Precision: 0.982808
+Recall   : 0.952778
+F1 Score : 0.967560
+
+Confusion Matrix:
+[[703   6]
+ [ 17 343]]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.98      0.99      0.98       709
+           1       0.98      0.95      0.97       360
+
+    accuracy                           0.98      1069
+   macro avg       0.98      0.97      0.98      1069
+weighted avg       0.98      0.98      0.98      1069
+
+Total inference latency: 827.210566 ms
+Latency/sample: 0.773817 ms
+
+Robustness sweep:
+  noise 1.0%: accuracy 0.9776 (+/- 0.0014), f1 0.9664 (+/- 0.0020)
+  noise 5.0%: accuracy 0.9655 (+/- 0.0033), f1 0.9487 (+/- 0.0047)
+  noise 10.0%: accuracy 0.9168 (+/- 0.0066), f1 0.8841 (+/- 0.0083)
+  noise 20.0%: accuracy 0.7773 (+/- 0.0093), f1 0.7375 (+/- 0.0094)
+
+======================================================================
+TRAINING RNN: B
+======================================================================
+Hidden Size : 64
+Layers      : 2
+Epochs      : 30
+Batch Size  : 64
+Device      : cpu
+
+Training time: 2.887142 s
+Final training log loss: 0.03689759
+
+--- B RESULTS ---
+Accuracy : 0.985033
+Precision: 0.991525
+Recall   : 0.975000
+F1 Score : 0.983193
+
+Confusion Matrix:
+[[585   4]
+ [ 12 468]]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.98      0.99      0.99       589
+           1       0.99      0.97      0.98       480
+
+    accuracy                           0.99      1069
+   macro avg       0.99      0.98      0.98      1069
+weighted avg       0.99      0.99      0.99      1069
+
+Total inference latency: 817.711271 ms
+Latency/sample: 0.764931 ms
+
+Robustness sweep:
+  noise 1.0%: accuracy 0.9850 (+/- 0.0018), f1 0.9832 (+/- 0.0020)
+  noise 5.0%: accuracy 0.9630 (+/- 0.0052), f1 0.9597 (+/- 0.0055)
+  noise 10.0%: accuracy 0.8816 (+/- 0.0079), f1 0.8812 (+/- 0.0070)
+  noise 20.0%: accuracy 0.7437 (+/- 0.0106), f1 0.7729 (+/- 0.0073)
+
+======================================================================
+TRAINING RNN: A
+======================================================================
+Hidden Size : 64
+Layers      : 2
+Epochs      : 30
+Batch Size  : 64
+Device      : cpu
+
+Training time: 2.981816 s
+Final training log loss: 0.16128020
+
+--- A RESULTS ---
+Accuracy : 0.927970
+Precision: 0.956916
+Recall   : 0.879167
+F1 Score : 0.916395
+
+Confusion Matrix:
+[[570  19]
+ [ 58 422]]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.91      0.97      0.94       589
+           1       0.96      0.88      0.92       480
+
+    accuracy                           0.93      1069
+   macro avg       0.93      0.92      0.93      1069
+weighted avg       0.93      0.93      0.93      1069
+
+Total inference latency: 819.134896 ms
+Latency/sample: 0.766263 ms
+
+Robustness sweep:
+  noise 1.0%: accuracy 0.9269 (+/- 0.0019), f1 0.9151 (+/- 0.0023)
+  noise 5.0%: accuracy 0.9149 (+/- 0.0039), f1 0.9020 (+/- 0.0046)
+  noise 10.0%: accuracy 0.8426 (+/- 0.0083), f1 0.8312 (+/- 0.0080)
+  noise 20.0%: accuracy 0.7160 (+/- 0.0076), f1 0.7300 (+/- 0.0055)
+
+Overall fault-occurred accuracy: 0.993452
+
+======================================================================
+TRAINING RNN: Loc
+======================================================================
+Output      : linear (location, km)
+Loss        : MSELoss (target scaled by line length)
+Hidden Size : 64
+Layers      : 2
+Epochs      : 30
+Batch Size  : 64
+Device      : cpu
+
+Training time: 1.605314 s
+Final training MSE (scaled target): 0.04253491
+Test fault rows: 600
+MAE : 18.2758 km (15.2298% of 120 km line)
+RMSE: 22.8683 km
+
+MAE by true location (km):
+   15 km: 32.5819
+   30 km: 20.3661
+   45 km: 15.6449
+   60 km: 14.2138
+   75 km: 13.1864
+   90 km: 13.0040
+  105 km: 14.4453
+  120 km: 22.7638
+
+Models saved to:
+  /home/stanislus/Documents/Mr Fiase/outputs/rnn/models/rnn_model_2026-11-12_16-23-34.pt
+
+======================================================================
+OVERALL RESULTS
+======================================================================
+Mean Accuracy : 0.969130
+Mean Precision: 0.981376
+Mean F1       : 0.961137
+Mean Latency  : 0.768814 ms
+Mean Robustness: 0.968452
+
+======================================================================
+OUTPUT FILES
+======================================================================
+Report          : /home/stanislus/Documents/Mr Fiase/outputs/rnn/report_2026-11-12_16-23-34.txt
+Metrics         : /home/stanislus/Documents/Mr Fiase/outputs/rnn/metrics.csv
+Loss            : /home/stanislus/Documents/Mr Fiase/outputs/rnn/loss_history.csv
+Predictions     : /home/stanislus/Documents/Mr Fiase/outputs/rnn/predictions_rnn.csv
+Per-row latency : /home/stanislus/Documents/Mr Fiase/outputs/rnn/latency_per_row_rnn.csv
+Robustness sweep: /home/stanislus/Documents/Mr Fiase/outputs/rnn/robustness_rnn.csv
+
+TRAINING COMPLETE

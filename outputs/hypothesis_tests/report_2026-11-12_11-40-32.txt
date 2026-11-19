@@ -1,0 +1,152 @@
+======================================================================
+HYPOTHESIS TESTING: H1-H5
+======================================================================
+Timestamp: 2026-11-12_11-40-32
+Prediction files found:
+  ann: 1554 rows
+  cnn: 1554 rows
+  dtr: 1554 rows
+  knn: 1554 rows
+  lstm: 1554 rows
+  pinn: 1554 rows
+  relay: 7861 rows
+  rnn: 1554 rows
+  svm: 1554 rows
+
+Common rows across all models: 1554
+  relay: dropping 6307 rows not in the common set
+
+======================================================================
+H1: FAULT DETECTION ACCURACY (overall fault occurred)
+======================================================================
+
+Cochran's Q omnibus across 9 methods:
+  Q = 1910.8861, df = 8, p = 0.000000
+
+ann vs relay: p = 0.000000 (chi2_continuity_corrected), accuracy diff = 17.25pp [15.37, 19.12], OR = inf
+
+cnn vs relay: p = 0.000000 (chi2_continuity_corrected), accuracy diff = 16.92pp [15.06, 18.79], OR = inf
+
+dtr vs relay: p = 0.000000 (chi2_continuity_corrected), accuracy diff = 17.05pp [15.18, 18.92], OR = inf
+
+knn vs relay: p = 0.000000 (chi2_continuity_corrected), accuracy diff = 17.31pp [15.42, 19.20], OR = 270.0000
+
+lstm vs relay: p = 0.000000 (chi2_continuity_corrected), accuracy diff = 17.44pp [15.55, 19.33], OR = inf
+
+pinn vs relay: p = 0.000000 (chi2_continuity_corrected), accuracy diff = 16.99pp [15.12, 18.86], OR = inf
+
+rnn vs relay: p = 0.000000 (chi2_continuity_corrected), accuracy diff = 16.99pp [15.12, 18.86], OR = inf
+
+svm vs relay: p = 0.000000 (chi2_continuity_corrected), accuracy diff = 16.92pp [15.03, 18.81], OR = 88.6667
+  ann: Holm-adjusted p = 0.000000
+  cnn: Holm-adjusted p = 0.000000
+  dtr: Holm-adjusted p = 0.000000
+  knn: Holm-adjusted p = 0.000000
+  lstm: Holm-adjusted p = 0.000000
+  pinn: Holm-adjusted p = 0.000000
+  rnn: Holm-adjusted p = 0.000000
+  svm: Holm-adjusted p = 0.000000
+
+======================================================================
+H2: PER-LINE CLASSIFICATION PERFORMANCE
+======================================================================
+
+--- G ---
+Cochran's Q: Q = 62.9160, df = 7, p = 0.000000
+  cnn vs svm: p = 0.388885 (chi2_continuity_corrected), diff = 0.51pp, Holm-adj p = 0.793544
+  lstm vs svm: p = 0.003569 (chi2_continuity_corrected), diff = 1.48pp, Holm-adj p = 0.032118
+  pinn vs svm: p = 0.941232 (chi2_continuity_corrected), diff = 0.00pp, Holm-adj p = 0.941232
+  cnn vs dtr: p = 0.006139 (chi2_continuity_corrected), diff = 1.93pp, Holm-adj p = 0.049115
+  lstm vs dtr: p = 0.000030 (chi2_continuity_corrected), diff = 2.90pp, Holm-adj p = 0.000444
+  pinn vs dtr: p = 0.158709 (chi2_continuity_corrected), diff = 1.42pp, Holm-adj p = 0.793544
+  cnn vs knn: p = 0.002091 (chi2_continuity_corrected), diff = -2.64pp, Holm-adj p = 0.020915
+  lstm vs knn: p = 0.056620 (chi2_continuity_corrected), diff = -1.67pp, Holm-adj p = 0.339721
+  pinn vs knn: p = 0.000899 (chi2_continuity_corrected), diff = -3.15pp, Holm-adj p = 0.009894
+  cnn vs rnn: p = 0.189816 (chi2_continuity_corrected), diff = 1.29pp, Holm-adj p = 0.793544
+  lstm vs rnn: p = 0.030513 (chi2_continuity_corrected), diff = 2.25pp, Holm-adj p = 0.213590
+  pinn vs rnn: p = 0.182222 (chi2_continuity_corrected), diff = 0.77pp, Holm-adj p = 0.793544
+  cnn vs ann: p = 0.000601 (chi2_continuity_corrected), diff = 2.96pp, Holm-adj p = 0.007211
+  lstm vs ann: p = 0.000033 (chi2_continuity_corrected), diff = 3.93pp, Holm-adj p = 0.000465
+  pinn vs ann: p = 0.000159 (chi2_continuity_corrected), diff = 2.45pp, Holm-adj p = 0.002069
+
+--- C ---
+Cochran's Q: Q = 34.6190, df = 7, p = 0.000013
+  cnn vs svm: p = 0.006611 (exact_binomial), diff = 0.90pp, Holm-adj p = 0.079329
+  lstm vs svm: p = 0.281198 (chi2_continuity_corrected), diff = -0.45pp, Holm-adj p = 1.000000
+  pinn vs svm: p = 0.629059 (exact_binomial), diff = 0.19pp, Holm-adj p = 1.000000
+  cnn vs dtr: p = 0.012726 (exact_binomial), diff = 0.71pp, Holm-adj p = 0.129997
+  lstm vs dtr: p = 0.088973 (chi2_continuity_corrected), diff = -0.64pp, Holm-adj p = 0.800757
+  pinn vs dtr: p = 1.000000 (exact_binomial), diff = 0.00pp, Holm-adj p = 1.000000
+  cnn vs knn: p = 0.002654 (chi2_continuity_corrected), diff = 1.16pp, Holm-adj p = 0.034502
+  lstm vs knn: p = 0.581055 (exact_binomial), diff = -0.19pp, Holm-adj p = 1.000000
+  pinn vs knn: p = 0.210040 (exact_binomial), diff = 0.45pp, Holm-adj p = 1.000000
+  cnn vs rnn: p = 0.000402 (exact_binomial), diff = 1.03pp, Holm-adj p = 0.005634
+  lstm vs rnn: p = 0.423711 (chi2_continuity_corrected), diff = -0.32pp, Holm-adj p = 1.000000
+  pinn vs rnn: p = 0.125000 (exact_binomial), diff = 0.32pp, Holm-adj p = 1.000000
+  cnn vs ann: p = 0.000078 (chi2_continuity_corrected), diff = 1.48pp, Holm-adj p = 0.001166
+  lstm vs ann: p = 0.726562 (exact_binomial), diff = 0.13pp, Holm-adj p = 1.000000
+  pinn vs ann: p = 0.011818 (exact_binomial), diff = 0.77pp, Holm-adj p = 0.129997
+
+--- B ---
+Cochran's Q: Q = 40.9784, df = 7, p = 0.000001
+  cnn vs svm: p = 0.877371 (chi2_continuity_corrected), diff = 0.13pp, Holm-adj p = 1.000000
+  lstm vs svm: p = 0.271818 (chi2_continuity_corrected), diff = -0.58pp, Holm-adj p = 1.000000
+  pinn vs svm: p = 0.877371 (chi2_continuity_corrected), diff = 0.13pp, Holm-adj p = 1.000000
+  cnn vs dtr: p = 0.151590 (exact_binomial), diff = -0.51pp, Holm-adj p = 0.936604
+  lstm vs dtr: p = 0.006052 (chi2_continuity_corrected), diff = -1.22pp, Holm-adj p = 0.054464
+  pinn vs dtr: p = 0.133801 (exact_binomial), diff = -0.51pp, Holm-adj p = 0.936604
+  cnn vs knn: p = 0.000221 (exact_binomial), diff = -1.09pp, Holm-adj p = 0.003098
+  lstm vs knn: p = 0.000007 (chi2_continuity_corrected), diff = -1.80pp, Holm-adj p = 0.000102
+  pinn vs knn: p = 0.000221 (exact_binomial), diff = -1.09pp, Holm-adj p = 0.003098
+  cnn vs rnn: p = 0.790527 (exact_binomial), diff = -0.13pp, Holm-adj p = 1.000000
+  lstm vs rnn: p = 0.086476 (chi2_continuity_corrected), diff = -0.84pp, Holm-adj p = 0.691810
+  pinn vs rnn: p = 0.790527 (exact_binomial), diff = -0.13pp, Holm-adj p = 1.000000
+  cnn vs ann: p = 0.000488 (exact_binomial), diff = -0.77pp, Holm-adj p = 0.005371
+  lstm vs ann: p = 0.000427 (chi2_continuity_corrected), diff = -1.48pp, Holm-adj p = 0.005124
+  pinn vs ann: p = 0.001831 (exact_binomial), diff = -0.77pp, Holm-adj p = 0.018311
+
+--- A ---
+Cochran's Q: Q = 33.9935, df = 7, p = 0.000017
+  cnn vs svm: p = 0.250000 (exact_binomial), diff = -0.19pp, Holm-adj p = 1.000000
+  lstm vs svm: p = 1.000000 (exact_binomial), diff = 0.06pp, Holm-adj p = 1.000000
+  pinn vs svm: p = 0.070312 (exact_binomial), diff = -0.39pp, Holm-adj p = 0.843750
+  cnn vs dtr: p = 0.125000 (exact_binomial), diff = -0.26pp, Holm-adj p = 1.000000
+  lstm vs dtr: p = 1.000000 (exact), diff = 0.00pp, Holm-adj p = 1.000000
+  pinn vs dtr: p = 0.015625 (exact_binomial), diff = -0.45pp, Holm-adj p = 0.218750
+  cnn vs knn: p = 0.250000 (exact_binomial), diff = -0.19pp, Holm-adj p = 1.000000
+  lstm vs knn: p = 1.000000 (exact_binomial), diff = 0.06pp, Holm-adj p = 1.000000
+  pinn vs knn: p = 0.070312 (exact_binomial), diff = -0.39pp, Holm-adj p = 0.843750
+  cnn vs rnn: p = 0.179565 (exact_binomial), diff = 0.39pp, Holm-adj p = 1.000000
+  lstm vs rnn: p = 0.001953 (exact_binomial), diff = 0.64pp, Holm-adj p = 0.029297
+  pinn vs rnn: p = 0.507812 (exact_binomial), diff = 0.19pp, Holm-adj p = 1.000000
+  cnn vs ann: p = 0.687500 (exact_binomial), diff = -0.13pp, Holm-adj p = 1.000000
+  lstm vs ann: p = 0.500000 (exact_binomial), diff = 0.13pp, Holm-adj p = 1.000000
+  pinn vs ann: p = 0.062500 (exact_binomial), diff = -0.32pp, Holm-adj p = 0.812500
+
+======================================================================
+H3: FAULT REPORTING LATENCY
+======================================================================
+
+Common latency rows across models: 1554
+
+Relay reference latency (Table 4.3, constant): 10.0 ms
+
+Primary family: relay vs each model (Holm-corrected across 8 comparisons)
+
+  relay vs ann (Latency ms): p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -9.9984 ms [-9.9984, -9.9984] (model faster), rank-biserial r = -1.0000
+
+  relay vs cnn (Latency ms): p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -9.9152 ms [-9.9161, -9.9143] (model faster), rank-biserial r = -1.0000
+
+  relay vs dtr (Latency ms): p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -9.9990 ms [-9.9990, -9.9990] (model faster), rank-biserial r = -1.0000
+
+  relay vs knn (Latency ms): p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -9.9781 ms [-9.9782, -9.9781] (model faster), rank-biserial r = -1.0000
+
+  relay vs lstm (Latency ms): p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 691.0569 ms [669.9757, 712.3107] (model slower), rank-biserial r = 1.0000
+
+  relay vs pinn (Latency ms): p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -9.9965 ms [-9.9965, -9.9965] (model faster), rank-biserial r = -1.0000
+
+  relay vs rnn (Latency ms): p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -9.9988 ms [-9.9988, -9.9988] (model faster), rank-biserial r = -1.0000
+
+  relay vs svm (Latency ms): p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -9.9984 ms [-9.9984, -9.9984] (model faster), rank-biserial r = -1.0000
+
+Supplementary: model-versus-model cross-family comparisons (Table 4.15; not part of the primary H3 family)

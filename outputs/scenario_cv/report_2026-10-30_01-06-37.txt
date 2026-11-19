@@ -1,0 +1,7 @@
+======================================================================
+R9: STRATIFIED GROUP K-FOLD CV (K = 7) — SECTION 3.12.1 RECONCILIATION
+======================================================================
+Timestamp: 2026-10-30_01-06-37
+Dataset: /home/stanislus/Documents/Mr Fiase/data/classdetectfault_data.csv
+Models: knn, dtr, svm, ann, rnn, cnn, pinn (LSTM excluded — see report notes)
+

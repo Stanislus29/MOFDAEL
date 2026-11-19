@@ -1,0 +1,134 @@
+======================================================================
+HYPOTHESIS TESTING: H1-H5
+======================================================================
+Timestamp: 2026-10-30_00-07-30
+Prediction files found:
+  ann: 1554 rows
+  cnn: 1554 rows
+  dtr: 1554 rows
+  knn: 1554 rows
+  lstm: 1554 rows
+  pinn: 1554 rows
+  relay: 7861 rows
+  rnn: 1554 rows
+  svm: 1554 rows
+
+Common rows across all models: 1554
+  relay: dropping 6307 rows not in the common set
+
+======================================================================
+H1: FAULT DETECTION ACCURACY (overall fault occurred)
+======================================================================
+
+Cochran's Q omnibus across 9 methods:
+  Q = 1910.8861, df = 8, p = 0.000000
+
+ann vs relay: p = 0.000000 (chi2_continuity_corrected), accuracy diff = 17.25pp [15.37, 19.12], OR = inf
+
+cnn vs relay: p = 0.000000 (chi2_continuity_corrected), accuracy diff = 16.92pp [15.06, 18.79], OR = inf
+
+dtr vs relay: p = 0.000000 (chi2_continuity_corrected), accuracy diff = 17.05pp [15.18, 18.92], OR = inf
+
+knn vs relay: p = 0.000000 (chi2_continuity_corrected), accuracy diff = 17.31pp [15.42, 19.20], OR = 270.0000
+
+lstm vs relay: p = 0.000000 (chi2_continuity_corrected), accuracy diff = 17.44pp [15.55, 19.33], OR = inf
+
+pinn vs relay: p = 0.000000 (chi2_continuity_corrected), accuracy diff = 16.99pp [15.12, 18.86], OR = inf
+
+rnn vs relay: p = 0.000000 (chi2_continuity_corrected), accuracy diff = 16.99pp [15.12, 18.86], OR = inf
+
+svm vs relay: p = 0.000000 (chi2_continuity_corrected), accuracy diff = 16.92pp [15.03, 18.81], OR = 88.6667
+  Holm-adjusted p = 0.000000
+  Holm-adjusted p = 0.000000
+  Holm-adjusted p = 0.000000
+  Holm-adjusted p = 0.000000
+  Holm-adjusted p = 0.000000
+  Holm-adjusted p = 0.000000
+  Holm-adjusted p = 0.000000
+  Holm-adjusted p = 0.000000
+
+======================================================================
+H2: PER-LINE CLASSIFICATION PERFORMANCE
+======================================================================
+
+--- G ---
+Cochran's Q: Q = 62.9160, df = 7, p = 0.000000
+  cnn vs svm: p = 0.388885 (chi2_continuity_corrected), diff = 0.51pp
+  lstm vs svm: p = 0.003569 (chi2_continuity_corrected), diff = 1.48pp
+  pinn vs svm: p = 0.941232 (chi2_continuity_corrected), diff = 0.00pp
+  cnn vs dtr: p = 0.006139 (chi2_continuity_corrected), diff = 1.93pp
+  lstm vs dtr: p = 0.000030 (chi2_continuity_corrected), diff = 2.90pp
+  pinn vs dtr: p = 0.158709 (chi2_continuity_corrected), diff = 1.42pp
+  cnn vs knn: p = 0.002091 (chi2_continuity_corrected), diff = -2.64pp
+  lstm vs knn: p = 0.056620 (chi2_continuity_corrected), diff = -1.67pp
+  pinn vs knn: p = 0.000899 (chi2_continuity_corrected), diff = -3.15pp
+  cnn vs rnn: p = 0.189816 (chi2_continuity_corrected), diff = 1.29pp
+  lstm vs rnn: p = 0.030513 (chi2_continuity_corrected), diff = 2.25pp
+  pinn vs rnn: p = 0.182222 (chi2_continuity_corrected), diff = 0.77pp
+  cnn vs ann: p = 0.000601 (chi2_continuity_corrected), diff = 2.96pp
+  lstm vs ann: p = 0.000033 (chi2_continuity_corrected), diff = 3.93pp
+  pinn vs ann: p = 0.000159 (chi2_continuity_corrected), diff = 2.45pp
+
+--- C ---
+Cochran's Q: Q = 34.6190, df = 7, p = 0.000013
+  cnn vs svm: p = 0.006611 (exact_binomial), diff = 0.90pp
+  lstm vs svm: p = 0.281198 (chi2_continuity_corrected), diff = -0.45pp
+  pinn vs svm: p = 0.629059 (exact_binomial), diff = 0.19pp
+  cnn vs dtr: p = 0.012726 (exact_binomial), diff = 0.71pp
+  lstm vs dtr: p = 0.088973 (chi2_continuity_corrected), diff = -0.64pp
+  pinn vs dtr: p = 1.000000 (exact_binomial), diff = 0.00pp
+  cnn vs knn: p = 0.002654 (chi2_continuity_corrected), diff = 1.16pp
+  lstm vs knn: p = 0.581055 (exact_binomial), diff = -0.19pp
+  pinn vs knn: p = 0.210040 (exact_binomial), diff = 0.45pp
+  cnn vs rnn: p = 0.000402 (exact_binomial), diff = 1.03pp
+  lstm vs rnn: p = 0.423711 (chi2_continuity_corrected), diff = -0.32pp
+  pinn vs rnn: p = 0.125000 (exact_binomial), diff = 0.32pp
+  cnn vs ann: p = 0.000078 (chi2_continuity_corrected), diff = 1.48pp
+  lstm vs ann: p = 0.726562 (exact_binomial), diff = 0.13pp
+  pinn vs ann: p = 0.011818 (exact_binomial), diff = 0.77pp
+
+--- B ---
+Cochran's Q: Q = 40.9784, df = 7, p = 0.000001
+  cnn vs svm: p = 0.877371 (chi2_continuity_corrected), diff = 0.13pp
+  lstm vs svm: p = 0.271818 (chi2_continuity_corrected), diff = -0.58pp
+  pinn vs svm: p = 0.877371 (chi2_continuity_corrected), diff = 0.13pp
+  cnn vs dtr: p = 0.151590 (exact_binomial), diff = -0.51pp
+  lstm vs dtr: p = 0.006052 (chi2_continuity_corrected), diff = -1.22pp
+  pinn vs dtr: p = 0.133801 (exact_binomial), diff = -0.51pp
+  cnn vs knn: p = 0.000221 (exact_binomial), diff = -1.09pp
+  lstm vs knn: p = 0.000007 (chi2_continuity_corrected), diff = -1.80pp
+  pinn vs knn: p = 0.000221 (exact_binomial), diff = -1.09pp
+  cnn vs rnn: p = 0.790527 (exact_binomial), diff = -0.13pp
+  lstm vs rnn: p = 0.086476 (chi2_continuity_corrected), diff = -0.84pp
+  pinn vs rnn: p = 0.790527 (exact_binomial), diff = -0.13pp
+  cnn vs ann: p = 0.000488 (exact_binomial), diff = -0.77pp
+  lstm vs ann: p = 0.000427 (chi2_continuity_corrected), diff = -1.48pp
+  pinn vs ann: p = 0.001831 (exact_binomial), diff = -0.77pp
+
+--- A ---
+Cochran's Q: Q = 33.9935, df = 7, p = 0.000017
+  cnn vs svm: p = 0.250000 (exact_binomial), diff = -0.19pp
+  lstm vs svm: p = 1.000000 (exact_binomial), diff = 0.06pp
+  pinn vs svm: p = 0.070312 (exact_binomial), diff = -0.39pp
+  cnn vs dtr: p = 0.125000 (exact_binomial), diff = -0.26pp
+  lstm vs dtr: p = 1.000000 (exact), diff = 0.00pp
+  pinn vs dtr: p = 0.015625 (exact_binomial), diff = -0.45pp
+  cnn vs knn: p = 0.250000 (exact_binomial), diff = -0.19pp
+  lstm vs knn: p = 1.000000 (exact_binomial), diff = 0.06pp
+  pinn vs knn: p = 0.070312 (exact_binomial), diff = -0.39pp
+  cnn vs rnn: p = 0.179565 (exact_binomial), diff = 0.39pp
+  lstm vs rnn: p = 0.001953 (exact_binomial), diff = 0.64pp
+  pinn vs rnn: p = 0.507812 (exact_binomial), diff = 0.19pp
+  cnn vs ann: p = 0.687500 (exact_binomial), diff = -0.13pp
+  lstm vs ann: p = 0.500000 (exact_binomial), diff = 0.13pp
+  pinn vs ann: p = 0.062500 (exact_binomial), diff = -0.32pp
+
+======================================================================
+H3: FAULT REPORTING LATENCY
+======================================================================
+
+Common latency rows across models: 1554
+
+Relay reference latency (Table 4.3, constant): 10.0 ms
+
+Primary family: relay vs each model (Holm-corrected across 8 comparisons)

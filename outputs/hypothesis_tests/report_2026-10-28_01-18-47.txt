@@ -1,0 +1,640 @@
+======================================================================
+HYPOTHESIS TESTING: H1-H5
+======================================================================
+Timestamp: 2026-10-28_01-18-47
+Prediction files found:
+  ann: 1573 rows
+  cnn: 1573 rows
+  dtr: 1573 rows
+  knn: 1573 rows
+  lstm: 1675 rows
+  pinn: 1573 rows
+  relay: 7861 rows
+  rnn: 1573 rows
+  svm: 1573 rows
+
+Common rows across all models: 339
+  ann: dropping 1234 rows not in the common set
+  cnn: dropping 1234 rows not in the common set
+  dtr: dropping 1234 rows not in the common set
+  knn: dropping 1234 rows not in the common set
+  lstm: dropping 1336 rows not in the common set
+  pinn: dropping 1234 rows not in the common set
+  relay: dropping 7522 rows not in the common set
+  rnn: dropping 1234 rows not in the common set
+  svm: dropping 1234 rows not in the common set
+
+======================================================================
+H1: FAULT DETECTION ACCURACY (overall fault occurred)
+======================================================================
+
+Cochran's Q omnibus across 9 methods:
+  Q = 447.2615, df = 8, p = 0.000000
+
+ann vs relay: p = 0.000000 (chi2_continuity_corrected), accuracy diff = 17.70pp [13.64, 21.76], OR = inf
+
+cnn vs relay: p = 0.000000 (chi2_continuity_corrected), accuracy diff = 17.99pp [13.90, 22.08], OR = inf
+
+dtr vs relay: p = 0.000000 (chi2_continuity_corrected), accuracy diff = 17.70pp [13.64, 21.76], OR = inf
+
+knn vs relay: p = 0.000000 (chi2_continuity_corrected), accuracy diff = 17.99pp [13.90, 22.08], OR = inf
+
+lstm vs relay: p = 0.000000 (chi2_continuity_corrected), accuracy diff = 17.70pp [13.64, 21.76], OR = inf
+
+pinn vs relay: p = 0.000000 (chi2_continuity_corrected), accuracy diff = 17.70pp [13.64, 21.76], OR = inf
+
+rnn vs relay: p = 0.000000 (chi2_continuity_corrected), accuracy diff = 17.40pp [13.37, 21.44], OR = inf
+
+svm vs relay: p = 0.000000 (chi2_continuity_corrected), accuracy diff = 17.99pp [13.90, 22.08], OR = inf
+  Holm-adjusted p = 0.000000
+  Holm-adjusted p = 0.000000
+  Holm-adjusted p = 0.000000
+  Holm-adjusted p = 0.000000
+  Holm-adjusted p = 0.000000
+  Holm-adjusted p = 0.000000
+  Holm-adjusted p = 0.000000
+  Holm-adjusted p = 0.000000
+
+======================================================================
+H2: PER-LINE CLASSIFICATION PERFORMANCE
+======================================================================
+
+--- G ---
+Cochran's Q: Q = 10.9426, df = 7, p = 0.141142
+  cnn vs svm: p = 0.507812 (exact_binomial), diff = -0.88pp
+  lstm vs svm: p = 0.115318 (exact_binomial), diff = -2.36pp
+  pinn vs svm: p = 0.710347 (chi2_continuity_corrected), diff = -0.88pp
+  cnn vs dtr: p = 0.629059 (exact_binomial), diff = 0.88pp
+  lstm vs dtr: p = 0.790527 (exact_binomial), diff = -0.59pp
+  pinn vs dtr: p = 0.770493 (chi2_continuity_corrected), diff = 0.88pp
+  cnn vs knn: p = 0.164915 (chi2_continuity_corrected), diff = -2.95pp
+  lstm vs knn: p = 0.045500 (chi2_continuity_corrected), diff = -4.42pp
+  pinn vs knn: p = 0.174844 (chi2_continuity_corrected), diff = -2.95pp
+  cnn vs rnn: p = 0.381471 (chi2_continuity_corrected), diff = -2.06pp
+  lstm vs rnn: p = 0.141579 (chi2_continuity_corrected), diff = -3.54pp
+  pinn vs rnn: p = 0.400814 (chi2_continuity_corrected), diff = -2.06pp
+  cnn vs ann: p = 0.253098 (chi2_continuity_corrected), diff = -2.65pp
+  lstm vs ann: p = 0.082352 (chi2_continuity_corrected), diff = -4.13pp
+  pinn vs ann: p = 0.305696 (chi2_continuity_corrected), diff = -2.65pp
+
+--- C ---
+Cochran's Q: Q = 24.0299, df = 7, p = 0.001126
+  cnn vs svm: p = 0.125000 (exact_binomial), diff = 1.18pp
+  lstm vs svm: p = 1.000000 (exact_binomial), diff = -0.29pp
+  pinn vs svm: p = 1.000000 (exact_binomial), diff = -0.29pp
+  cnn vs dtr: p = 0.500000 (exact_binomial), diff = 0.59pp
+  lstm vs dtr: p = 0.375000 (exact_binomial), diff = -0.88pp
+  pinn vs dtr: p = 0.453125 (exact_binomial), diff = -0.88pp
+  cnn vs knn: p = 0.500000 (exact_binomial), diff = 0.59pp
+  lstm vs knn: p = 0.250000 (exact_binomial), diff = -0.88pp
+  pinn vs knn: p = 0.375000 (exact_binomial), diff = -0.88pp
+  cnn vs rnn: p = 0.007812 (exact_binomial), diff = 2.36pp
+  lstm vs rnn: p = 0.250000 (exact_binomial), diff = 0.88pp
+  pinn vs rnn: p = 0.250000 (exact_binomial), diff = 0.88pp
+  cnn vs ann: p = 0.007812 (exact_binomial), diff = 2.36pp
+  lstm vs ann: p = 0.250000 (exact_binomial), diff = 0.88pp
+  pinn vs ann: p = 0.250000 (exact_binomial), diff = 0.88pp
+
+--- B ---
+Cochran's Q: Q = 8.0182, df = 7, p = 0.330993
+  cnn vs svm: p = 1.000000 (exact_binomial), diff = 0.29pp
+  lstm vs svm: p = 1.000000 (exact_binomial), diff = 0.29pp
+  pinn vs svm: p = 1.000000 (exact_binomial), diff = -0.29pp
+  cnn vs dtr: p = 0.500000 (exact_binomial), diff = 0.59pp
+  lstm vs dtr: p = 0.500000 (exact_binomial), diff = 0.59pp
+  pinn vs dtr: p = 1.000000 (exact_binomial), diff = 0.00pp
+  cnn vs knn: p = 1.000000 (exact_binomial), diff = 0.29pp
+  lstm vs knn: p = 1.000000 (exact_binomial), diff = 0.29pp
+  pinn vs knn: p = 1.000000 (exact_binomial), diff = -0.29pp
+  cnn vs rnn: p = 0.250000 (exact_binomial), diff = 0.88pp
+  lstm vs rnn: p = 0.250000 (exact_binomial), diff = 0.88pp
+  pinn vs rnn: p = 1.000000 (exact_binomial), diff = 0.29pp
+  cnn vs ann: p = 0.500000 (exact_binomial), diff = 0.59pp
+  lstm vs ann: p = 0.500000 (exact_binomial), diff = 0.59pp
+  pinn vs ann: p = 1.000000 (exact_binomial), diff = 0.00pp
+
+--- A ---
+Cochran's Q: Q = 12.6491, df = 7, p = 0.081133
+  cnn vs svm: p = 1.000000 (exact), diff = 0.00pp
+  lstm vs svm: p = 0.250000 (exact_binomial), diff = -0.88pp
+  pinn vs svm: p = 0.500000 (exact_binomial), diff = -0.59pp
+  cnn vs dtr: p = 1.000000 (exact), diff = 0.00pp
+  lstm vs dtr: p = 0.250000 (exact_binomial), diff = -0.88pp
+  pinn vs dtr: p = 0.500000 (exact_binomial), diff = -0.59pp
+  cnn vs knn: p = 1.000000 (exact), diff = 0.00pp
+  lstm vs knn: p = 0.250000 (exact_binomial), diff = -0.88pp
+  pinn vs knn: p = 0.500000 (exact_binomial), diff = -0.59pp
+  cnn vs rnn: p = 0.250000 (exact_binomial), diff = 0.88pp
+  lstm vs rnn: p = 1.000000 (exact_binomial), diff = 0.00pp
+  pinn vs rnn: p = 1.000000 (exact_binomial), diff = 0.29pp
+  cnn vs ann: p = 1.000000 (exact_binomial), diff = 0.29pp
+  lstm vs ann: p = 0.625000 (exact_binomial), diff = -0.59pp
+  pinn vs ann: p = 1.000000 (exact_binomial), diff = -0.29pp
+
+======================================================================
+H3: FAULT REPORTING LATENCY
+======================================================================
+
+Common latency rows across models: 339
+
+  cnn vs svm (Latency ms): p = 0.000000, Hodges-Lehmann = 0.0604 ms [0.0602, 0.0606]
+
+  lstm vs svm (Latency ms): p = 0.000000, Hodges-Lehmann = 279.9975 ms [268.0728, 296.6627]
+
+  pinn vs svm (Latency ms): p = 0.000000, Hodges-Lehmann = 0.0028 ms [0.0028, 0.0029]
+
+  cnn vs dtr (Latency ms): p = 0.000000, Hodges-Lehmann = 0.0606 ms [0.0604, 0.0608]
+
+  lstm vs dtr (Latency ms): p = 0.000000, Hodges-Lehmann = 279.9976 ms [267.6206, 296.4907]
+
+  pinn vs dtr (Latency ms): p = 0.000000, Hodges-Lehmann = 0.0030 ms [0.0030, 0.0030]
+
+  cnn vs knn (Latency ms): p = 0.000000, Hodges-Lehmann = 0.0474 ms [0.0472, 0.0476]
+
+  lstm vs knn (Latency ms): p = 0.000000, Hodges-Lehmann = 279.9846 ms [267.8237, 295.9902]
+
+  pinn vs knn (Latency ms): p = 0.000000, Hodges-Lehmann = -0.0101 ms [-0.0101, -0.0100]
+
+  cnn vs rnn (Latency ms): p = 0.000000, Hodges-Lehmann = 0.0605 ms [0.0603, 0.0607]
+
+  lstm vs rnn (Latency ms): p = 0.000000, Hodges-Lehmann = 279.9976 ms [267.6684, 295.9455]
+
+  pinn vs rnn (Latency ms): p = 0.000000, Hodges-Lehmann = 0.0029 ms [0.0029, 0.0030]
+
+  cnn vs ann (Latency ms): p = 0.000000, Hodges-Lehmann = 0.0605 ms [0.0603, 0.0606]
+
+  lstm vs ann (Latency ms): p = 0.000000, Hodges-Lehmann = 279.9976 ms [267.1608, 296.2936]
+
+  pinn vs ann (Latency ms): p = 0.000000, Hodges-Lehmann = 0.0029 ms [0.0029, 0.0029]
+
+======================================================================
+H4: ROBUSTNESS (TOST equivalence)
+======================================================================
+
+Equivalence margin: 5.0 accuracy points (justify this value in the thesis text)
+
+ann / G:
+  1% vs 5% noise: diff = 0.0043, p_TOST = 0.000000 (equivalent)
+  1% vs 10% noise: diff = 0.0101, p_TOST = 0.000000 (equivalent)
+  1% vs 20% noise: diff = 0.0349, p_TOST = 0.000256 (equivalent)
+
+ann / C:
+  1% vs 5% noise: diff = 0.0069, p_TOST = 0.000000 (equivalent)
+  1% vs 10% noise: diff = 0.0326, p_TOST = 0.000002 (equivalent)
+  1% vs 20% noise: diff = 0.0901, p_TOST = 1.000000 (not equivalent)
+
+ann / B:
+  1% vs 5% noise: diff = 0.0107, p_TOST = 0.000000 (equivalent)
+  1% vs 10% noise: diff = 0.0481, p_TOST = 0.157036 (not equivalent)
+  1% vs 20% noise: diff = 0.1214, p_TOST = 1.000000 (not equivalent)
+
+ann / A:
+  1% vs 5% noise: diff = 0.0060, p_TOST = 0.000000 (equivalent)
+  1% vs 10% noise: diff = 0.0200, p_TOST = 0.000000 (equivalent)
+  1% vs 20% noise: diff = 0.0581, p_TOST = 0.999797 (not equivalent)
+
+cnn / G:
+  1% vs 5% noise: diff = 0.0051, p_TOST = 0.000000 (equivalent)
+  1% vs 10% noise: diff = 0.0243, p_TOST = 0.000000 (equivalent)
+  1% vs 20% noise: diff = 0.0704, p_TOST = 0.999996 (not equivalent)
+
+cnn / C:
+  1% vs 5% noise: diff = 0.0265, p_TOST = 0.000000 (equivalent)
+  1% vs 10% noise: diff = 0.0575, p_TOST = 0.999666 (not equivalent)
+  1% vs 20% noise: diff = 0.1144, p_TOST = 1.000000 (not equivalent)
+
+cnn / B:
+  1% vs 5% noise: diff = 0.0218, p_TOST = 0.000000 (equivalent)
+  1% vs 10% noise: diff = 0.0636, p_TOST = 0.999925 (not equivalent)
+  1% vs 20% noise: diff = 0.1423, p_TOST = 1.000000 (not equivalent)
+
+cnn / A:
+  1% vs 5% noise: diff = 0.0123, p_TOST = 0.000000 (equivalent)
+  1% vs 10% noise: diff = 0.0360, p_TOST = 0.000002 (equivalent)
+  1% vs 20% noise: diff = 0.0780, p_TOST = 1.000000 (not equivalent)
+
+dtr / G:
+  1% vs 5% noise: diff = 0.0757, p_TOST = 0.999995 (not equivalent)
+  1% vs 10% noise: diff = 0.1397, p_TOST = 1.000000 (not equivalent)
+  1% vs 20% noise: diff = 0.2294, p_TOST = 1.000000 (not equivalent)
+
+dtr / C:
+  1% vs 5% noise: diff = 0.0910, p_TOST = 1.000000 (not equivalent)
+  1% vs 10% noise: diff = 0.2003, p_TOST = 1.000000 (not equivalent)
+  1% vs 20% noise: diff = 0.3338, p_TOST = 1.000000 (not equivalent)
+
+dtr / B:
+  1% vs 5% noise: diff = 0.0788, p_TOST = 0.999998 (not equivalent)
+  1% vs 10% noise: diff = 0.1654, p_TOST = 1.000000 (not equivalent)
+  1% vs 20% noise: diff = 0.2787, p_TOST = 1.000000 (not equivalent)
+
+dtr / A:
+  1% vs 5% noise: diff = 0.0743, p_TOST = 1.000000 (not equivalent)
+  1% vs 10% noise: diff = 0.1324, p_TOST = 1.000000 (not equivalent)
+  1% vs 20% noise: diff = 0.2240, p_TOST = 1.000000 (not equivalent)
+
+knn / G:
+  1% vs 5% noise: diff = -0.0304, p_TOST = 0.000000 (equivalent)
+  1% vs 10% noise: diff = -0.0350, p_TOST = 0.000000 (equivalent)
+  1% vs 20% noise: diff = -0.0220, p_TOST = 0.000000 (equivalent)
+
+knn / C:
+  1% vs 5% noise: diff = 0.0078, p_TOST = 0.000000 (equivalent)
+  1% vs 10% noise: diff = 0.0214, p_TOST = 0.000000 (equivalent)
+  1% vs 20% noise: diff = 0.0523, p_TOST = 0.922712 (not equivalent)
+
+knn / B:
+  1% vs 5% noise: diff = 0.0038, p_TOST = 0.000000 (equivalent)
+  1% vs 10% noise: diff = 0.0140, p_TOST = 0.000000 (equivalent)
+  1% vs 20% noise: diff = 0.0401, p_TOST = 0.000001 (equivalent)
+
+knn / A:
+  1% vs 5% noise: diff = 0.0028, p_TOST = 0.000000 (equivalent)
+  1% vs 10% noise: diff = 0.0105, p_TOST = 0.000000 (equivalent)
+  1% vs 20% noise: diff = 0.0327, p_TOST = 0.000000 (equivalent)
+
+lstm / G:
+  1% vs 5% noise: diff = -0.0013, p_TOST = 0.000000 (equivalent)
+  1% vs 10% noise: diff = -0.0010, p_TOST = 0.000000 (equivalent)
+  1% vs 20% noise: diff = 0.0024, p_TOST = 0.000000 (equivalent)
+
+lstm / C:
+  1% vs 5% noise: diff = 0.0012, p_TOST = 0.000000 (equivalent)
+  1% vs 10% noise: diff = 0.0021, p_TOST = 0.000000 (equivalent)
+  1% vs 20% noise: diff = -0.0035, p_TOST = 0.000000 (equivalent)
+
+lstm / B:
+  1% vs 5% noise: diff = 0.0008, p_TOST = 0.000000 (equivalent)
+  1% vs 10% noise: diff = 0.0044, p_TOST = 0.000000 (equivalent)
+  1% vs 20% noise: diff = 0.0198, p_TOST = 0.000000 (equivalent)
+
+lstm / A:
+  1% vs 5% noise: diff = -0.0004, p_TOST = 0.000000 (equivalent)
+  1% vs 10% noise: diff = 0.0006, p_TOST = 0.000000 (equivalent)
+  1% vs 20% noise: diff = 0.0064, p_TOST = 0.000000 (equivalent)
+
+pinn / G:
+  1% vs 5% noise: diff = 0.0045, p_TOST = 0.000000 (equivalent)
+  1% vs 10% noise: diff = 0.0137, p_TOST = 0.000000 (equivalent)
+  1% vs 20% noise: diff = 0.0371, p_TOST = 0.003916 (equivalent)
+
+pinn / C:
+  1% vs 5% noise: diff = 0.0510, p_TOST = 0.795009 (not equivalent)
+  1% vs 10% noise: diff = 0.1278, p_TOST = 1.000000 (not equivalent)
+  1% vs 20% noise: diff = 0.2346, p_TOST = 1.000000 (not equivalent)
+
+pinn / B:
+  1% vs 5% noise: diff = 0.0145, p_TOST = 0.000000 (equivalent)
+  1% vs 10% noise: diff = 0.0435, p_TOST = 0.000310 (equivalent)
+  1% vs 20% noise: diff = 0.1172, p_TOST = 1.000000 (not equivalent)
+
+pinn / A:
+  1% vs 5% noise: diff = 0.0071, p_TOST = 0.000000 (equivalent)
+  1% vs 10% noise: diff = 0.0259, p_TOST = 0.000000 (equivalent)
+  1% vs 20% noise: diff = 0.0950, p_TOST = 1.000000 (not equivalent)
+
+rnn / G:
+  1% vs 5% noise: diff = -0.0003, p_TOST = 0.000000 (equivalent)
+  1% vs 10% noise: diff = 0.0057, p_TOST = 0.000000 (equivalent)
+  1% vs 20% noise: diff = 0.0339, p_TOST = 0.000276 (equivalent)
+
+rnn / C:
+  1% vs 5% noise: diff = 0.0272, p_TOST = 0.000000 (equivalent)
+  1% vs 10% noise: diff = 0.0851, p_TOST = 1.000000 (not equivalent)
+  1% vs 20% noise: diff = 0.1781, p_TOST = 1.000000 (not equivalent)
+
+rnn / B:
+  1% vs 5% noise: diff = 0.0039, p_TOST = 0.000000 (equivalent)
+  1% vs 10% noise: diff = 0.0292, p_TOST = 0.000000 (equivalent)
+  1% vs 20% noise: diff = 0.0978, p_TOST = 1.000000 (not equivalent)
+
+rnn / A:
+  1% vs 5% noise: diff = 0.0036, p_TOST = 0.000000 (equivalent)
+  1% vs 10% noise: diff = 0.0201, p_TOST = 0.000000 (equivalent)
+  1% vs 20% noise: diff = 0.0764, p_TOST = 1.000000 (not equivalent)
+
+svm / G:
+  1% vs 5% noise: diff = 0.0057, p_TOST = 0.000000 (equivalent)
+  1% vs 10% noise: diff = 0.0226, p_TOST = 0.000000 (equivalent)
+  1% vs 20% noise: diff = 0.0655, p_TOST = 0.999997 (not equivalent)
+
+svm / C:
+  1% vs 5% noise: diff = 0.0118, p_TOST = 0.000000 (equivalent)
+  1% vs 10% noise: diff = 0.0586, p_TOST = 0.995589 (not equivalent)
+  1% vs 20% noise: diff = 0.1284, p_TOST = 1.000000 (not equivalent)
+
+svm / B:
+  1% vs 5% noise: diff = 0.0076, p_TOST = 0.000000 (equivalent)
+  1% vs 10% noise: diff = 0.0508, p_TOST = 0.707400 (not equivalent)
+  1% vs 20% noise: diff = 0.1294, p_TOST = 1.000000 (not equivalent)
+
+svm / A:
+  1% vs 5% noise: diff = 0.0066, p_TOST = 0.000000 (equivalent)
+  1% vs 10% noise: diff = 0.0355, p_TOST = 0.000000 (equivalent)
+  1% vs 20% noise: diff = 0.0944, p_TOST = 1.000000 (not equivalent)
+
+======================================================================
+H5: FAULT LOCATION ACCURACY
+======================================================================
+
+Percentage-error denominator (protected line length): 120 km
+
+Models with location predictions: ['ann', 'cnn', 'dtr', 'knn', 'lstm', 'pinn', 'rnn', 'svm']
+Fault scenarios in common set: 250
+
+MAE per model (all fault scenarios pooled):
+   model |  MAE (km) | MAE (% of 120 km line)
+  --------------------------------------------
+     ann |   29.9277 |               24.9397%
+     cnn |   29.9094 |               24.9245%
+     dtr |    5.4600 |                4.5500%
+     knn |    4.8049 |                4.0041%
+    lstm |    0.4814 |                0.4011%
+    pinn |   29.9235 |               24.9363%
+     rnn |   29.8682 |               24.8902%
+     svm |   30.3033 |               25.2528%
+
+--- all_locations (n = 250) ---
+  Friedman chi2 = 1077.2275, df = 7, p = 0.000000, Kendall's W = 0.6156
+    ann vs cnn: p = 0.865056, Holm-adj p = 1.000000, Hodges-Lehmann = 0.0148 km [-0.1721, 0.2168]
+    ann vs dtr: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 24.4942 km [22.6940, 29.2006]
+    ann vs knn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 24.5632 km [22.5705, 28.0964]
+    ann vs lstm: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 29.5698 km [28.4095, 30.5712]
+    ann vs pinn: p = 0.954362, Holm-adj p = 1.000000, Hodges-Lehmann = -0.0074 km [-0.2819, 0.2965]
+    ann vs rnn: p = 0.737567, Holm-adj p = 1.000000, Hodges-Lehmann = 0.0477 km [-0.2583, 0.3689]
+    ann vs svm: p = 0.247522, Holm-adj p = 1.000000, Hodges-Lehmann = -0.3244 km [-0.9547, 0.2122]
+    cnn vs dtr: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 23.5904 km [22.6614, 29.6279]
+    cnn vs knn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 24.4848 km [22.5453, 28.3723]
+    cnn vs lstm: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 29.5438 km [28.8789, 30.1744]
+    cnn vs pinn: p = 0.939755, Holm-adj p = 1.000000, Hodges-Lehmann = -0.0057 km [-0.1777, 0.1510]
+    cnn vs rnn: p = 0.784821, Holm-adj p = 1.000000, Hodges-Lehmann = 0.0312 km [-0.2066, 0.2957]
+    cnn vs svm: p = 0.253647, Holm-adj p = 1.000000, Hodges-Lehmann = -0.2498 km [-0.9270, 0.1716]
+    dtr vs knn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -0.1553 km [-0.3971, -0.0620]
+    dtr vs lstm: p = 0.000000, Holm-adj p = 0.000001, Hodges-Lehmann = -0.2822 km [-0.3397, -0.2099]
+    dtr vs pinn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -23.4144 km [-29.7263, -22.5595]
+    dtr vs rnn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -24.3720 km [-29.2010, -22.5677]
+    dtr vs svm: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -25.7604 km [-28.7328, -22.6876]
+    knn vs lstm: p = 0.000111, Holm-adj p = 0.001218, Hodges-Lehmann = 0.7570 km [0.2716, 1.5277]
+    knn vs pinn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -24.6684 km [-28.6090, -22.4058]
+    knn vs rnn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -24.7327 km [-28.0772, -22.5505]
+    knn vs svm: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -25.5941 km [-28.0978, -22.9874]
+    lstm vs pinn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -29.5739 km [-30.0642, -29.0025]
+    lstm vs rnn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -29.5156 km [-30.5414, -28.4186]
+    lstm vs svm: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -29.6537 km [-32.0534, -27.8337]
+    pinn vs rnn: p = 0.602848, Holm-adj p = 1.000000, Hodges-Lehmann = 0.0474 km [-0.1242, 0.2621]
+    pinn vs svm: p = 0.326707, Holm-adj p = 1.000000, Hodges-Lehmann = -0.1893 km [-0.9966, 0.1914]
+    rnn vs svm: p = 0.245385, Holm-adj p = 1.000000, Hodges-Lehmann = -0.3812 km [-1.1367, 0.2415]
+
+--- Loc_15 (n = 33) ---
+  Friedman chi2 = 161.1010, df = 7, p = 0.000000, Kendall's W = 0.6974
+    ann vs cnn: p = 0.000004, Holm-adj p = 0.000050, Hodges-Lehmann = -1.0190 km [-1.3651, -0.6866]
+    ann vs dtr: p = 0.000372, Holm-adj p = 0.002980, Hodges-Lehmann = 50.5960 km [43.2365, 51.0162]
+    ann vs knn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 44.0169 km [36.8651, 47.9738]
+    ann vs lstm: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 50.6214 km [50.3175, 50.9594]
+    ann vs pinn: p = 0.000003, Holm-adj p = 0.000042, Hodges-Lehmann = -1.8707 km [-2.3413, -1.3901]
+    ann vs rnn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -2.8849 km [-3.3609, -2.5189]
+    ann vs svm: p = 0.060006, Holm-adj p = 0.169448, Hodges-Lehmann = 2.1054 km [-0.0100, 3.9073]
+    cnn vs dtr: p = 0.000083, Holm-adj p = 0.000747, Hodges-Lehmann = 51.7187 km [44.0210, 52.0637]
+    cnn vs knn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 45.5613 km [37.8409, 49.3379]
+    cnn vs lstm: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 51.5629 km [51.3040, 51.8008]
+    cnn vs pinn: p = 0.000404, Holm-adj p = 0.002980, Hodges-Lehmann = -0.8076 km [-1.1571, -0.3905]
+    cnn vs rnn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -1.9770 km [-2.2996, -1.5769]
+    cnn vs svm: p = 0.006568, Holm-adj p = 0.026270, Hodges-Lehmann = 3.0841 km [0.7069, 5.0359]
+    dtr vs knn: p = 0.056483, Holm-adj p = 0.169448, Hodges-Lehmann = -1.4971 km [-5.4752, -0.0004]
+    dtr vs lstm: p = 0.083064, Holm-adj p = 0.169448, Hodges-Lehmann = -0.2273 km [-0.4400, 7.1954]
+    dtr vs pinn: p = 0.000014, Holm-adj p = 0.000158, Hodges-Lehmann = -52.6555 km [-53.0383, -45.1082]
+    dtr vs rnn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -53.6485 km [-54.1026, -45.8702]
+    dtr vs svm: p = 0.000004, Holm-adj p = 0.000053, Hodges-Lehmann = -45.8474 km [-48.6385, -38.0752]
+    knn vs lstm: p = 0.000703, Holm-adj p = 0.004220, Hodges-Lehmann = 6.4722 km [2.3839, 13.7144]
+    knn vs pinn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -46.0352 km [-50.1011, -38.9505]
+    knn vs rnn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -47.3439 km [-51.0328, -39.3407]
+    knn vs svm: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -40.7519 km [-44.5742, -33.9053]
+    lstm vs pinn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -52.5074 km [-52.7173, -52.1770]
+    lstm vs rnn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -53.5677 km [-53.8437, -53.3086]
+    lstm vs svm: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -48.4672 km [-50.9107, -46.5556]
+    pinn vs rnn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -1.2857 km [-1.5578, -0.8691]
+    pinn vs svm: p = 0.002554, Holm-adj p = 0.012770, Hodges-Lehmann = 4.0709 km [1.5430, 5.9723]
+    rnn vs svm: p = 0.000022, Holm-adj p = 0.000223, Hodges-Lehmann = 5.1092 km [2.5416, 7.2813]
+
+--- Loc_30 (n = 28) ---
+  Friedman chi2 = 158.7610, df = 7, p = 0.000000, Kendall's W = 0.8100
+    ann vs cnn: p = 0.000028, Holm-adj p = 0.000248, Hodges-Lehmann = -1.0908 km [-1.4546, -0.7156]
+    ann vs dtr: p = 0.000011, Holm-adj p = 0.000155, Hodges-Lehmann = 35.7587 km [29.1916, 36.4039]
+    ann vs knn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 34.7036 km [27.7087, 35.9713]
+    ann vs lstm: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 36.0808 km [35.6106, 36.5071]
+    ann vs pinn: p = 0.000002, Holm-adj p = 0.000028, Hodges-Lehmann = -1.6270 km [-2.1829, -1.0728]
+    ann vs rnn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -2.6924 km [-3.2314, -2.2741]
+    ann vs svm: p = 0.143773, Holm-adj p = 0.343548, Hodges-Lehmann = 1.3729 km [-0.4010, 3.0720]
+    cnn vs dtr: p = 0.000011, Holm-adj p = 0.000155, Hodges-Lehmann = 36.8048 km [29.8317, 37.3878]
+    cnn vs knn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 35.8801 km [29.8436, 36.9163]
+    cnn vs lstm: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 36.9915 km [36.4899, 37.4385]
+    cnn vs pinn: p = 0.003439, Holm-adj p = 0.024073, Hodges-Lehmann = -0.5700 km [-1.0194, -0.2842]
+    cnn vs rnn: p = 0.000000, Holm-adj p = 0.000001, Hodges-Lehmann = -1.7312 km [-2.2418, -1.2674]
+    cnn vs svm: p = 0.016728, Holm-adj p = 0.066911, Hodges-Lehmann = 2.4088 km [0.6440, 4.0721]
+    dtr vs knn: p = 0.003649, Holm-adj p = 0.024073, Hodges-Lehmann = -0.2121 km [-2.0886, -0.0233]
+    dtr vs lstm: p = 0.264172, Holm-adj p = 0.343548, Hodges-Lehmann = -0.1188 km [-0.2376, 7.0066]
+    dtr vs pinn: p = 0.000011, Holm-adj p = 0.000155, Hodges-Lehmann = -37.4755 km [-38.0527, -30.3590]
+    dtr vs rnn: p = 0.000011, Holm-adj p = 0.000155, Hodges-Lehmann = -38.6732 km [-39.1243, -31.8055]
+    dtr vs svm: p = 0.000011, Holm-adj p = 0.000155, Hodges-Lehmann = -32.1622 km [-35.1222, -28.4936]
+    knn vs lstm: p = 0.114516, Holm-adj p = 0.343548, Hodges-Lehmann = 1.5958 km [-0.0890, 5.1656]
+    knn vs pinn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -36.4220 km [-37.4331, -32.0967]
+    knn vs rnn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -37.5152 km [-38.5912, -33.5392]
+    knn vs svm: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -32.6385 km [-35.0385, -27.2966]
+    lstm vs pinn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -37.4721 km [-37.8911, -37.1464]
+    lstm vs rnn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -38.7861 km [-38.9911, -38.4888]
+    lstm vs svm: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -34.8119 km [-36.4119, -32.9038]
+    pinn vs rnn: p = 0.000000, Holm-adj p = 0.000007, Hodges-Lehmann = -1.2566 km [-1.6403, -0.8481]
+    pinn vs svm: p = 0.007071, Holm-adj p = 0.035356, Hodges-Lehmann = 2.7374 km [0.9060, 4.8645]
+    rnn vs svm: p = 0.000172, Holm-adj p = 0.001377, Hodges-Lehmann = 3.9725 km [2.2522, 5.9276]
+
+--- Loc_45 (n = 29) ---
+  Friedman chi2 = 172.0000, df = 7, p = 0.000000, Kendall's W = 0.8473
+    ann vs cnn: p = 0.000003, Holm-adj p = 0.000030, Hodges-Lehmann = -1.2200 km [-1.5223, -0.8720]
+    ann vs dtr: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 20.7311 km [14.6367, 21.2309]
+    ann vs knn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 20.5003 km [20.0564, 21.0591]
+    ann vs lstm: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 20.6021 km [20.1642, 21.1251]
+    ann vs pinn: p = 0.000001, Holm-adj p = 0.000014, Hodges-Lehmann = -1.6795 km [-2.0693, -1.2567]
+    ann vs rnn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -2.8606 km [-3.2828, -2.4387]
+    ann vs svm: p = 0.380839, Holm-adj p = 0.761678, Hodges-Lehmann = 1.5135 km [-0.9395, 3.5804]
+    cnn vs dtr: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 21.8627 km [15.7474, 22.3264]
+    cnn vs knn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 21.6991 km [21.1119, 22.2507]
+    cnn vs lstm: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 21.8536 km [21.3071, 22.2001]
+    cnn vs pinn: p = 0.024334, Holm-adj p = 0.146005, Hodges-Lehmann = -0.4186 km [-0.7991, -0.0918]
+    cnn vs rnn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -1.6389 km [-2.0686, -1.2950]
+    cnn vs svm: p = 0.038632, Holm-adj p = 0.193158, Hodges-Lehmann = 2.8737 km [0.1207, 4.8898]
+    dtr vs knn: p = 0.075989, Holm-adj p = 0.303955, Hodges-Lehmann = -0.0149 km [-0.2395, 2.4784]
+    dtr vs lstm: p = 0.075989, Holm-adj p = 0.303955, Hodges-Lehmann = -0.3785 km [-0.6635, 6.6724]
+    dtr vs pinn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -22.4717 km [-22.7334, -15.7994]
+    dtr vs rnn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -23.6961 km [-24.1005, -17.1969]
+    dtr vs svm: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -17.4526 km [-21.1251, -15.1975]
+    knn vs lstm: p = 0.701329, Holm-adj p = 0.761678, Hodges-Lehmann = -0.1351 km [-0.4841, 0.4020]
+    knn vs pinn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -22.2815 km [-22.5682, -21.8112]
+    knn vs rnn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -23.5129 km [-23.9622, -22.8403]
+    knn vs svm: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -18.6360 km [-21.3754, -16.5397]
+    lstm vs pinn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -22.2197 km [-22.5575, -21.9130]
+    lstm vs rnn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -23.5058 km [-23.7285, -23.2563]
+    lstm vs svm: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -19.1781 km [-21.7668, -16.8836]
+    pinn vs rnn: p = 0.000000, Holm-adj p = 0.000002, Hodges-Lehmann = -1.2756 km [-1.6536, -0.8374]
+    pinn vs svm: p = 0.014759, Holm-adj p = 0.103310, Hodges-Lehmann = 2.8737 km [0.6061, 5.2786]
+    rnn vs svm: p = 0.000607, Holm-adj p = 0.004857, Hodges-Lehmann = 4.4139 km [1.7973, 6.6318]
+
+--- Loc_60 (n = 34) ---
+  Friedman chi2 = 155.1479, df = 7, p = 0.000000, Kendall's W = 0.6519
+    ann vs cnn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -1.2658 km [-1.5917, -0.9653]
+    ann vs dtr: p = 0.003395, Holm-adj p = 0.016975, Hodges-Lehmann = 5.4472 km [4.9593, 5.8255]
+    ann vs knn: p = 0.000047, Holm-adj p = 0.000559, Hodges-Lehmann = 4.9260 km [4.1927, 5.3056]
+    ann vs lstm: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 5.3139 km [4.9561, 5.6413]
+    ann vs pinn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -2.1688 km [-2.6254, -1.7228]
+    ann vs rnn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -3.2457 km [-3.6151, -2.8893]
+    ann vs svm: p = 0.061823, Holm-adj p = 0.123645, Hodges-Lehmann = 2.1233 km [-0.2088, 3.7860]
+    cnn vs dtr: p = 0.000782, Holm-adj p = 0.006256, Hodges-Lehmann = 6.7334 km [6.4315, 7.0788]
+    cnn vs knn: p = 0.000002, Holm-adj p = 0.000024, Hodges-Lehmann = 6.2791 km [4.6862, 6.6949]
+    cnn vs lstm: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 6.4625 km [6.1849, 6.8863]
+    cnn vs pinn: p = 0.000002, Holm-adj p = 0.000033, Hodges-Lehmann = -0.8620 km [-1.2158, -0.5739]
+    cnn vs rnn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -1.9555 km [-2.2622, -1.6356]
+    cnn vs svm: p = 0.002329, Holm-adj p = 0.013971, Hodges-Lehmann = 3.6212 km [1.3523, 4.9047]
+    dtr vs knn: p = 0.001139, Holm-adj p = 0.007976, Hodges-Lehmann = -0.1777 km [-0.6964, -0.0429]
+    dtr vs lstm: p = 0.003395, Holm-adj p = 0.016975, Hodges-Lehmann = -0.2814 km [-0.3821, -0.1635]
+    dtr vs pinn: p = 0.000032, Holm-adj p = 0.000411, Hodges-Lehmann = -7.7316 km [-8.0020, -7.5236]
+    dtr vs rnn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -8.7234 km [-9.0642, -8.2588]
+    dtr vs svm: p = 0.000193, Holm-adj p = 0.001957, Hodges-Lehmann = -1.9639 km [-4.3533, -0.2867]
+    knn vs lstm: p = 0.416682, Holm-adj p = 0.416682, Hodges-Lehmann = 0.2884 km [-0.1553, 1.2663]
+    knn vs pinn: p = 0.000001, Holm-adj p = 0.000020, Hodges-Lehmann = -7.3776 km [-7.6713, -5.8816]
+    knn vs rnn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -8.1057 km [-8.7500, -7.2445]
+    knn vs svm: p = 0.019611, Holm-adj p = 0.058834, Hodges-Lehmann = -1.9054 km [-4.1403, -0.1650]
+    lstm vs pinn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -7.4336 km [-7.6866, -7.2257]
+    lstm vs rnn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -8.5601 km [-8.7911, -8.2832]
+    lstm vs svm: p = 0.000178, Holm-adj p = 0.001957, Hodges-Lehmann = -3.1906 km [-5.3939, -1.3812]
+    pinn vs rnn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -1.1650 km [-1.4341, -0.6600]
+    pinn vs svm: p = 0.000341, Holm-adj p = 0.003068, Hodges-Lehmann = 4.3878 km [1.9782, 6.2585]
+    rnn vs svm: p = 0.000004, Holm-adj p = 0.000050, Hodges-Lehmann = 5.5395 km [3.3907, 7.1561]
+
+--- Loc_75 (n = 30) ---
+  Friedman chi2 = 164.1778, df = 7, p = 0.000000, Kendall's W = 0.7818
+    ann vs cnn: p = 0.000003, Holm-adj p = 0.000049, Hodges-Lehmann = 1.0468 km [0.6783, 1.4325]
+    ann vs dtr: p = 0.000004, Holm-adj p = 0.000053, Hodges-Lehmann = 9.0437 km [8.5168, 9.3887]
+    ann vs knn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 8.5700 km [7.8535, 9.0231]
+    ann vs lstm: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 8.6939 km [8.3741, 8.9526]
+    ann vs pinn: p = 0.000002, Holm-adj p = 0.000038, Hodges-Lehmann = 1.9645 km [1.5386, 2.2780]
+    ann vs rnn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 3.2560 km [2.6611, 3.6702]
+    ann vs svm: p = 0.030985, Holm-adj p = 0.061970, Hodges-Lehmann = -2.5336 km [-4.1120, -0.2569]
+    cnn vs dtr: p = 0.000012, Holm-adj p = 0.000122, Hodges-Lehmann = 7.9667 km [7.5029, 8.3385]
+    cnn vs knn: p = 0.000000, Holm-adj p = 0.000002, Hodges-Lehmann = 7.5476 km [6.6213, 8.0939]
+    cnn vs lstm: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 7.5761 km [7.1523, 7.9636]
+    cnn vs pinn: p = 0.000730, Holm-adj p = 0.002527, Hodges-Lehmann = 0.7508 km [0.3434, 1.1456]
+    cnn vs rnn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 2.0586 km [1.6447, 2.6305]
+    cnn vs svm: p = 0.000608, Holm-adj p = 0.002527, Hodges-Lehmann = -3.8660 km [-5.0638, -1.5303]
+    dtr vs knn: p = 0.000153, Holm-adj p = 0.001223, Hodges-Lehmann = -0.0327 km [-0.4192, -0.0042]
+    dtr vs lstm: p = 0.000153, Holm-adj p = 0.001223, Hodges-Lehmann = -0.3501 km [-0.5172, -0.2086]
+    dtr vs pinn: p = 0.000071, Holm-adj p = 0.000635, Hodges-Lehmann = -7.2107 km [-7.4162, -6.9323]
+    dtr vs rnn: p = 0.000153, Holm-adj p = 0.001223, Hodges-Lehmann = -5.7695 km [-6.0835, -5.4004]
+    dtr vs svm: p = 0.000006, Holm-adj p = 0.000066, Hodges-Lehmann = -10.9642 km [-13.3117, -8.0310]
+    knn vs lstm: p = 0.308521, Holm-adj p = 0.308521, Hodges-Lehmann = -0.1197 km [-0.3422, 0.6646]
+    knn vs pinn: p = 0.000002, Holm-adj p = 0.000029, Hodges-Lehmann = -6.8707 km [-7.2173, -6.0776]
+    knn vs rnn: p = 0.000004, Holm-adj p = 0.000053, Hodges-Lehmann = -5.4667 km [-5.8417, -4.7735]
+    knn vs svm: p = 0.000000, Holm-adj p = 0.000002, Hodges-Lehmann = -10.6870 km [-13.0098, -8.6235]
+    lstm vs pinn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -6.8184 km [-7.0862, -6.5464]
+    lstm vs rnn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -5.4493 km [-5.7743, -5.0372]
+    lstm vs svm: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -10.9468 km [-13.1424, -8.7136]
+    pinn vs rnn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 1.3908 km [1.0425, 1.7599]
+    pinn vs svm: p = 0.000505, Holm-adj p = 0.002527, Hodges-Lehmann = -4.6240 km [-6.2408, -2.1935]
+    rnn vs svm: p = 0.000004, Holm-adj p = 0.000053, Hodges-Lehmann = -5.8677 km [-7.4470, -3.7798]
+
+--- Loc_90 (n = 36) ---
+  Friedman chi2 = 194.2593, df = 7, p = 0.000000, Kendall's W = 0.7709
+    ann vs cnn: p = 0.000000, Holm-adj p = 0.000001, Hodges-Lehmann = 1.1659 km [0.8697, 1.4319]
+    ann vs dtr: p = 0.000000, Holm-adj p = 0.000002, Hodges-Lehmann = 23.1933 km [16.5058, 23.9048]
+    ann vs knn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 22.8891 km [21.4900, 23.6527]
+    ann vs lstm: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 23.5050 km [23.1473, 23.8059]
+    ann vs pinn: p = 0.000000, Holm-adj p = 0.000003, Hodges-Lehmann = 1.9647 km [1.4750, 2.3196]
+    ann vs rnn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 3.0082 km [2.5220, 3.4355]
+    ann vs svm: p = 0.037757, Holm-adj p = 0.151028, Hodges-Lehmann = -1.8514 km [-3.4311, -0.0925]
+    cnn vs dtr: p = 0.000000, Holm-adj p = 0.000002, Hodges-Lehmann = 21.8607 km [15.5858, 22.6854]
+    cnn vs knn: p = 0.000000, Holm-adj p = 0.000002, Hodges-Lehmann = 21.6177 km [20.6387, 22.4179]
+    cnn vs lstm: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 22.3681 km [21.9476, 22.7376]
+    cnn vs pinn: p = 0.000546, Holm-adj p = 0.002730, Hodges-Lehmann = 0.7218 km [0.3683, 1.0986]
+    cnn vs rnn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 1.8419 km [1.5046, 2.2247]
+    cnn vs svm: p = 0.000312, Holm-adj p = 0.001869, Hodges-Lehmann = -3.1048 km [-4.5941, -1.2271]
+    dtr vs knn: p = 0.432139, Holm-adj p = 0.900088, Hodges-Lehmann = -0.0047 km [-0.1178, 5.0208]
+    dtr vs lstm: p = 0.489056, Holm-adj p = 0.900088, Hodges-Lehmann = -0.3149 km [-0.5283, 7.0584]
+    dtr vs pinn: p = 0.000000, Holm-adj p = 0.000004, Hodges-Lehmann = -21.5070 km [-21.9884, -14.9758]
+    dtr vs rnn: p = 0.000000, Holm-adj p = 0.000004, Hodges-Lehmann = -20.3537 km [-20.8305, -13.5595]
+    dtr vs svm: p = 0.000000, Holm-adj p = 0.000003, Hodges-Lehmann = -22.2026 km [-25.9823, -17.9079]
+    knn vs lstm: p = 0.300029, Holm-adj p = 0.900088, Hodges-Lehmann = 0.2849 km [-0.2317, 1.2658]
+    knn vs pinn: p = 0.000000, Holm-adj p = 0.000002, Hodges-Lehmann = -21.2461 km [-21.7693, -19.7364]
+    knn vs rnn: p = 0.000000, Holm-adj p = 0.000002, Hodges-Lehmann = -20.0095 km [-20.5431, -18.8974]
+    knn vs svm: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -23.8033 km [-26.4172, -21.3014]
+    lstm vs pinn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -21.6148 km [-21.8849, -21.3458]
+    lstm vs rnn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -20.4265 km [-20.6858, -20.1216]
+    lstm vs svm: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -25.2677 km [-27.4686, -23.3576]
+    pinn vs rnn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 1.1795 km [0.8442, 1.5407]
+    pinn vs svm: p = 0.000216, Holm-adj p = 0.001511, Hodges-Lehmann = -4.0570 km [-5.8188, -1.5982]
+    rnn vs svm: p = 0.000003, Holm-adj p = 0.000023, Hodges-Lehmann = -5.0678 km [-6.5497, -3.0282]
+
+--- Loc_105 (n = 27) ---
+  Friedman chi2 = 168.8889, df = 7, p = 0.000000, Kendall's W = 0.8936
+    ann vs cnn: p = 0.000209, Holm-adj p = 0.001671, Hodges-Lehmann = 0.8000 km [0.4157, 1.1656]
+    ann vs dtr: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 38.7689 km [37.9679, 39.2450]
+    ann vs knn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 38.4470 km [37.9083, 38.9116]
+    ann vs lstm: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 38.6699 km [38.2364, 38.9941]
+    ann vs pinn: p = 0.000073, Holm-adj p = 0.000656, Hodges-Lehmann = 1.6447 km [1.0828, 2.2592]
+    ann vs rnn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 2.8181 km [2.3792, 3.4005]
+    ann vs svm: p = 0.001021, Holm-adj p = 0.004084, Hodges-Lehmann = -3.9712 km [-4.7634, -2.3102]
+    cnn vs dtr: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 37.9908 km [37.4492, 38.3741]
+    cnn vs knn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 37.6683 km [37.1906, 38.0473]
+    cnn vs lstm: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 37.7754 km [37.4401, 38.2046]
+    cnn vs pinn: p = 0.001253, Holm-adj p = 0.004084, Hodges-Lehmann = 0.8347 km [0.3721, 1.2171]
+    cnn vs rnn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 2.0426 km [1.6385, 2.4145]
+    cnn vs svm: p = 0.000236, Holm-adj p = 0.001671, Hodges-Lehmann = -4.7849 km [-5.7649, -3.1027]
+    dtr vs knn: p = 0.000598, Holm-adj p = 0.002992, Hodges-Lehmann = -0.1785 km [-0.6467, -0.0358]
+    dtr vs lstm: p = 0.006451, Holm-adj p = 0.012902, Hodges-Lehmann = -0.3618 km [-0.4981, -0.2070]
+    dtr vs pinn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -37.2667 km [-37.4345, -36.8848]
+    dtr vs rnn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -35.8784 km [-36.2490, -35.3233]
+    dtr vs svm: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -41.6881 km [-43.9398, -37.3485]
+    knn vs lstm: p = 0.990573, Holm-adj p = 0.990573, Hodges-Lehmann = 0.0008 km [-0.3260, 0.5254]
+    knn vs pinn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -36.8143 km [-37.2475, -36.2699]
+    knn vs rnn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -35.5912 km [-35.9382, -35.1403]
+    knn vs svm: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -42.5773 km [-43.5058, -39.6517]
+    lstm vs pinn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -36.9634 km [-37.2308, -36.7306]
+    lstm vs rnn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -35.7022 km [-36.1700, -35.2880]
+    lstm vs svm: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -42.8556 km [-43.6284, -40.4398]
+    pinn vs rnn: p = 0.000000, Holm-adj p = 0.000001, Hodges-Lehmann = 1.3316 km [0.9332, 1.7166]
+    pinn vs svm: p = 0.000267, Holm-adj p = 0.001671, Hodges-Lehmann = -5.6852 km [-6.8110, -3.6272]
+    rnn vs svm: p = 0.000001, Holm-adj p = 0.000013, Hodges-Lehmann = -7.1267 km [-7.8969, -5.1058]
+
+--- Loc_120 (n = 33) ---
+  Friedman chi2 = 158.6305, df = 7, p = 0.000000, Kendall's W = 0.6867
+    ann vs cnn: p = 0.000000, Holm-adj p = 0.000001, Hodges-Lehmann = 1.4794 km [1.1744, 1.7579]
+    ann vs dtr: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 53.6160 km [47.4747, 54.2804]
+    ann vs knn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 47.9787 km [39.9891, 50.8828]
+    ann vs lstm: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 53.6858 km [53.3119, 54.1094]
+    ann vs pinn: p = 0.000002, Holm-adj p = 0.000021, Hodges-Lehmann = 2.0242 km [1.5112, 2.5428]
+    ann vs rnn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 3.0819 km [2.6333, 3.6410]
+    ann vs svm: p = 0.009844, Holm-adj p = 0.029531, Hodges-Lehmann = -2.4178 km [-3.8710, -0.4641]
+    cnn vs dtr: p = 0.000000, Holm-adj p = 0.000001, Hodges-Lehmann = 52.3767 km [45.7282, 52.8125]
+    cnn vs knn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 46.6643 km [38.3793, 49.6354]
+    cnn vs lstm: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 52.1756 km [51.8865, 52.4550]
+    cnn vs pinn: p = 0.010411, Holm-adj p = 0.029531, Hodges-Lehmann = 0.5419 km [0.1568, 1.0439]
+    cnn vs rnn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 1.6680 km [1.3656, 2.0805]
+    cnn vs svm: p = 0.000145, Holm-adj p = 0.001012, Hodges-Lehmann = -3.9014 km [-5.3528, -2.1113]
+    dtr vs knn: p = 0.003751, Holm-adj p = 0.015006, Hodges-Lehmann = -2.7360 km [-5.5384, -0.3436]
+    dtr vs lstm: p = 0.083064, Holm-adj p = 0.083064, Hodges-Lehmann = -0.2534 km [-0.4910, 7.0689]
+    dtr vs pinn: p = 0.000002, Holm-adj p = 0.000020, Hodges-Lehmann = -51.9380 km [-52.3611, -44.7389]
+    dtr vs rnn: p = 0.000051, Holm-adj p = 0.000408, Hodges-Lehmann = -50.6561 km [-51.0097, -43.5547]
+    dtr vs svm: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -53.4599 km [-56.4646, -48.5244]
+    knn vs lstm: p = 0.000225, Holm-adj p = 0.001348, Hodges-Lehmann = 5.6235 km [2.5137, 13.7168]
+    knn vs pinn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -46.1626 km [-49.1645, -37.6882]
+    knn vs rnn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -44.7157 km [-47.5584, -36.3871]
+    knn vs svm: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -48.4563 km [-51.8322, -41.3669]
+    lstm vs pinn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -51.7054 km [-51.9859, -51.3969]
+    lstm vs rnn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -50.5877 km [-50.8416, -50.0289]
+    lstm vs svm: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = -55.9231 km [-57.6243, -54.2749]
+    pinn vs rnn: p = 0.000000, Holm-adj p = 0.000000, Hodges-Lehmann = 1.2444 km [0.8614, 1.6561]
+    pinn vs svm: p = 0.000267, Holm-adj p = 0.001348, Hodges-Lehmann = -4.4321 km [-6.3134, -2.3723]
+    rnn vs svm: p = 0.000001, Holm-adj p = 0.000011, Hodges-Lehmann = -5.6091 km [-7.2390, -3.7817]
+
+======================================================================
+OUTPUT FILES
+======================================================================
+Report:  /home/stanislus/Documents/Mr Fiase/outputs/hypothesis_tests/report_2026-10-28_01-18-47.txt
+Results: /home/stanislus/Documents/Mr Fiase/outputs/hypothesis_tests/results_2026-10-28_01-18-47.csv

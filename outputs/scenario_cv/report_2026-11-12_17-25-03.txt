@@ -1,0 +1,47 @@
+======================================================================
+R9: STRATIFIED GROUP K-FOLD CV (K = 7) — SECTION 3.12.1 RECONCILIATION
+======================================================================
+Timestamp: 2026-11-12_17-25-03
+Dataset: /home/stanislus/Documents/Mr Fiase/data/classdetectfault_sim.csv
+Models: knn, dtr, svm, ann, rnn, cnn, pinn (LSTM excluded — see report notes; each model's CV runs in an isolated subprocess)
+
+----------------------------------------------------------------------
+FOLD COMPOSITION (grouped at scenario level)
+----------------------------------------------------------------------
+  fold | scenarios |   rows | signature row proportions
+     0 |        96 |    768 | 0000:43.8%, 0110:11.5%, 0111:11.5%, 1001:10.4%, 1011:11.5%, 1111:11.5%
+     1 |        96 |    768 | 0000:43.8%, 0110:11.5%, 0111:11.5%, 1001:10.4%, 1011:11.5%, 1111:11.5%
+     2 |        96 |    768 | 0000:43.8%, 0110:11.5%, 0111:11.5%, 1001:11.5%, 1011:10.4%, 1111:11.5%
+     3 |        96 |    768 | 0000:44.8%, 0110:11.5%, 0111:10.4%, 1001:11.5%, 1011:11.5%, 1111:10.4%
+     4 |        96 |    768 | 0000:43.8%, 0110:11.5%, 0111:10.4%, 1001:11.5%, 1011:11.5%, 1111:11.5%
+     5 |        96 |    765 | 0000:44.6%, 0110:10.5%, 0111:11.5%, 1001:11.5%, 1011:11.5%, 1111:10.5%
+     6 |        95 |    760 | 0000:44.2%, 0110:10.5%, 0111:11.6%, 1001:11.6%, 1011:10.5%, 1111:11.6%
+
+  scenarios spanning folds: 0 — verified
+  (grouping enforced at scenario level, Section 3.8.2)
+
+----------------------------------------------------------------------
+DESCRIPTIVE PER-FOLD OVERALL DETECTION ACCURACY (fixed hyperparameters)
+----------------------------------------------------------------------
+     knn: detection 0.9948 0.9922 0.9961 0.9935 0.9974 0.9974 0.9934  |  mean 0.9950 ± 0.0021
+          exact-match 0.9258 0.9583 0.9349 0.9505 0.9531 0.9582 0.9526  |  mean 0.9476 ± 0.0124
+     dtr: detection 0.9948 0.9922 0.9883 0.9935 0.9961 0.9961 0.9934  |  mean 0.9935 ± 0.0027
+          exact-match 0.9036 0.9023 0.9023 0.8841 0.9115 0.9203 0.8961  |  mean 0.9029 ± 0.0114
+     svm: detection 0.9948 0.9974 0.9961 0.9935 0.9948 0.9974 0.9921  |  mean 0.9952 ± 0.0020
+          exact-match 0.9492 0.9401 0.9349 0.9414 0.9531 0.9399 0.9566  |  mean 0.9450 ± 0.0080
+     ann: detection 0.9961 0.9948 0.9974 0.9961 1.0000 0.9987 0.9947  |  mean 0.9968 ± 0.0020
+          exact-match 0.9466 0.9609 0.9609 0.9570 0.9688 0.9673 0.9605  |  mean 0.9603 ± 0.0073
+     rnn: detection 0.9883 0.9870 0.9896 0.9935 0.9948 0.9948 0.9921  |  mean 0.9914 ± 0.0032
+          exact-match 0.8854 0.8997 0.8776 0.9010 0.9180 0.9046 0.9066  |  mean 0.8990 ± 0.0135
+     cnn: detection 0.9974 0.9987 0.9961 0.9948 1.0000 0.9987 0.9987  |  mean 0.9978 ± 0.0018
+          exact-match 0.9401 0.9727 0.9727 0.9609 0.9570 0.9686 0.9697  |  mean 0.9631 ± 0.0117
+    pinn: detection 0.9961 0.9948 0.9974 0.9987 1.0000 0.9974 0.9947  |  mean 0.9970 ± 0.0020
+          exact-match 0.9388 0.9349 0.9505 0.9349 0.9518 0.9582 0.9289  |  mean 0.9426 ± 0.0109
+
+  Reconciliation: the K = 7 scenario-grouped CV of Section 3.12.1 is reported here as DESCRIPTIVE evidence with the final fixed hyperparameters; it was not used for hyperparameter selection. The inferential holdout split is the shared scenario-level partition of src/scenarios.py. The chapter text must state both facts (see TODO.md R9).
+
+======================================================================
+OUTPUT FILES
+======================================================================
+Report : /home/stanislus/Documents/Mr Fiase/outputs/scenario_cv/report_2026-11-12_17-25-03.txt
+Results: /home/stanislus/Documents/Mr Fiase/outputs/scenario_cv/cv_results_2026-11-12_17-25-03.csv

@@ -1,0 +1,96 @@
+======================================================================
+R1 DATASET REGENERATION (CORRECTED TABLE 3.2)
+======================================================================
+Timestamp: 2026-11-12_14-30-38
+
+----------------------------------------------------------------------
+PARAMETERS
+----------------------------------------------------------------------
+Nominal voltage        : 161 kV line-to-line RMS (phase = 92953.4 V)
+Frequency              : 50 Hz
+Modelled section       : 120 km
+Z1                     : 0.080 + j0.390 ohm/km
+Z0                     : 0.228 + j1.352 ohm/km
+C1                     : 12.74 nF/km
+C0 (assumed 0.75*C1)   : 9.55 nF/km
+Fault level            : 3000 MVA -> |Zs| = 8.6403 ohm
+Source impedance       : 0.8597 + j8.5975 ohm (X/R = 10, declared)
+Load                   : constant impedance at 0.95 pf lagging (declared)
+Load levels            : light (40%) = 300 A, normal (75%) = 562 A, heavy (100%) = 750 A
+Fault resistance       : [0.0, 10.0, 25.0, 50.0, 100.0] ohm per phase (0 implemented as 1 mOhm)
+Inception angles       : [0.0, 45.0, 90.0, 135.0, 180.0] deg
+Locations              : [15, 30, 45, 60, 75, 90, 105, 120] km
+Signatures             : AG, BC, BCG, ABG, ABCG
+Sampling               : 1000 Hz grid; fault sweep row k sampled at t = (k+1) ms
+Units                  : V per-unit instantaneous (prefault peak = 1.0), I amperes
+No-fault stratum       : continuous recording at normal (75%) load (6503 samples; class file carries first 2365)
+
+----------------------------------------------------------------------
+VERIFICATION CROSS-CHECKS
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+VERIFICATION CROSS-CHECKS (Section 3.3.1)
+----------------------------------------------------------------------
+1. Three-phase bolted fault current, d -> 0:
+   computed  : 11.01 kA (peak of phase modules)
+   reference : 10.76 kA = 3000 MVA / (sqrt(3) x 161 kV)
+   status    : PASS (within 5%)
+2. Line charging (three-phase, V = phase voltage):
+   120 km modelled section : 4.15 MVAr
+   full 297.4 km route     : 10.28 MVAr
+   RECONCILIATION NOTE for Section 3.3.1: the chapter's
+   ~30.9 MVAr figure back-solves exactly as (161 kV)^2 * w * C * L
+   with 161 kV used as the PHASE voltage - a sqrt(3) slip. With the
+   correct phase voltage the full-route value is 10.28 MVAr; the
+   regenerated section carries 4.15 MVAr. The chapter text
+   must be corrected when transcribing Section 3.3.1.
+3. Relay apparent impedance, bolted AG sweep, normal load
+   (standard ground loop |V_phase| / |I_phase + k0*3I0|; theoretical
+   positive-seq line impedance z1*d shown for comparison):
+   d =  15 km : Z_app =    5.97 ohm (z1*d =    5.97 ohm) -> Zone 1
+   d =  30 km : Z_app =   11.95 ohm (z1*d =   11.94 ohm) -> Zone 1
+   d =  45 km : Z_app =   17.94 ohm (z1*d =   17.92 ohm) -> Zone 1
+   d =  60 km : Z_app =   23.95 ohm (z1*d =   23.89 ohm) -> Zone 1
+   d =  75 km : Z_app =   29.98 ohm (z1*d =   29.86 ohm) -> Zone 1
+   d =  90 km : Z_app =   36.04 ohm (z1*d =   35.83 ohm) -> Zone 1
+   d = 105 km : Z_app =   42.14 ohm (z1*d =   41.80 ohm) -> beyond Zone 1
+   d = 120 km : Z_app =   48.29 ohm (z1*d =   47.77 ohm) -> beyond Zone 1
+   Zone 1 reach (80% of |z1| * 120 km): 38.22 ohm -> faults beyond d = 96 km (105, 120 km) must NOT trip instantaneously (Zone 2 behaviour).
+4. Distance signal sanity, bolted AG sweep, normal load
+   (faulted-phase rms magnitudes at the relay bus):
+   d =  15 km : |I_fault| =   4.76 kA, |Va| = 0.568 pu
+   d =  30 km : |I_fault| =   3.01 kA, |Va| = 0.730 pu
+   d =  45 km : |I_fault| =   2.19 kA, |Va| = 0.806 pu
+   d =  60 km : |I_fault| =   1.71 kA, |Va| = 0.851 pu
+   d =  75 km : |I_fault| =   1.39 kA, |Va| = 0.880 pu
+   d =  90 km : |I_fault| =   1.17 kA, |Va| = 0.900 pu
+   d = 105 km : |I_fault| =   1.01 kA, |Va| = 0.916 pu
+   d = 120 km : |I_fault| =   0.89 kA, |Va| = 0.928 pu
+
+----------------------------------------------------------------------
+GENERATING DATASETS
+----------------------------------------------------------------------
+classdetectfault_sim.csv : 5365 rows (3000 fault rows = 375 sweeps, 2365 no-fault rows)
+detectfault_sim.csv      : 9503 rows (3000 fault / 6503 no-fault)
+
+Fault rows per signature (G,C,B,A):
+  (0, 1, 1, 0): 600
+  (0, 1, 1, 1): 600
+  (1, 0, 0, 1): 600
+  (1, 0, 1, 1): 600
+  (1, 1, 1, 1): 600
+
+Feature ranges (sanity):
+  Ia: min   -3584.92, max    4616.97
+  Ib: min   -4731.92, max    4731.92
+  Ic: min   -4702.27, max    3712.46
+  Va: min      -1.01, max       1.01
+  Vb: min      -1.01, max       1.01
+  Vc: min      -1.01, max       1.00
+
+======================================================================
+OUTPUT FILES
+======================================================================
+Report           : /home/stanislus/Documents/Mr Fiase/outputs/simulate/report_2026-11-12_14-30-38.txt
+Classification   : /home/stanislus/Documents/Mr Fiase/data/classdetectfault_sim.csv
+Detection        : /home/stanislus/Documents/Mr Fiase/data/detectfault_sim.csv

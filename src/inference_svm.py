@@ -21,6 +21,7 @@ DATA_DIR = PROJECT_ROOT / "data"
 MODEL_DIR = (
     PROJECT_ROOT
     / "outputs"
+    / "svm"
     / "models"
 )
 
@@ -44,7 +45,7 @@ OUTPUT_DIR.mkdir(
 # Input CSV
 # ------------------------------------------------------------
 
-INPUT_FILE = DATA_DIR / "classdetectfault_data.csv"
+INPUT_FILE = DATA_DIR / "classdetectfault_sim.csv"
 
 
 # ------------------------------------------------------------

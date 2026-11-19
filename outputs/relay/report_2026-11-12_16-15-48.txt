@@ -1,0 +1,45 @@
+======================================================================
+CONVENTIONAL DISTANCE RELAY — DETECTION BASELINE (H1)
+======================================================================
+Timestamp: 2026-11-12_16-15-48
+Dataset: /home/stanislus/Documents/Mr Fiase/data/classdetectfault_sim.csv
+
+LINE PARAMETERS (corrected Table 3.2, §3.3.1)
+----------------------------------------------------------------------
+Positive-sequence impedance Z1: 0.080 + j0.390 Ω/km (|Z1| = 0.3981 Ω/km)
+Zero-sequence impedance  Z0 : 0.228 + j1.352 Ω/km
+Line length                 : 120 km
+Zone 1 reach setting        : 80%
+Zone 1 reach (ohms)         : 38.22 Ω
+Zero-sequence compensation k0: 0.8139 + j0.0405
+Measurement                 : |V_phase| / |I_phase + k0*3I0|
+Nominal phase voltage       : 92953.4 V
+
+Dataset shape: (5365, 12)
+
+PER-LINE ACCURACY
+----------------------------------------------------------------------
+  G: accuracy=0.678099  no-fault(TN)=0.569425 (2030 of 3565)  fault(TP)=0.893333 (1608 of 1800)
+  C: accuracy=0.683318  no-fault(TN)=0.573352 (2044 of 3565)  fault(TP)=0.901111 (1622 of 1800)
+  B: accuracy=0.784343  no-fault(TN)=0.679595 (2015 of 2965)  fault(TP)=0.913750 (2193 of 2400)
+  A: accuracy=0.774278  no-fault(TN)=0.670489 (1988 of 2965)  fault(TP)=0.902500 (2166 of 2400)
+
+DETECTION RESULTS (overall)
+----------------------------------------------------------------------
+Total scenarios        : 5365
+Fault scenarios        : 3000
+No-fault scenarios     : 2365
+Relay trips            : 3143
+Overall accuracy       : 0.849953
+No-fault accuracy (TN) : 0.799577 (1891 of 2365)
+Fault accuracy (TP)    : 0.889667 (2669 of 3000)
+
+Confusion matrix (rows=true, cols=pred):
+  TN=1891, FP=474, FN=331, TP=2669
+
+OUTPUT FILES
+----------------------------------------------------------------------
+Predictions: /home/stanislus/Documents/Mr Fiase/outputs/relay/predictions_relay.csv
+Report:      /home/stanislus/Documents/Mr Fiase/outputs/relay/report_2026-11-12_16-15-48.txt
+
+Predictions saved (5365 rows) to /home/stanislus/Documents/Mr Fiase/outputs/relay/predictions_relay.csv
