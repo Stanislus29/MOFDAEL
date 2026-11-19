@@ -1,0 +1,22 @@
+======================================================================
+MOFDAEL PLATFORM — BENCHMARK REPRODUCTION AUDIT
+======================================================================
+Timestamp: 2026-11-13_16-16-13
+Benchmark dataset: classdetectfault_sim.csv
+
+[relay]
+  detection agreement : 1.000000
+  status              : PASS
+
+[ann] SKIP — artifacts not found
+[cnn] SKIP — artifacts not found
+[lstm] SKIP — artifacts not found
+[pinn] SKIP — artifacts not found
+[rnn] SKIP — artifacts not found
+[svm] SKIP — artifacts not found
+[knn] SKIP — artifacts not found
+[dtr] SKIP — artifacts not found
+======================================================================
+SUMMARY: 1/9 models reproduce the benchmark
+Report  : /home/stanislus/Documents/Mr Fiase/webapp/storage/selfcheck/report_2026-11-13_16-16-13.txt
+======================================================================

@@ -1,0 +1,111 @@
+{
+  "created_at": "2026-11-13T17:44:01.201605",
+  "n_rows": 72,
+  "line_length_km": 120.0,
+  "models": {
+    "relay": {
+      "n_rows": 72,
+      "latency": {
+        "sampled_rows": 72,
+        "mean_ms_per_row": 0.03385851389086585
+      },
+      "notes": [
+        "Relay mode: emulated"
+      ],
+      "accuracy": 0.6666666666666666
+    },
+    "svm": {
+      "n_rows": 72,
+      "latency": {
+        "sampled_rows": 72,
+        "mean_ms_per_row": 0.9544635000035365
+      },
+      "notes": [],
+      "accuracy": 1.0,
+      "mean_confidence": 0.6729537638888888
+    },
+    "dtr": {
+      "n_rows": 72,
+      "latency": {
+        "sampled_rows": 72,
+        "mean_ms_per_row": 0.5607773333369752
+      },
+      "notes": [],
+      "accuracy": 0.9861111111111112,
+      "mean_confidence": 0.6649842083333333
+    },
+    "knn": {
+      "n_rows": 72,
+      "latency": {
+        "sampled_rows": 72,
+        "mean_ms_per_row": 15.63391006944433
+      },
+      "notes": [],
+      "accuracy": 1.0,
+      "mean_confidence": 0.6666666666666666
+    },
+    "ann": {
+      "n_rows": 72,
+      "latency": {
+        "sampled_rows": 72,
+        "mean_ms_per_row": 0.34976581943940094
+      },
+      "notes": [],
+      "accuracy": 1.0,
+      "mean_confidence": 0.6652910833333334,
+      "loc_mae_km": 24.723394458333335,
+      "loc_mae_pct": 20.60282871527778
+    },
+    "cnn": {
+      "n_rows": 72,
+      "latency": {
+        "sampled_rows": 72,
+        "mean_ms_per_row": 59.77259461110407
+      },
+      "notes": [],
+      "accuracy": 1.0,
+      "mean_confidence": 0.6714538333333334,
+      "loc_mae_km": 21.604630361111113,
+      "loc_mae_pct": 18.00385863425926
+    },
+    "lstm": {
+      "n_rows": 72,
+      "latency": {
+        "sampled_rows": 72,
+        "mean_ms_per_row": 53.35194876388667
+      },
+      "notes": [
+        "Rows grouped into fault events by Loc resets (single-sample events when Loc is absent)."
+      ],
+      "accuracy": 0.9861111111111112,
+      "mean_confidence": 0.680556058883667,
+      "loc_mae_km": 26.69481071428572,
+      "loc_mae_pct": 22.245675595238097
+    },
+    "pinn": {
+      "n_rows": 72,
+      "latency": {
+        "sampled_rows": 72,
+        "mean_ms_per_row": 55.21883825000865
+      },
+      "notes": [],
+      "accuracy": 1.0,
+      "mean_confidence": 0.667527,
+      "loc_mae_km": 27.376490069444444,
+      "loc_mae_pct": 22.81374172453704
+    },
+    "rnn": {
+      "n_rows": 72,
+      "latency": {
+        "sampled_rows": 72,
+        "mean_ms_per_row": 0.18812151389132245
+      },
+      "notes": [],
+      "accuracy": 1.0,
+      "mean_confidence": 0.6801041250000001,
+      "loc_mae_km": 24.077715305555557,
+      "loc_mae_pct": 20.06476275462963
+    }
+  },
+  "n_flag_fault_consensus": 456
+}

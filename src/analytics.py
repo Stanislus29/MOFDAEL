@@ -67,6 +67,24 @@ from simulate import (
 
 from relay import zone1_reach_ohms
 
+# Wavelet CWT engine (Morlet) + waveform generation, reusing the
+# verified physics in src/simulate.py. Imported here (guarded by
+# wavelet's `if __name__ == "__main__"`) so analytics can fold the
+# wavelet figures into the pack without re-running wavelet.py's main.
+from wavelet import (  # noqa: E402
+
+    cwt,
+
+    generate_waveforms,
+
+    pseudo_frequency,
+
+    SCALES,
+
+    W0,
+
+)
+
 
 # ============================================================
 # PATH CONFIGURATION
@@ -1292,6 +1310,62 @@ def build_tex(data: dict, fig_paths: dict[str, Path]) -> str:
     md5c = md5_of(CLASS_FILE)
     md5d = md5_of(DETECT_FILE)
 
+    # ---- wavelet figure blocks (inserted into the body below) ----
+
+    wavelet_blocks = "\n".join(
+
+        figure_block(
+
+            name,
+
+            r"Morlet CWT scalogram (" + name.split("_")[1].upper() +
+
+            r" fault) of the post-fault current transient. Where it goes: "
+
+            r"Section 3.5.5 / wavelet. Source: src/simulate.py + "
+
+            r"src/wavelet.py.",
+
+        )
+
+        for name in (
+
+            "wavelet_abg_scalogram",
+
+            "wavelet_ab_scalogram",
+
+            "wavelet_abc_scalogram",
+
+            "wavelet_abcg_scalogram",
+
+        )
+
+    )
+
+    wavelet_blocks += "\n" + figure_block(
+
+        "wavelet_comparison",
+
+        r"Phase-a CWT scalogram comparison across the ABG, AB, ABC and "
+
+        r"ABCG signatures. Where it goes: Section 3.5.5 / wavelet. "
+
+        r"Source: src/simulate.py + src/wavelet.py.",
+
+    )
+
+    wavelet_blocks += "\n" + figure_block(
+
+        "wavelet_timeseries",
+
+        r"Phase-a current vs time for the four signatures. Where it goes: "
+
+        r"Section 3.5.5 / wavelet. Source: src/simulate.py + "
+
+        r"src/wavelet.py.",
+
+    )
+
     body = TEX_PREAMBLE + rf"""
 % ============================================================
 % TITLE
@@ -1352,6 +1426,17 @@ the shared test partition of all eight models.
   r"crossings and vanishes near the voltage peak, decaying with the "
   r"positive-sequence loop time constant. Where it goes: Section 3.5.5 "
   r"and R10. Source: src/simulate.py.")}
+
+\subsection{{Wavelet transient analysis}}
+
+Morlet continuous-wavelet scalograms of the post-fault current
+transients (bolted fault at 60 km, normal load, inception at the
+voltage zero crossing -- maximum DC offset). The scalograms expose the
+decaying DC offset together with the 50 Hz fundamental across the
+ABG, AB, ABC and ABCG signatures. Where it goes: Section 3.5.5 /
+wavelet discussion. Source: src/simulate.py + src/wavelet.py.
+
+{wavelet_blocks}
 
 \section{{Conventional relay baseline}}
 
@@ -1595,6 +1680,214 @@ def compile_pdf(logger: ReportLogger) -> Path:
 
 
 # ============================================================
+# WAVELET FIGURES (transient / DC-offset scalograms)
+# ============================================================
+
+WAVELET_SIGNATURES = ["ABG", "AB", "ABC", "ABCG"]
+
+# 1 kHz sampling grid (from simulate), matching wavelet.py.
+_WAVELET_DT = SAMPLE_DT
+
+# Post-fault window mirrored from wavelet.py configuration so the
+# pack figures are identical to outputs/wavelet/figures/.
+_WAVELET_N_SAMPLES = 600
+_WAVELET_T_MAX_MS = _WAVELET_N_SAMPLES * _WAVELET_DT * 1e3
+
+
+def _db(W: np.ndarray) -> np.ndarray:
+
+    return 20.0 * np.log10(np.abs(W) + 1e-12)
+
+
+def _vmax_over_phases(waveforms: dict[str, np.ndarray]) -> float:
+
+    return max(
+
+        np.abs(cwt(waveforms[p], SCALES, _WAVELET_DT, W0)).max()
+
+        for p in ("Ia", "Ib", "Ic")
+
+    )
+
+
+def wavelet_scalogram(sig_name: str) -> Path:
+
+    """Morlet CWT scalogram (Ia/Ib/Ic panels) for one fault signature."""
+
+    waveforms = generate_waveforms(sig_name)
+
+    t_ms = waveforms["t_ms"]
+
+    freqs = pseudo_frequency(SCALES, _WAVELET_DT, W0)
+
+    vmax = _vmax_over_phases(waveforms)
+
+    db_vmax = _db(np.array([vmax]))[0]
+
+    phase_labels = {"Ia": "Phase a", "Ib": "Phase b", "Ic": "Phase c"}
+
+    fig, axes = plt.subplots(3, 1, figsize=(8.2, 6.6),
+
+                             sharex=True, sharey=True)
+
+    for ax, phase in zip(axes, ("Ia", "Ib", "Ic")):
+
+        W = cwt(waveforms[phase], SCALES, _WAVELET_DT, W0)
+
+        extent = [t_ms[0], t_ms[-1], freqs[-1], freqs[0]]
+
+        im = ax.imshow(
+
+            _db(W),
+
+            extent=extent, aspect="auto", cmap="magma",
+
+            vmin=db_vmax - 60.0, vmax=db_vmax,
+
+        )
+
+        ax.set_yscale("log")
+
+        ax.set_ylabel("pseudo-frequency (Hz)")
+
+        ax.set_title(
+
+            f"{phase_labels[phase]} ({phase})",
+
+            fontsize=9, loc="left",
+
+        )
+
+        fig.colorbar(im, ax=ax, shrink=0.85, label="|W| (dB)")
+
+    axes[-1].set_xlabel("time after fault inception (ms)")
+
+    fig.suptitle(
+
+        f"{sig_name} fault  --  CWT (Morlet, w0={W0})  |  "
+
+        f"bolted, 60 km, 75% load, inception 0 deg",
+
+        fontsize=10,
+
+    )
+
+    fig.tight_layout(rect=[0, 0.03, 1, 0.95])
+
+    return save_figure(fig, f"wavelet_{sig_name.lower()}_scalogram")
+
+
+def wavelet_comparison() -> Path:
+
+    """Phase-a scalogram comparison across the four signatures."""
+
+    waveforms = {s: generate_waveforms(s) for s in WAVELET_SIGNATURES}
+
+    t_ms = waveforms[WAVELET_SIGNATURES[0]]["t_ms"]
+
+    freqs = pseudo_frequency(SCALES, _WAVELET_DT, W0)
+
+    vmax = max(
+
+        np.abs(cwt(waveforms[s]["Ia"], SCALES, _WAVELET_DT, W0)).max()
+
+        for s in WAVELET_SIGNATURES
+
+    )
+
+    db_vmax = _db(np.array([vmax]))[0]
+
+    fig, axes = plt.subplots(2, 2, figsize=(9.6, 7.2),
+
+                             sharex=True, sharey=True)
+
+    for ax, sig in zip(axes.flat, WAVELET_SIGNATURES):
+
+        W = cwt(waveforms[sig]["Ia"], SCALES, _WAVELET_DT, W0)
+
+        extent = [t_ms[0], t_ms[-1], freqs[-1], freqs[0]]
+
+        ax.imshow(
+
+            _db(W),
+
+            extent=extent, aspect="auto", cmap="magma",
+
+            vmin=db_vmax - 60.0, vmax=db_vmax,
+
+        )
+
+        ax.set_yscale("log")
+
+        ax.set_title(sig, fontsize=10)
+
+    for ax in axes.flat:
+
+        ax.set_xlabel("time (ms)")
+
+        ax.set_ylabel("pseudo-frequency (Hz)")
+
+    fig.suptitle(
+
+        "Phase-a CWT scalogram comparison (|W|, dB)  --  "
+
+        f"bolted, 60 km, 75% load, inception 0 deg",
+
+        fontsize=11,
+
+    )
+
+    fig.tight_layout(rect=[0, 0.03, 1, 0.95])
+
+    return save_figure(fig, "wavelet_comparison")
+
+
+def wavelet_timeseries() -> Path:
+
+    """Phase-a current vs time for the four signatures."""
+
+    waveforms = {s: generate_waveforms(s) for s in WAVELET_SIGNATURES}
+
+    fig, axes = plt.subplots(2, 2, figsize=(9.6, 6.4),
+
+                             sharex=True, sharey=True)
+
+    for ax, sig in zip(axes.flat, WAVELET_SIGNATURES):
+
+        t = waveforms[sig]["t_ms"]
+
+        ia = waveforms[sig]["Ia"]
+
+        ax.plot(t, ia, linewidth=1.0)
+
+        ax.axhline(0.0, color="k", linewidth=0.5, alpha=0.4)
+
+        ax.set_title(sig, fontsize=10)
+
+        ax.grid(True, alpha=0.3)
+
+        ax.set_ylabel("Ia (A)")
+
+    axes[1, 0].set_xlabel("time after inception (ms)")
+
+    axes[1, 1].set_xlabel("time after inception (ms)")
+
+    fig.suptitle(
+
+        "Phase-a current vs time  --  "
+
+        f"bolted, 60 km, 75% load, inception 0 deg (max DC offset)",
+
+        fontsize=11,
+
+    )
+
+    fig.tight_layout(rect=[0, 0.03, 1, 0.95])
+
+    return save_figure(fig, "wavelet_timeseries")
+
+
+# ============================================================
 # MAIN
 # ============================================================
 
@@ -1624,6 +1917,21 @@ def main() -> None:
         fig_paths["fig14_cv"] = cv_figure(data)
 
         # ----------------------------------------------------
+        # WAVELET FIGURES
+        # ----------------------------------------------------
+
+        for sig in WAVELET_SIGNATURES:
+
+            fig_paths[f"wavelet_{sig.lower()}_scalogram"] = wavelet_scalogram(
+                sig
+
+            )
+
+        fig_paths["wavelet_comparison"] = wavelet_comparison()
+
+        fig_paths["wavelet_timeseries"] = wavelet_timeseries()
+
+        # ----------------------------------------------------
         # MANIFEST
         # ----------------------------------------------------
 
@@ -1642,6 +1950,12 @@ def main() -> None:
             "fig12_mae_by_location": "4.x H5",
             "fig13_combination_heatmap": "4.x combinations",
             "fig14_cv": "3.12.1 / R9",
+            "wavelet_abg_scalogram": "3.5.5 / wavelet",
+            "wavelet_ab_scalogram": "3.5.5 / wavelet",
+            "wavelet_abc_scalogram": "3.5.5 / wavelet",
+            "wavelet_abcg_scalogram": "3.5.5 / wavelet",
+            "wavelet_comparison": "3.5.5 / wavelet",
+            "wavelet_timeseries": "3.5.5 / wavelet",
         }
 
         sources = {
@@ -1659,6 +1973,12 @@ def main() -> None:
             "fig12_mae_by_location": "predictions_*.csv",
             "fig13_combination_heatmap": "combination results CSV",
             "fig14_cv": "cv_results CSV",
+            "wavelet_abg_scalogram": "src/simulate.py + src/wavelet.py",
+            "wavelet_ab_scalogram": "src/simulate.py + src/wavelet.py",
+            "wavelet_abc_scalogram": "src/simulate.py + src/wavelet.py",
+            "wavelet_abcg_scalogram": "src/simulate.py + src/wavelet.py",
+            "wavelet_comparison": "src/simulate.py + src/wavelet.py",
+            "wavelet_timeseries": "src/simulate.py + src/wavelet.py",
         }
 
         manifest = pd.DataFrame(

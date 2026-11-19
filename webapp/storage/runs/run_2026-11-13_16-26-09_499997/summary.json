@@ -1,0 +1,46 @@
+{
+  "created_at": "2026-11-13T16:26:09.535212",
+  "n_rows": 400,
+  "line_length_km": 120.0,
+  "models": {
+    "lstm": {
+      "n_rows": 400,
+      "latency": {
+        "sampled_rows": 100,
+        "mean_ms_per_row": 55.46854727999971
+      },
+      "notes": [
+        "Rows grouped into fault events by Loc resets (single-sample events when Loc is absent)."
+      ],
+      "accuracy": 1.0,
+      "mean_confidence": 1.0,
+      "loc_mae_km": 0.7628429124999999,
+      "loc_mae_pct": 0.6357024270833332
+    },
+    "pinn": {
+      "n_rows": 400,
+      "latency": {
+        "sampled_rows": 100,
+        "mean_ms_per_row": 57.10503694000067
+      },
+      "notes": [],
+      "accuracy": 0.9975,
+      "mean_confidence": 0.9962184999999999,
+      "loc_mae_km": 20.61454944,
+      "loc_mae_pct": 17.178791200000003
+    },
+    "rnn": {
+      "n_rows": 400,
+      "latency": {
+        "sampled_rows": 100,
+        "mean_ms_per_row": 0.24113692000014453
+      },
+      "notes": [],
+      "accuracy": 0.9925,
+      "mean_confidence": 0.9907564025,
+      "loc_mae_km": 20.038618720000002,
+      "loc_mae_pct": 16.698848933333334
+    }
+  },
+  "n_flag_fault_consensus": 1196
+}
