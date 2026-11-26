@@ -1,0 +1,27 @@
+figure,png_md5,section,source
+fig01_waveforms_distance.png,51546b1686fdc14ddf7b153234b6ac42,3.5.5 / R10,src/simulate.py
+fig02_dc_offset.png,daaeb1c84acd975bd5f20eb275fff27e,3.5.5 / R10,src/simulate.py
+fig03_dataset_composition.png,099aab771683fc87047563bbb59e58af,4.2,data files
+fig04_reach_diagram.png,c1c92db00c1d220611b0c7a3fd0658ae,3.9.4,src/simulate.py + src/relay.py
+fig05_relay_trip_heatmap.png,e74ba53fecf77938f6dbbb1649c23d84,4.x H1,src/simulate.py
+fig06_accuracy_bars.png,bcb915714fe6f7002902a34ab040721a,4.x Table 4.3,table_4_3.csv
+fig07_per_target_heatmap.png,c0a20b95a8e5fe60b350b97b01fe8113,4.x H2,table_4_3.csv
+fig08_h1_forest.png,9b6679e1bbfbfe9eeaea267c5aabf431,4.x H1,hypothesis results CSV
+fig09_latency.png,919f1acec576be680ca5bc58fa255087,4.x H3,table_4_3.csv
+fig10_robustness_curves.png,f246fb7d5e0478708a573ee0ea3cc2a2,4.x H4,robustness_*.csv
+fig11_mae_bars.png,afd80e29b6a9be35c0a45ed4627d1fbd,4.x H5,predictions_*.csv
+fig12_mae_by_location.png,0a87762bf817ad630d2831f991491cd0,4.x H5,predictions_*.csv
+fig13_combination_heatmap.png,cacca64738447b7f745663c5fa5d1301,4.x combinations,combination results CSV
+fig14_cv.png,7ed18f78e60cbce23b222f84d290102c,3.12.1 / R9,cv_results CSV
+pairwise_mcnemar_holm_heatmap.png,43393182ba31f988af236d86596328ce,4.x H2,hypothesis results CSV
+waveform_ab.png,14ce8940ffca881a93b81ba7646d60eb,3.5.5 / waveform,src/simulate.py + src/waveforms.py
+waveform_abc.png,7d987f10ad0a7ec04ae838f23d9e4cac,3.5.5 / waveform,src/simulate.py + src/waveforms.py
+waveform_abcg.png,d81de8ba4754a83c13064003de9a6c3c,3.5.5 / waveform,src/simulate.py + src/waveforms.py
+waveform_abg.png,b4cbe0e649bafe04447cc444aa006766,3.5.5 / waveform,src/simulate.py + src/waveforms.py
+waveforms_comparison.png,67aaa5d05e6525355dad3e6b77feee19,3.5.5 / waveform,src/simulate.py + src/waveforms.py
+wavelet_ab_scalogram.png,aec460b869e777248faf69c49472f32f,3.5.5 / wavelet,src/simulate.py + src/wavelet.py
+wavelet_abc_scalogram.png,cc61ea259918b35cff5396cb72e67fb2,3.5.5 / wavelet,src/simulate.py + src/wavelet.py
+wavelet_abcg_scalogram.png,965500fc5c881edf1732f02d2aca3fcd,3.5.5 / wavelet,src/simulate.py + src/wavelet.py
+wavelet_abg_scalogram.png,fe86b1f17a816c955a5b41f3f7cbf98b,3.5.5 / wavelet,src/simulate.py + src/wavelet.py
+wavelet_comparison.png,4994c5a34b289325fabc9878e8a8e426,3.5.5 / wavelet,src/simulate.py + src/wavelet.py
+wavelet_timeseries.png,057b1ba9cff5422ec8e791e0b319a565,3.5.5 / wavelet,src/simulate.py + src/wavelet.py

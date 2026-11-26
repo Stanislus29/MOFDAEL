@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Arch Linux) (preloaded format=pdflatex 2026.10.23)  19 NOV 2026 11:24
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Arch Linux) (preloaded format=pdflatex 2026.10.23)  26 NOV 2026 14:10
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -361,105 +361,140 @@ Package pdftex.def Info: ../figures/wavelet_timeseries.pdf  used on input line
 127.
 (pdftex.def)             Requested size: 415.64034pt x 267.8628pt.
  [7 <../figures/wavelet_comparison.pdf> <../figures/wavelet_timeseries.pdf>]
-<../figures/fig04_reach_diagram.pdf, id=595, 499.96034pt x 282.42703pt>
+<../figures/waveform_ab.pdf, id=595, 688.25687pt x 498.4833pt>
+File: ../figures/waveform_ab.pdf Graphic file (type pdf)
+<use ../figures/waveform_ab.pdf>
+Package pdftex.def Info: ../figures/waveform_ab.pdf  used on input line 142.
+(pdftex.def)             Requested size: 415.64034pt x 301.03188pt.
+<../figures/waveform_abg.pdf, id=596, 688.25687pt x 498.4833pt>
+File: ../figures/waveform_abg.pdf Graphic file (type pdf)
+<use ../figures/waveform_abg.pdf>
+Package pdftex.def Info: ../figures/waveform_abg.pdf  used on input line 148.
+(pdftex.def)             Requested size: 415.64034pt x 301.03188pt.
+ [8 <../figures/waveform_ab.pdf>]
+<../figures/waveform_abcg.pdf, id=659, 688.25687pt x 498.4833pt>
+File: ../figures/waveform_abcg.pdf Graphic file (type pdf)
+<use ../figures/waveform_abcg.pdf>
+Package pdftex.def Info: ../figures/waveform_abcg.pdf  used on input line 154.
+(pdftex.def)             Requested size: 415.64034pt x 301.03188pt.
+<../figures/waveform_abc.pdf, id=660, 688.25687pt x 498.4833pt>
+File: ../figures/waveform_abc.pdf Graphic file (type pdf)
+<use ../figures/waveform_abc.pdf>
+Package pdftex.def Info: ../figures/waveform_abc.pdf  used on input line 160.
+(pdftex.def)             Requested size: 415.64034pt x 301.03188pt.
+ [9 <../figures/waveform_abg.pdf> <../figures/waveform_abcg.pdf>]
+<../figures/waveforms_comparison.pdf, id=783, 861.70485pt x 498.4833pt>
+File: ../figures/waveforms_comparison.pdf Graphic file (type pdf)
+<use ../figures/waveforms_comparison.pdf>
+Package pdftex.def Info: ../figures/waveforms_comparison.pdf  used on input lin
+e 166.
+(pdftex.def)             Requested size: 415.64034pt x 240.44063pt.
+ [10 <../figures/waveform_abc.pdf> <../figures/waveforms_comparison.pdf>]
+<../figures/fig04_reach_diagram.pdf, id=907, 499.96034pt x 282.42703pt>
 File: ../figures/fig04_reach_diagram.pdf Graphic file (type pdf)
 <use ../figures/fig04_reach_diagram.pdf>
 Package pdftex.def Info: ../figures/fig04_reach_diagram.pdf  used on input line
- 146.
+ 185.
 (pdftex.def)             Requested size: 415.64034pt x 234.80222pt.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 147.
+(Font)              <7> on input line 186.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 147.
-<../figures/fig05_relay_trip_heatmap.pdf, id=596, 533.89563pt x 210.15703pt>
+(Font)              <5> on input line 186.
+<../figures/fig05_relay_trip_heatmap.pdf, id=908, 533.89563pt x 210.15703pt>
 File: ../figures/fig05_relay_trip_heatmap.pdf Graphic file (type pdf)
 <use ../figures/fig05_relay_trip_heatmap.pdf>
 Package pdftex.def Info: ../figures/fig05_relay_trip_heatmap.pdf  used on input
- line 153.
+ line 192.
 (pdftex.def)             Requested size: 415.64034pt x 163.61397pt.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <9> on input line 168.
- [8 <../figures/fig04_reach_diagram.pdf> <../figures/fig05_relay_trip_heatmap.p
-df>]
-<../figures/fig06_accuracy_bars.pdf, id=743, 539.47899pt x 253.05583pt>
+(Font)              <9> on input line 207.
+ [11 <../figures/fig04_reach_diagram.pdf> <../figures/fig05_relay_trip_heatmap.
+pdf>]
+<../figures/fig06_accuracy_bars.pdf, id=1052, 539.47899pt x 253.05583pt>
 File: ../figures/fig06_accuracy_bars.pdf Graphic file (type pdf)
 <use ../figures/fig06_accuracy_bars.pdf>
 Package pdftex.def Info: ../figures/fig06_accuracy_bars.pdf  used on input line
- 191.
+ 230.
 (pdftex.def)             Requested size: 415.64034pt x 194.96942pt.
-<../figures/fig08_h1_forest.pdf, id=744, 499.4653pt x 239.58289pt>
+<../figures/fig08_h1_forest.pdf, id=1053, 499.4653pt x 239.58289pt>
 File: ../figures/fig08_h1_forest.pdf Graphic file (type pdf)
 <use ../figures/fig08_h1_forest.pdf>
-Package pdftex.def Info: ../figures/fig08_h1_forest.pdf  used on input line 198
+Package pdftex.def Info: ../figures/fig08_h1_forest.pdf  used on input line 237
 .
 (pdftex.def)             Requested size: 415.64034pt x 199.38382pt.
-<../figures/fig07_per_target_heatmap.pdf, id=745, 392.16856pt x 268.4909pt>
+<../figures/fig07_per_target_heatmap.pdf, id=1054, 392.16856pt x 268.4909pt>
 File: ../figures/fig07_per_target_heatmap.pdf Graphic file (type pdf)
 <use ../figures/fig07_per_target_heatmap.pdf>
 Package pdftex.def Info: ../figures/fig07_per_target_heatmap.pdf  used on input
- line 205.
+ line 244.
 (pdftex.def)             Requested size: 415.64034pt x 284.56621pt.
- [9{/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc} <../figure
-s/fig06_accuracy_bars.pdf> <../figures/fig08_h1_forest.pdf>]
-<../figures/fig09_latency.pdf, id=866, 508.8636pt x 239.0719pt>
+ [12{/usr/share/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc} <../figur
+es/fig06_accuracy_bars.pdf> <../figures/fig08_h1_forest.pdf>]
+<../figures/pairwise_mcnemar_holm_heatmap.pdf, id=1177, 928.21156pt x 498.01324
+pt>
+File: ../figures/pairwise_mcnemar_holm_heatmap.pdf Graphic file (type pdf)
+<use ../figures/pairwise_mcnemar_holm_heatmap.pdf>
+Package pdftex.def Info: ../figures/pairwise_mcnemar_holm_heatmap.pdf  used on 
+input line 251.
+(pdftex.def)             Requested size: 415.64034pt x 223.00201pt.
+<../figures/fig09_latency.pdf, id=1178, 508.8636pt x 239.0719pt>
 File: ../figures/fig09_latency.pdf Graphic file (type pdf)
 <use ../figures/fig09_latency.pdf>
-Package pdftex.def Info: ../figures/fig09_latency.pdf  used on input line 214.
+Package pdftex.def Info: ../figures/fig09_latency.pdf  used on input line 260.
 (pdftex.def)             Requested size: 415.64034pt x 195.27779pt.
-<../figures/fig10_robustness_curves.pdf, id=867, 572.3675pt x 268.4909pt>
+ [13 <../figures/fig07_per_target_heatmap.pdf> <../figures/pairwise_mcnemar_hol
+m_heatmap.pdf>]
+<../figures/fig10_robustness_curves.pdf, id=1342, 572.3675pt x 268.4909pt>
 File: ../figures/fig10_robustness_curves.pdf Graphic file (type pdf)
 <use ../figures/fig10_robustness_curves.pdf>
 Package pdftex.def Info: ../figures/fig10_robustness_curves.pdf  used on input 
-line 221.
+line 267.
 (pdftex.def)             Requested size: 415.64034pt x 194.97661pt.
-
-[10 <../figures/fig07_per_target_heatmap.pdf> <../figures/fig09_latency.pdf>]
-<../figures/fig11_mae_bars.pdf, id=988, 500.0891pt x 238.83713pt>
+ [14 <../figures/fig09_latency.pdf> <../figures/fig10_robustness_curves.pdf>]
+<../figures/fig11_mae_bars.pdf, id=1468, 500.0891pt x 238.83713pt>
 File: ../figures/fig11_mae_bars.pdf Graphic file (type pdf)
 <use ../figures/fig11_mae_bars.pdf>
-Package pdftex.def Info: ../figures/fig11_mae_bars.pdf  used on input line 255.
+Package pdftex.def Info: ../figures/fig11_mae_bars.pdf  used on input line 301.
 
 (pdftex.def)             Requested size: 415.64034pt x 198.51537pt.
-
-[11 <../figures/fig10_robustness_curves.pdf>]
-<../figures/fig12_mae_by_location.pdf, id=1057, 500.0891pt x 268.4909pt>
+<../figures/fig12_mae_by_location.pdf, id=1469, 500.0891pt x 268.4909pt>
 File: ../figures/fig12_mae_by_location.pdf Graphic file (type pdf)
 <use ../figures/fig12_mae_by_location.pdf>
 Package pdftex.def Info: ../figures/fig12_mae_by_location.pdf  used on input li
-ne 262.
+ne 308.
 (pdftex.def)             Requested size: 415.64034pt x 223.16284pt.
-<../figures/fig13_combination_heatmap.pdf, id=1058, 457.20184pt x 268.48993pt>
+<../figures/fig13_combination_heatmap.pdf, id=1470, 457.20184pt x 268.48993pt>
 File: ../figures/fig13_combination_heatmap.pdf Graphic file (type pdf)
 <use ../figures/fig13_combination_heatmap.pdf>
 Package pdftex.def Info: ../figures/fig13_combination_heatmap.pdf  used on inpu
-t line 269.
+t line 315.
 (pdftex.def)             Requested size: 415.64034pt x 244.08858pt.
- [12 <../figures/fig11_mae_bars.pdf> <../figures/fig12_mae_by_location.pdf>]
-<../figures/fig14_cv.pdf, id=1185, 556.8868pt x 239.58289pt>
+ [15 <../figures/fig11_mae_bars.pdf> <../figures/fig12_mae_by_location.pdf>]
+<../figures/fig14_cv.pdf, id=1595, 556.8868pt x 239.58289pt>
 File: ../figures/fig14_cv.pdf Graphic file (type pdf)
 <use ../figures/fig14_cv.pdf>
-Package pdftex.def Info: ../figures/fig14_cv.pdf  used on input line 276.
+Package pdftex.def Info: ../figures/fig14_cv.pdf  used on input line 322.
 (pdftex.def)             Requested size: 415.64034pt x 178.81665pt.
- [13 <../figures/fig13_combination_heatmap.pdf> <../figures/fig14_cv.pdf>]
-LaTeX Font Info:    Trying to load font information for OML+cmr on input line 3
-60.
-
-(/usr/share/texmf-dist/tex/latex/base/omlcmr.fd
+ [16 <../figures/fig13_combination_heatmap.pdf> <../figures/fig14_cv.pdf>]
+LaTeX Font Info:    Trying to load font information for OML+cmr on input line 4
+06.
+ (/usr/share/texmf-dist/tex/latex/base/omlcmr.fd
 File: omlcmr.fd 2024/11/19 v2.5n Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 360.
- [14] (./report.aux)
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 406.
+ [17]
+(./report.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 5473 strings out of 469515
- 94647 string characters out of 5470806
+ 5527 strings out of 469515
+ 96702 string characters out of 5470806
  513072 words of memory out of 5000000
- 34082 multiletter control sequences out of 15000+600000
+ 34136 multiletter control sequences out of 15000+600000
  635509 words of font info for 66 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  57i,12n,83p,520b,391s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -479,10 +514,10 @@ s/cm/cmti10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pf
 b></usr/share/texmf-dist/fonts/type1/public/cm-super/sfbx1095.pfb></usr/share/t
 exmf-dist/fonts/type1/public/cm-super/sfrm0900.pfb></usr/share/texmf-dist/fonts
 /type1/public/cm-super/sfrm1095.pfb>
-Output written on report.pdf (15 pages, 2297011 bytes).
+Output written on report.pdf (18 pages, 2565094 bytes).
 PDF statistics:
- 1393 PDF objects out of 1440 (max. 8388607)
- 295 compressed objects within 3 object streams
+ 1804 PDF objects out of 2073 (max. 8388607)
+ 367 compressed objects within 4 object streams
  0 named destinations out of 1000 (max. 500000)
- 101 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 131 words of extra memory for PDF output out of 10000 (max. 10000000)
 

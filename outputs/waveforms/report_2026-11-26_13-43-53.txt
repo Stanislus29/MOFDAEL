@@ -1,0 +1,81 @@
+======================================================================
+FAULT WAVEFORM GENERATION -- AB, ABG, ABCG, ABC
+======================================================================
+Timestamp: 2026-11-26_13-43-53
+Source physics: src/simulate.py
+
+----------------------------------------------------------------------
+CONFIGURATION
+----------------------------------------------------------------------
+Signatures       : AB, ABG, ABCG, ABC
+Fault resistance : 0.001 ohm (bolted)
+Fault location   : 60.0 km (of 120 km line)
+Load level       : 75% (normal)
+Inception angle  : 0.0 deg (voltage zero crossing -> max DC offset)
+Sampling interval: 1.000 ms (1 kHz)
+Window length    : 600 samples = 600 ms
+
+----------------------------------------------------------------------
+WAVEFORM -- AB FAULT
+----------------------------------------------------------------------
+Samples          : 600
+Time span        : 1.0 .. 600.0 ms
+DC offset (phase a): 2692.5755 A
+  Ia: peak 5565.6 A, final -2985.3 A
+  Ib: peak 5115.1 A, final 2323.4 A
+  Ic: peak 661.9 A, final 661.9 A
+Written          : /home/stanislus/Documents/Mr Fiase/outputs/waveforms/waveforms_AB.csv
+
+----------------------------------------------------------------------
+WAVEFORM -- ABG FAULT
+----------------------------------------------------------------------
+Samples          : 600
+Time span        : 1.0 .. 600.0 ms
+DC offset (phase a): 3137.3450 A
+  Ia: peak 5794.5 A, final -3430.1 A
+  Ib: peak 5126.5 A, final 1878.5 A
+  Ic: peak 609.1 A, final 564.5 A
+Written          : /home/stanislus/Documents/Mr Fiase/outputs/waveforms/waveforms_ABG.csv
+
+----------------------------------------------------------------------
+WAVEFORM -- ABCG FAULT
+----------------------------------------------------------------------
+Samples          : 600
+Time span        : 1.0 .. 600.0 ms
+DC offset (phase a): 3747.8403 A
+  Ia: peak 6384.0 A, final -4040.6 A
+  Ib: peak 5305.9 A, final 1268.0 A
+  Ic: peak 5134.0 A, final 2772.6 A
+Written          : /home/stanislus/Documents/Mr Fiase/outputs/waveforms/waveforms_ABCG.csv
+
+----------------------------------------------------------------------
+WAVEFORM -- ABC FAULT
+----------------------------------------------------------------------
+Samples          : 600
+Time span        : 1.0 .. 600.0 ms
+DC offset (phase a): 3747.8724 A
+  Ia: peak 6384.0 A, final -4040.6 A
+  Ib: peak 5305.9 A, final 1268.1 A
+  Ic: peak 5134.0 A, final 2772.5 A
+Written          : /home/stanislus/Documents/Mr Fiase/outputs/waveforms/waveforms_ABC.csv
+
+----------------------------------------------------------------------
+COMBINED WAVEFORM FILE
+----------------------------------------------------------------------
+Rows             : 2400
+Signatures       : AB, ABG, ABCG, ABC
+Written          : /home/stanislus/Documents/Mr Fiase/outputs/waveforms/waveforms_all.csv
+
+----------------------------------------------------------------------
+OUTPUT FILES
+----------------------------------------------------------------------
+Report      : /home/stanislus/Documents/Mr Fiase/outputs/waveforms/report_2026-11-26_13-43-53.txt
+Per-sig CSVs: /home/stanislus/Documents/Mr Fiase/outputs/waveforms/waveforms_AB.csv, /home/stanislus/Documents/Mr Fiase/outputs/waveforms/waveforms_ABG.csv, /home/stanislus/Documents/Mr Fiase/outputs/waveforms/waveforms_ABCG.csv, /home/stanislus/Documents/Mr Fiase/outputs/waveforms/waveforms_ABC.csv
+Combined    : /home/stanislus/Documents/Mr Fiase/outputs/waveforms/waveforms_all.csv
+Figure      : /home/stanislus/Documents/Mr Fiase/outputs/waveforms/figures/waveform_AB.png
+Figure      : /home/stanislus/Documents/Mr Fiase/outputs/waveforms/figures/waveform_ABG.png
+Figure      : /home/stanislus/Documents/Mr Fiase/outputs/waveforms/figures/waveform_ABCG.png
+Figure      : /home/stanislus/Documents/Mr Fiase/outputs/waveforms/figures/waveform_ABC.png
+Figure      : /home/stanislus/Documents/Mr Fiase/outputs/waveforms/figures/waveforms_comparison.png
+
+Waveform generation complete.

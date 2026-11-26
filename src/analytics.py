@@ -85,6 +85,18 @@ from wavelet import (  # noqa: E402
 
 )
 
+from waveforms import (  # noqa: E402
+
+    generate_waveform,
+
+    plot_comparison,
+
+    plot_timeseries,
+
+    WAVEFORM_SIGNATURES,
+
+)
+
 
 # ============================================================
 # PATH CONFIGURATION
@@ -119,6 +131,12 @@ CV_FILE = (
 COMB_FILE = (
     OUTPUTS_DIR / "combination_accuracy"
     / "results_2026-11-12_17-25-01.csv"
+)
+
+# Pairwise McNemar with Holm correction (deep × classical, per target),
+# derived from the hypothesis results CSV.
+PAIRWISE_MC_FILE = (
+    OUTPUTS_DIR / "hypothesis_tests" / "pairwise_mcnemar_holm.csv"
 )
 
 timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
@@ -673,7 +691,7 @@ def dataset_figure(data: dict) -> Path:
     fault_counts = [n_fault, detect_fault]
     nf_counts = [n_nf, detect_nf]
 
-    y = [1, 0]
+    y = [0, 1]
 
     ax.barh(
         y, fault_counts, color="#E76F51", height=0.55,
@@ -1366,6 +1384,50 @@ def build_tex(data: dict, fig_paths: dict[str, Path]) -> str:
 
     )
 
+    # ---- waveform figure blocks ----
+
+    waveform_blocks = "\n".join(
+
+        figure_block(
+
+            name,
+
+            r"Post-fault phase current and voltage time series ("
+
+            + name.split("_")[1].upper()
+
+            + r" fault). Where it goes: Section 3.5.5 / waveform. "
+
+            r"Source: src/simulate.py + src/waveforms.py.",
+
+        )
+
+        for name in (
+
+            "waveform_ab",
+
+            "waveform_abg",
+
+            "waveform_abcg",
+
+            "waveform_abc",
+
+        )
+
+    )
+
+    waveform_blocks += "\n" + figure_block(
+
+        "waveforms_comparison",
+
+        r"Phase current and voltage comparison across the AB, ABG, ABCG "
+
+        r"and ABC signatures. Where it goes: Section 3.5.5 / waveform. "
+
+        r"Source: src/simulate.py + src/waveforms.py.",
+
+    )
+
     body = TEX_PREAMBLE + rf"""
 % ============================================================
 % TITLE
@@ -1438,6 +1500,16 @@ wavelet discussion. Source: src/simulate.py + src/wavelet.py.
 
 {wavelet_blocks}
 
+\subsection{{Waveform time-series}}
+
+Raw post-fault phase current and voltage time series (all six quantities:
+Ia, Ib, Ic, Va, Vb, Vc) for the AB, ABG, ABCG and ABC signatures
+(bolted fault at 60 km, normal load, inception at the voltage zero
+crossing -- maximum DC offset). Where it goes: Section 3.5.5 /
+waveform discussion. Source: src/simulate.py + src/waveforms.py.
+
+{waveform_blocks}
+
 \section{{Conventional relay baseline}}
 
 The relay is a numerical distance relay deciding on six loop
@@ -1500,6 +1572,13 @@ covers the full 5{{,}}365-row dataset. Source: outputs/table\_4\_3
   r"; under Holm correction the LSTM is significantly best on G/C/B and, with "
   r"CNN, on phase A. Where it goes: Section 4.x, H2. Source: "
   r"hypothesis results CSV.")}
+
+{figure_block("pairwise_mcnemar_holm_heatmap",
+  r"Pairwise McNemar comparisons (deep $\times$ classical models) with "
+  r"Holm correction, per fault target (H2 cross-family). Each cell is the "
+  r"Holm-adjusted $p$-value for one deep--classical model pair on one "
+  r"target; redder cells are more significant after Holm, $^{*}$ marks "
+  r"$p < 0.05$. Source: hypothesis results CSV (mcnemar\_cross\_family).")}
 
 \section{{Latency and noise robustness (H3, H4)}}
 
@@ -1888,6 +1967,172 @@ def wavelet_timeseries() -> Path:
 
 
 # ============================================================
+# PAIRWISE MCNEMAR WITH HOLM CORRECTION (H2 cross-family)
+# ============================================================
+
+DEEP_MODELS = ["cnn", "lstm", "pinn"]
+
+CLASSICAL_MODELS = ["svm", "dtr", "knn", "rnn", "ann"]
+
+TARGET_ORDER = ["G", "C", "B", "A"]
+
+
+def pairwise_mcnemar_holm(data: dict) -> Path:
+
+    """
+    Pairwise McNemar comparisons (deep × classical models) with Holm
+    correction, per fault target, from the hypothesis results CSV.
+
+    Writes pairwise_mcnemar_holm.csv and returns a 2x2 heatmap figure
+    (one panel per target) of Holm-corrected p-values.
+    """
+
+    hyp = data["hyp"]
+
+    mcf = hyp[
+
+        (hyp["test"] == "mcnemar_cross_family")
+
+        & (hyp["hypothesis"] == "H2")
+
+    ].copy()
+
+    if mcf.empty:
+
+        raise RuntimeError("No mcnemar_cross-family rows in hypothesis CSV.")
+
+    # ---- write pairwise data CSV --------------------------------------
+
+    out_cols = [
+
+        "target", "deep_model", "classical_model",
+
+        "p_value", "p_value_holm",
+
+        "n10", "n01", "discordant",
+
+        "statistic", "method", "odds_ratio",
+
+        "accuracy_diff_pct", "accuracy_diff_ci_low", "accuracy_diff_ci_high",
+
+    ]
+
+    out = mcf[[c for c in out_cols if c in mcf.columns]].copy()
+
+    out["significant_05"] = out["p_value_holm"] < 0.05
+
+    PAIRWISE_MC_FILE.parent.mkdir(parents=True, exist_ok=True)
+
+    out.to_csv(PAIRWISE_MC_FILE, index=False)
+
+    # ---- build per-target p-value matrices ----------------------------
+
+    fig, axes = plt.subplots(2, 2, figsize=(10.0, 7.2), sharex=True,
+
+                             sharey=True)
+
+    vmax = -np.log10(
+
+        mcf["p_value_holm"].replace(0, np.nan).min()
+
+    )
+
+    for ax, target in zip(axes.flat, TARGET_ORDER):
+
+        sub = mcf[mcf["target"] == target]
+
+        mat = sub.pivot(
+
+            index="deep_model", columns="classical_model", values="p_value_holm"
+
+        ).reindex(index=DEEP_MODELS, columns=CLASSICAL_MODELS).to_numpy(
+
+            dtype=float
+
+        )
+
+        # -log10 transform for the colormap (larger = more significant)
+
+        with np.errstate(divide="ignore", invalid="ignore"):
+
+            logmat = -np.log10(np.where(mat > 0, mat, np.nan))
+
+        im = ax.imshow(
+
+            logmat, aspect="auto", cmap="YlOrRd",
+
+            vmin=0.0, vmax=vmax,
+
+        )
+
+        ax.set_xticks(range(len(CLASSICAL_MODELS)))
+
+        ax.set_xticklabels(
+
+            [m.upper() for m in CLASSICAL_MODELS], fontsize=8
+
+        )
+
+        ax.set_yticks(range(len(DEEP_MODELS)))
+
+        ax.set_yticklabels(
+
+            [m.upper() for m in DEEP_MODELS], fontsize=8
+
+        )
+
+        ax.set_xlabel("classical model", fontsize=8)
+
+        ax.set_ylabel("deep model", fontsize=8)
+
+        ax.set_title(f"Target {target}", fontsize=10, fontweight="bold")
+
+        # annotate each cell with Holm p-value + significance star
+
+        for i in range(len(DEEP_MODELS)):
+
+            for j in range(len(CLASSICAL_MODELS)):
+
+                p = mat[i, j]
+
+                stars = "*" if p < 0.05 else ""
+
+                txt = f"{p:.1e}{stars}"
+
+                ax.text(
+
+                    j, i, txt, ha="center", va="center",
+
+                    fontsize=7.5,
+
+                    color="white" if (np.isfinite(logmat[i, j])
+
+                                      and logmat[i, j] > vmax * 0.55)
+
+                    else "#333333",
+
+                )
+
+        fig.colorbar(im, ax=ax, shrink=0.85, label="-log10(p Holm-corrected)")
+
+    fig.suptitle(
+
+        "Pairwise McNemar (deep × classical) with Holm correction, H2 "
+
+        "per-target (1,069 common test rows). Red = more significant; "
+
+        "* = p < 0.05 after Holm. Source: hypothesis results CSV.",
+
+        fontsize=10,
+
+    )
+
+    fig.tight_layout(rect=[0, 0.03, 1, 0.95])
+
+    return save_figure(fig, "pairwise_mcnemar_holm_heatmap")
+
+
+# ============================================================
 # MAIN
 # ============================================================
 
@@ -1932,6 +2177,39 @@ def main() -> None:
         fig_paths["wavelet_timeseries"] = wavelet_timeseries()
 
         # ----------------------------------------------------
+        # WAVEFORM FIGURES
+        # ----------------------------------------------------
+
+        waveform_dfs: dict[str, pd.DataFrame] = {}
+
+        for sig in WAVEFORM_SIGNATURES:
+
+            df = generate_waveform(sig)
+
+            waveform_dfs[sig] = df
+
+            fig_paths[f"waveform_{sig.lower()}"] = save_figure(
+
+                plot_timeseries(sig, df), f"waveform_{sig.lower()}"
+
+            )
+
+        fig_paths["waveforms_comparison"] = save_figure(
+
+            plot_comparison(waveform_dfs), "waveforms_comparison"
+
+        )
+
+        # ----------------------------------------------------
+        # PAIRWISE MCNEMAR WITH HOLM CORRECTION
+        # ----------------------------------------------------
+
+        fig_paths["pairwise_mcnemar_holm_heatmap"] = pairwise_mcnemar_holm(
+            data
+
+        )
+
+        # ----------------------------------------------------
         # MANIFEST
         # ----------------------------------------------------
 
@@ -1956,6 +2234,12 @@ def main() -> None:
             "wavelet_abcg_scalogram": "3.5.5 / wavelet",
             "wavelet_comparison": "3.5.5 / wavelet",
             "wavelet_timeseries": "3.5.5 / wavelet",
+            "waveform_ab": "3.5.5 / waveform",
+            "waveform_abg": "3.5.5 / waveform",
+            "waveform_abcg": "3.5.5 / waveform",
+            "waveform_abc": "3.5.5 / waveform",
+            "waveforms_comparison": "3.5.5 / waveform",
+            "pairwise_mcnemar_holm_heatmap": "4.x H2",
         }
 
         sources = {
@@ -1979,6 +2263,12 @@ def main() -> None:
             "wavelet_abcg_scalogram": "src/simulate.py + src/wavelet.py",
             "wavelet_comparison": "src/simulate.py + src/wavelet.py",
             "wavelet_timeseries": "src/simulate.py + src/wavelet.py",
+            "waveform_ab": "src/simulate.py + src/waveforms.py",
+            "waveform_abg": "src/simulate.py + src/waveforms.py",
+            "waveform_abcg": "src/simulate.py + src/waveforms.py",
+            "waveform_abc": "src/simulate.py + src/waveforms.py",
+            "waveforms_comparison": "src/simulate.py + src/waveforms.py",
+            "pairwise_mcnemar_holm_heatmap": "hypothesis results CSV",
         }
 
         manifest = pd.DataFrame(
